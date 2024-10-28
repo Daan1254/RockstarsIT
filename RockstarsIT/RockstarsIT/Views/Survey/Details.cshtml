@@ -1,0 +1,13 @@
+@model SurveyModel
+
+@{
+    ViewBag.Title = "title";
+}
+
+<h2>Dit is survey van @Html.DisplayFor(model => model.Title)</h2>
+
+
+@Html.ActionLink("SendEmail", "SendEmail",  "Survey", new  { id = 2 }, null)
+
+
+

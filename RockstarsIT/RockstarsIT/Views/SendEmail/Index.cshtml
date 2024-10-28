@@ -1,0 +1,27 @@
+@model RockstarsIT.Models.EmailModel
+
+
+@{
+    Layout = null;
+}
+
+<h1>send email</h1>
+
+
+<fieldset>  
+   <legend>  
+      Send Email  
+   </legend>  
+   @using (Html.BeginForm())  
+      {  
+      @Html.ValidationSummary()  
+      <p>To: </p>  
+      <p>@Html.TextBoxFor(m=>m.To)</p>  
+      <p>Subject: </p>  
+      <p>@Html.TextBoxFor(m=>m.Subject)</p>  
+      <p>Body: </p>  
+      <p>@Html.TextAreaFor(m=>m.Body)</p>  
+   <input type ="submit" value ="Send" />  
+   } </fieldset> 
+
+
