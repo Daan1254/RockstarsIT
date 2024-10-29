@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace RockstarsIT.Migrations.RockstarsIT
+namespace RockstarsIT.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class AddedSquads : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

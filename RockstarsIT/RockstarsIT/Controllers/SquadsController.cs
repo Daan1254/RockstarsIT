@@ -12,9 +12,9 @@ namespace RockstarsIT.Controllers
 {
     public class SquadsController : Controller
     {
-        private readonly RockstarsITContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public SquadsController(RockstarsITContext context)
+        public SquadsController(ApplicationDbContext context)
         {
             _context = context;
         }

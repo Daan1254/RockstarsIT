@@ -7,9 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<RockstarsITContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("RockstarsITContext") ?? throw new InvalidOperationException("Connection string 'RockstarsITContext' not found.")));
-
 
 // Add services to the container.
 var connectionString = DotEnv.Read()["DefaultConnection"] ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
