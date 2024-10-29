@@ -2,10 +2,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RockstarsIT.Data;
 using dotenv.net;
+using Microsoft.Extensions.DependencyInjection;
 
 DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<RockstarsITContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("RockstarsITContext") ?? throw new InvalidOperationException("Connection string 'RockstarsITContext' not found.")));
 
 
 // Add services to the container.
