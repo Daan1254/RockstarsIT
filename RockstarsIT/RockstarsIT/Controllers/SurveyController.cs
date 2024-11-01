@@ -33,24 +33,20 @@ public class SurveyController : Controller
         
         return View(survey);
     }
-    
-    
-    public ViewResult SendEmail(int id) {
-        Console.WriteLine("AAAAAAAAAAA");
-            MailMessage mail = new MailMessage();
-            mail.To.Add("daanverbeek15@gmail.com");  
-            mail.From = new MailAddress("rockstarssssIT@gmail.com");  
-            mail.Subject = "Test";  
-            string Body = "<h1>XIN CHAO</h1>";  
-            mail.Body = Body;  
-            mail.IsBodyHtml = true;  
-            SmtpClient smtp = new SmtpClient();  
-            smtp.Host = "smtp.gmail.com";  
-            smtp.Port = 465;
-            smtp.EnableSsl = true;  
-            smtp.UseDefaultCredentials = false;  
-            smtp.Credentials = new System.Net.NetworkCredential("rockstarssssIT@gmail.com", "zijwoykrrfizitpz"); // Enter seders User name and password  
-            smtp.Send(mail);
-            return View("Index");
-    } 
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create([Bind("title,description")] SurveyModel survey, List<QuestionModel> questions)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(survey);
+        }
+
+        survey.Questions = [.. questions];
+
+        _context.Surveys.Add(survey);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
 }
