@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RockstarsIT.Data;
 using dotenv.net;
-using Microsoft.Extensions.DependencyInjection;
 
 DotEnv.Load();
 
