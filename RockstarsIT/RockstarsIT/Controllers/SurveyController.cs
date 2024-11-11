@@ -7,8 +7,6 @@ namespace RockstarsIT.Controllers;
 
 public class SurveyController : Controller
 {
-    
-    
     private readonly ApplicationDbContext _context;
 
     // Injecting DbContext in the constructor
@@ -34,16 +32,19 @@ public class SurveyController : Controller
         return View(survey);
     }
 
+    public IActionResult Create()
+    {
+        return View();
+    }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("title,description")] SurveyModel survey, List<QuestionModel> questions)
+    public async Task<IActionResult> Create([Bind("title,description")] SurveyModel survey)
     {
         if (!ModelState.IsValid)
         {
             return View(survey);
         }
-
-        survey.Questions = [.. questions];
 
         _context.Surveys.Add(survey);
         await _context.SaveChangesAsync();

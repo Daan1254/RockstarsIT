@@ -1,0 +1,34 @@
+@model SurveyModel
+
+@{
+    ViewBag.Title = "Nieuwe Enquete";
+}
+
+<h1>Create New Squad</h1>
+
+<h5>The Squad:</h5>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+      <form asp-action="Create" method="post">
+          <div>
+              <label>Enquete Titel</label>
+              <input asp-for="Title" />
+          </div>
+          <div>
+              <label>Omschrijving</label>
+              <input asp-for="Description" />
+          </div>
+
+          <div>
+              <label>Vragen</label>
+              <div id="questions-container">
+                  <input type="text" name="questionTitles" placeholder="Enter question title" />
+                  <input type="text" name="questionTitles" placeholder="Enter question title" />
+              </div>
+          </div>
+
+          <button type="submit">Enquete Aanmaken</button>
+      </form>
+    </div>
+</div>
