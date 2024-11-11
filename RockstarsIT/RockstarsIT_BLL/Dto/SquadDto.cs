@@ -1,6 +1,6 @@
-namespace RockstarsIT_DAL.Entities;
+namespace RockstarsIT_BLL.Dto;
 
-public class SquadEntity
+public class SquadDto
 {
     public int Id { get; set; }
     public string Name { get; set; }

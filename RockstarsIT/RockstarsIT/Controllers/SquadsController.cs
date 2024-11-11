@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RockstarsIT_BLL;
+using RockstarsIT_BLL.Dto;
 using RockstarsIT_DAL.Data;
 using RockstarsIT.Models;
 
@@ -8,17 +10,23 @@ namespace RockstarsIT.Controllers
 {
     public class SquadsController : Controller
     {
-        private readonly ApplicationDbContext _context;
-
-        public SquadsController(ApplicationDbContext context)
+        
+        private readonly SquadService _squadService;
+        public SquadsController(SquadService squadService)
         {
-            _context = context;
+            _squadService = squadService;
         }
 
         // GET: Squads
         public async Task<IActionResult> Index()
         {
-            return View(new List<SquadViewModel>());
+            List<SquadViewModel> squadViewModels = _squadService.GetSquads().Select(s => new SquadViewModel()
+            {
+                Name = s.Name,
+                Description = s.Description
+            }).ToList();
+            
+            return View(squadViewModels);
         }
 
         // GET: Squads/Details/5
@@ -115,17 +123,17 @@ namespace RockstarsIT.Controllers
         // GET: Squads/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var squads = await _context.Squads
-                .FirstOrDefaultAsync(m => m.Name == id);
-            if (squads == null)
-            {
-                return NotFound();
-            }
+            // if (id == null)
+            // {
+            //     return NotFound();
+            // }
+            //
+            // var squads = await _context.Squads
+            //     .FirstOrDefaultAsync(m => m.Name == id);
+            // if (squads == null)
+            // {
+            //     return NotFound();
+            // }
 
             return View(new SquadViewModel());
         }
@@ -135,19 +143,19 @@ namespace RockstarsIT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var squads = await _context.Squads.FindAsync(id);
-            if (squads != null)
-            {
-                _context.Squads.Remove(squads);
-            }
-
-            await _context.SaveChangesAsync();
+            // var squads = await _context.Squads.FindAsync(id);
+            // if (squads != null)
+            // {
+            //     _context.Squads.Remove(squads);
+            // }
+            //
+            // await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SquadsExists(string id)
-        {
-            return _context.Squads.Any(e => e.Name == id);
-        }
+        // private bool SquadsExists(string id)
+        // {
+        //     return _context.Squads.Any(e => e.Name == id);
+        // }
     }
 }
