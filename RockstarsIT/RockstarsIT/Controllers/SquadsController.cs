@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using RockstarsIT.Data;
+using RockstarsIT_DAL.Data;
 using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
@@ -22,25 +18,25 @@ namespace RockstarsIT.Controllers
         // GET: Squads
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Squads.ToListAsync());
+            return View(new List<SquadViewModel>());
         }
 
         // GET: Squads/Details/5
         public async Task<IActionResult> Details(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var squads = await _context.Squads
-                .FirstOrDefaultAsync(m => m.name == id);
-            if (squads == null)
-            {
-                return NotFound();
-            }
-
-            return View(squads);
+            // if (id == null)
+            // {
+            //     return NotFound();
+            // }
+            //
+            // var squads = await _context.Squads
+            //     .FirstOrDefaultAsync(m => m.name == id);
+            // if (squads == null)
+            // {
+            //     return NotFound();
+            // }
+        
+            return View(new SquadViewModel());
         }
 
         // GET: Squads/Create
@@ -54,31 +50,31 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("name,description")] Squads squads)
+        public async Task<IActionResult> Create([Bind("name,description")] SquadViewModel squad)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(squads);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(squads);
+            // if (ModelState.IsValid)
+            // {
+            //     _context.Add(squads);
+            //     await _context.SaveChangesAsync();
+            //     return RedirectToAction(nameof(Index));
+            // }
+            return View(squad);
         }
 
         // GET: Squads/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var squads = await _context.Squads.FindAsync(id);
-            if (squads == null)
-            {
-                return NotFound();
-            }
-            return View(squads);
+            // if (id == null)
+            // {
+            //     return NotFound();
+            // }
+            //
+            // var squads = await _context.Squads.FindAsync(id);
+            // if (squads == null)
+            // {
+            //     return NotFound();
+            // }
+            return View(new SquadViewModel());
         }
 
         // POST: Squads/Edit/5
@@ -86,34 +82,34 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("name,description")] Squads squads)
+        public async Task<IActionResult> Edit(string id, [Bind("name,description")] SquadViewModel squads)
         {
-            if (id != squads.name)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(squads);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SquadsExists(squads.name))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(squads);
+            // if (id != squads.Name)
+            // {
+            //     return NotFound();
+            // }
+            //
+            // if (ModelState.IsValid)
+            // {
+            //     try
+            //     {
+            //         _context.Update(squads);
+            //         await _context.SaveChangesAsync();
+            //     }
+            //     catch (DbUpdateConcurrencyException)
+            //     {
+            //         if (!SquadsExists(squads.Name))
+            //         {
+            //             return NotFound();
+            //         }
+            //         else
+            //         {
+            //             throw;
+            //         }
+            //     }
+            //     return RedirectToAction(nameof(Index));
+            // }
+            return View(new SquadViewModel());
         }
 
         // GET: Squads/Delete/5
@@ -125,13 +121,13 @@ namespace RockstarsIT.Controllers
             }
 
             var squads = await _context.Squads
-                .FirstOrDefaultAsync(m => m.name == id);
+                .FirstOrDefaultAsync(m => m.Name == id);
             if (squads == null)
             {
                 return NotFound();
             }
 
-            return View(squads);
+            return View(new SquadViewModel());
         }
 
         // POST: Squads/Delete/5
@@ -151,7 +147,7 @@ namespace RockstarsIT.Controllers
 
         private bool SquadsExists(string id)
         {
-            return _context.Squads.Any(e => e.name == id);
+            return _context.Squads.Any(e => e.Name == id);
         }
     }
 }
