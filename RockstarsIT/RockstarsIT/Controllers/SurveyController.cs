@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Mail;
 using dotenv.net;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RockstarsIT.Data;
 using RockstarsIT.Models;
 
@@ -19,9 +20,9 @@ public class SurveyController : Controller
         _context = context;
     }
     // GET
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View(new List<SurveyModel>());
+        return View(await _context.Surveys.ToListAsync());
     }
     
     public IActionResult Details(int? id)
