@@ -4,10 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
+<link rel="stylesheet" href="~/css/Squads.css/Index.css" />
+
 <h1>The Squads:</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary btn-lg">Create New</a>
+
+    @* <a asp-action="Create">Create New</a> *@
 </p>
 <table class="table">
     <thead>
@@ -33,9 +37,9 @@
             </td>
             
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-info btn-sm" }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-warning btn-sm" }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
             </td>
         </tr>
 }
