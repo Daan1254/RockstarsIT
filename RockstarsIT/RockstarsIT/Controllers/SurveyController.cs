@@ -17,7 +17,7 @@ public class SurveyController : Controller
     }
     
     // GET
-    public async Task<IActionResult> Index()
+    public IActionResult Index()
     {
         List<SurveyDto> surveys = _surveyService.GetAllSurveys();
         
@@ -50,7 +50,7 @@ public class SurveyController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public void Create([Bind("title,description")] SurveyViewModel survey)
+    public void Create([Bind("Title,Description")] SurveyViewModel survey)
     {
         SurveyDto surveyDto = new()
         {
@@ -59,5 +59,7 @@ public class SurveyController : Controller
         };
 
         _surveyService.CreateSurvey(surveyDto);
+
+        RedirectToAction("Index");
     }
 }
