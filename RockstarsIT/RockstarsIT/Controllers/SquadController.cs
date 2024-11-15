@@ -93,11 +93,6 @@ namespace RockstarsIT.Controllers
         // GET: Squads/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            // if (id == null)
-            // {
-            //     return NotFound();
-            // }
-            //
             try
             {
                 SquadDto squadDto = _squadService.GetSquadById(int.Parse(id));
@@ -146,32 +141,6 @@ namespace RockstarsIT.Controllers
             {
                 return NotFound();
             }
-            // if (id != squads.Name)
-            // {
-            //     return NotFound();
-            // }
-            //
-            // if (ModelState.IsValid)
-            // {
-            //     try
-            //     {
-            //         _context.Update(squads);
-            //         await _context.SaveChangesAsync();
-            //     }
-            //     catch (DbUpdateConcurrencyException)
-            //     {
-            //         if (!SquadsExists(squads.Name))
-            //         {
-            //             return NotFound();
-            //         }
-            //         else
-            //         {
-            //             throw;
-            //         }
-            //     }
-            //     return RedirectToAction(nameof(Index));
-            // }
-            return View(new SquadViewModel());
         }
 
         // GET: Squads/Delete/5
@@ -215,10 +184,5 @@ namespace RockstarsIT.Controllers
                 return NotFound();
             }
         }
-
-        // private bool SquadsExists(string id)
-        // {
-        //     return _context.Squads.Any(e => e.Name == id);
-        // }
     }
 }
