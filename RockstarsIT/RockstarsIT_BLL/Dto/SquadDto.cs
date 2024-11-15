@@ -9,5 +9,4 @@ public class SquadDto
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; set; }
-    public List<QuestionModel> Questions { get; set; }
 }

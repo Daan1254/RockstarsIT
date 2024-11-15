@@ -50,21 +50,14 @@ public class SurveyController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("title,description")] SurveyViewModel survey)
+    public void Create([Bind("title,description")] SurveyViewModel survey)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(survey);
-        }
-
         SurveyDto surveyDto = new()
         {
             Title = survey.Title,
             Description = survey.Description
         };
 
-        // _surveyService.AddSurvey(surveyDto);
-
-        return RedirectToAction(nameof(Index));
+        _surveyService.CreateSurvey(surveyDto);
     }
 }

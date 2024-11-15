@@ -1,6 +1,7 @@
 using RockstarsIT_BLL.Dto;
 using RockstarsIT_BLL.Interfaces;
 using RockstarsIT_DAL.Data;
+using RockstarsIT_DAL.Entities;
 
 namespace RockstarsIT_DAL;
 
@@ -20,5 +21,16 @@ public class SurveyRepository : ISurveyRepository
             Title = s.Title,
             Description = s.Description
         }).ToList();
+    }
+
+    
+    public void CreateSurvey(SurveyDto survey)
+    {
+        _context.Surveys.Add(new SurveyEntity
+        {
+            Title = survey.Title,
+            Description = survey.Description,
+        });
+        _context.SaveChanges();
     }
 }

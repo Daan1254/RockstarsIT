@@ -18,4 +18,9 @@ public class SurveyService
     {
         return _surveyRepository.GetAllSurveys();
     }
+
+    public void CreateSurvey(SurveyDto survey)
+    {
+        _surveyRepository.CreateSurvey(survey);
+    }
 }
