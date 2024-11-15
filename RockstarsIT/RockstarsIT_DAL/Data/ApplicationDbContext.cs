@@ -14,4 +14,14 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<SurveyEntity> Surveys { get; set; }
     public DbSet<SquadEntity> Squads { get; set; }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<SquadEntity>()
+            .HasOne(s => s.CompanyEntity)
+            .WithMany(c => c.Squads)
+            .HasForeignKey(s => s.CompanyEntityId)
+            .OnDelete(DeleteBehavior.Restrict); // Or Cascade/SetNull depending on requirements
+    }
+
+
 }

@@ -184,5 +184,12 @@ namespace RockstarsIT.Controllers
                 return NotFound();
             }
         }
+
+        public IActionResult LinkCompany(int id)
+        {
+            return RedirectToAction("Index");
+
+
+        }
     }
 }
