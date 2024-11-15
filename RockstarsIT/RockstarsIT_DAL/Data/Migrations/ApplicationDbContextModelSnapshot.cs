@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RockstarsIT.Data;
+using RockstarsIT_DAL.Data;
 
 #nullable disable
 
-namespace RockstarsIT.Migrations
+namespace RockstarsIT_DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -224,7 +224,7 @@ namespace RockstarsIT.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RockstarsIT.Models.QuestionModel", b =>
+            modelBuilder.Entity("RockstarsIT_DAL.Entities.SquadEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -238,13 +238,11 @@ namespace RockstarsIT.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("SurveyId")
-                        .HasColumnType("int");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SurveyModelId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -253,12 +251,10 @@ namespace RockstarsIT.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SurveyModelId");
-
-                    b.ToTable("QuestionModel");
+                    b.ToTable("Squads");
                 });
 
-            modelBuilder.Entity("RockstarsIT.Models.SurveyModel", b =>
+            modelBuilder.Entity("RockstarsIT_DAL.Entities.SurveyEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -337,18 +333,6 @@ namespace RockstarsIT.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("RockstarsIT.Models.QuestionModel", b =>
-                {
-                    b.HasOne("RockstarsIT.Models.SurveyModel", null)
-                        .WithMany("Questions")
-                        .HasForeignKey("SurveyModelId");
-                });
-
-            modelBuilder.Entity("RockstarsIT.Models.SurveyModel", b =>
-                {
-                    b.Navigation("Questions");
                 });
 #pragma warning restore 612, 618
         }
