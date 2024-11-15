@@ -1,10 +1,11 @@
-namespace RockstarsIT.Models;
+namespace RockstarsIT_BLL.Dto;
 
-public class SurveyModel
+public class SquadDto
 {
     public int Id { get; set; }
-    public string Title { get; set; }
+    public string Name { get; set; }
     public string Description { get; set; }
+    
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; set; }
