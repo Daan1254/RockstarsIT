@@ -4,6 +4,8 @@
     ViewData["Title"] = "Create";
 }
 
+<link rel="stylesheet" href="~/css/Squads.css/Create.css" />
+
 <h1>Create New Squad</h1>
 
 <h5>The Squad:</h5>
@@ -14,12 +16,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="name" class="control-label"></label>
-                <input asp-for="name" class="form-control" />
+                <input asp-for="name" class="form-control" placeholder="Enter squad name" />
                 <span asp-validation-for="name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="description" class="control-label"></label>
-                <input asp-for="description" class="form-control" />
+                <input asp-for="description" class="form-control large-textarea" placeholder="Enter your squad description" />
                 <span asp-validation-for="description" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -30,7 +32,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-primary btn-lg">Back to List</a>
 </div>
 
 @section Scripts {

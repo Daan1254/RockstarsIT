@@ -33,14 +33,14 @@ namespace RockstarsIT.Controllers
                 return NotFound();
             }
 
-            var squads = await _context.Squads
-                .FirstOrDefaultAsync(m => m.name == id);
-            if (squads == null)
-            {
-                return NotFound();
-            }
+            //var squads = await _context.Squads
+            //    .FirstOrDefaultAsync(m => m.name == id);
+            //if (squads == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(squads);
+            return View(new Squads());
         }
 
         // GET: Squads/Create

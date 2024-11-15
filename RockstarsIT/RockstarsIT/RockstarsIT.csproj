@@ -25,4 +25,8 @@
       <Folder Include="Data\Migrations\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="wwwroot\css\Squads.css\Create.css" />
+    </ItemGroup>
+
 </Project>
