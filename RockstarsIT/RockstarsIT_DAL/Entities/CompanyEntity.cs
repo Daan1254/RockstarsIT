@@ -1,6 +1,9 @@
-﻿namespace RockstarsIT_DAL.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-public  class CompanyEntity
+namespace RockstarsIT_DAL.Entities;
+
+[Table("Companies")]
+public class CompanyEntity
 {
     public int Id { get; set; }
     public string Name { get; set; }

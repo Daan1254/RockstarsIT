@@ -52,7 +52,8 @@ public class SquadRepository : ISquadRepository
             {
                 Id = squad.Id,
                 Name = squad.Name,
-                Description = squad.Description,
+                Description = squad.Description, 
+                CompanyId = squad.CompanyEntityId,
                 CreatedAt = squad.CreatedAt,
                 UpdatedAt = squad.UpdatedAt,
                 DeletedAt = squad.DeletedAt

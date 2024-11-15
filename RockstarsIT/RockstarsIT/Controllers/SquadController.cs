@@ -187,9 +187,8 @@ namespace RockstarsIT.Controllers
 
         public IActionResult LinkCompany(int id)
         {
+
             return RedirectToAction("Index");
-
-
         }
     }
 }
