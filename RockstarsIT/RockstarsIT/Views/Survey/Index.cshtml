@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SurveyModel>
+﻿@model IEnumerable<SurveyViewModel>
 
 @{
     ViewData["Title"] = "Enquête overzicht";
@@ -7,7 +7,7 @@
 <h1>Enquête overzicht</h1>
 
 <p>
-    <a asp-action="Create">Maak een nieuwe enquête aan</a>
+    <a>Maak een nieuwe enquête aan</a>
 </p>
 <table class="table">
     <thead>
@@ -35,8 +35,8 @@
 
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id">Bekijken</a> |
-                    <a asp-action="Edit" asp-route-id="@item.Id">Bewerken</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a>
+                    @* <a asp-action="Edit" asp-route-id="@item.Id">Bewerken</a> | *@
+                    @* <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a> *@
                 </td>
             </tr>
         }
