@@ -9,11 +9,11 @@ using RockstarsIT_DAL.Data;
 
 #nullable disable
 
-namespace RockstarsIT.Migrations
+namespace RockstarsIT_DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241014075628_AddSurveyModel")]
-    partial class AddSurveyModel
+    [Migration("20241115091703_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -227,7 +227,37 @@ namespace RockstarsIT.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RockstarsIT.Models.SurveyModel", b =>
+            modelBuilder.Entity("RockstarsIT_DAL.Entities.SquadEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Squads");
+                });
+
+            modelBuilder.Entity("RockstarsIT_DAL.Entities.SurveyEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

@@ -1,16 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 using RockstarsIT_DAL.Entities;
 
 namespace RockstarsIT_DAL.Data;
 
 public class ApplicationDbContext : IdentityDbContext
 {
-    public ApplicationDbContext()
-    {
-    }
-    
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
