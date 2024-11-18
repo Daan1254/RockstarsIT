@@ -45,6 +45,7 @@ textarea {
     border-radius: 5px;
     transition: background-color 0.3s, box-shadow 0.3s;
     margin-right: 10px; /* Space between buttons */
+    color:#333;
 }
 
 /* Primary button */
@@ -54,10 +55,14 @@ textarea {
     
 }
 
-    .btn-primary:hover {
-        background-color: #fcc205;
-        box-shadow: 0 4px 8px rgba(41, 128, 185, 0.2);
-    }
+.btn-primary:hover {
+    background-color: #fcc205;
+    box-shadow: 0 4px 8px rgba(41, 128, 185, 0.2);
+}
+
+.btn:hover {
+    color: #333;
+}
 
 /* Success button */
 .btn-success {
@@ -73,14 +78,16 @@ textarea {
 /* Secondary button */
 .btn-secondary {
     background-color: #7f8c8d;
-    color: #ffffff;
+    color: #333;
 }
 
     .btn-secondary:hover {
         background-color: #95a5a6;
         box-shadow: 0 4px 8px rgba(149, 165, 166, 0.2);
     }
-
+.btn:hover {
+    color: #333;
+}
 
 /* Footer styles */
 .footer {
