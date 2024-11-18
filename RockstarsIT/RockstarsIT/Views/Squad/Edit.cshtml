@@ -22,15 +22,21 @@
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
-        @foreach(var item in Model.Companies)
-        {
-            <form asp-controller="Squad" asp-action="LinkCompany" asp-route-companyId="@item.Id" asp-route-squadId="@Model.Id" method="post">
-                <button type="submit" class="btn btn-danger">Voeg @item.Name</button>
-            </form>
-        }
+        <br/>
+        <h5>Bedrijven</h5>
+        <br/>
+        <div style="display: flex; flex-direction: row; gap: 15px;">
+             @foreach(var item in Model.Companies)
+             {
+                 <form asp-controller="Squad" asp-action="LinkCompany" asp-route-companyId="@item.Id" asp-route-squadId="@Model.Id" method="post">
+                     <p>@item.Name</p>
+                     <button type="submit" class="btn btn-info">Linken</button>
+                 </form>
+             }
+        </div>
     </div>
 </div>
-
+<br/>
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

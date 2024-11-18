@@ -18,6 +18,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Company)
+            </th>
+            
             
             <th></th>
         </tr>
@@ -31,6 +35,18 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
+            
+            <td>
+                @if (item.Company == null)
+                {
+                    <p>Not Linked</p>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Company.Name)
+                }
+            </td>
+            
             
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

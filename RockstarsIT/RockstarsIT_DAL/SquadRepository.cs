@@ -29,7 +29,12 @@ public class SquadRepository : ISquadRepository
             {
                 Id = s.Id,
                 Name = s.Name,
-                Description = s.Description
+                Description = s.Description,
+                Company = s.CompanyEntity != null ? new CompanyDto()
+                {
+                    Name = s.CompanyEntity.Name,
+                    Id = s.CompanyEntity.Id
+                } : null
             }).ToList();
         }
         catch (Exception e)
@@ -53,12 +58,11 @@ public class SquadRepository : ISquadRepository
 
             CompanyDto company = new CompanyDto()
             {
-                Id = squad.Id,
-                Name = squad.Name,
+                Id = squad.CompanyEntity.Id,
+                Name = squad.CompanyEntity.Name,
             };
 
 
-            Console.WriteLine(squad);
             return new SquadDto
             {
                 Id = squad.Id,

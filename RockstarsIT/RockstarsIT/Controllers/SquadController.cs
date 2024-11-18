@@ -24,8 +24,16 @@ namespace RockstarsIT.Controllers
             {
                 Id = s.Id,
                 Name = s.Name,
-                Description = s.Description
+                Description = s.Description,
+                Company = s.Company != null ? new CompanyViewModel()
+                {
+                    Id = s.Company.Id,
+                    Name = s.Company.Name
+                } : null
             }).ToList();
+            
+            Console.WriteLine(squadViewModels[0].Company?.Name);
+
             
             return View(squadViewModels);
         }
@@ -128,7 +136,7 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(SquadViewModel squadViewModel)
+        public async Task<IActionResult> Edit(CreateEditSquadViewModel squadViewModel)
         {
             try
             {
