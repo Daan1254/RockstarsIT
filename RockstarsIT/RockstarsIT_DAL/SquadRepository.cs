@@ -87,33 +87,27 @@ public class SquadRepository : ISquadRepository
     }
     
     public bool EditSquad(int id, CreateEditSquadDto squadDto)
-    {
-        try
+    { 
+        bool squadNameExists = _context.Squads.Any(s => s.Name == squadDto.Name && s.Id != id);
+            
+        if (squadNameExists)
         {
-            bool squadNameExists = _context.Squads.Any(s => s.Name == squadDto.Name);
-            
-            if (squadNameExists)
-            {
-                throw new DuplicateNameException($"Squad with this name {squadDto.Name} already exists");
-            }
-            
-            SquadEntity? squad = _context.Squads.Find(id);
-            
-            if (squad == null)
-            {
-                throw new Exception("Squad not found");
-            }
-            
-            squad.Description = squadDto.Description;
-            squad.UpdatedAt = DateTime.Now;
-            
-            _context.SaveChanges();
-            return true;
+            throw new DuplicateNameException($"Squad with this name {squadDto.Name} already exists");
         }
-        catch (Exception e)
+            
+        SquadEntity? squad = _context.Squads.Find(id);
+            
+        if (squad == null)
         {
-            throw e;
+            throw new Exception("Squad not found");
         }
+
+        squad.Name = squadDto.Name;
+        squad.Description = squadDto.Description;
+        squad.UpdatedAt = DateTime.Now;
+            
+        _context.SaveChanges();
+        return true;
     }
     
     public bool DeleteSquad(int id)

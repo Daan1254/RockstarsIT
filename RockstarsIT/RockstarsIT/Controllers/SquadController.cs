@@ -147,8 +147,8 @@ namespace RockstarsIT.Controllers
             }
             catch (DuplicateNameException ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
-                return View(squadViewModel);
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Edit", new { id = squadViewModel.Id });
             }
             catch (Exception e)
             {
