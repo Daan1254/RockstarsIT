@@ -1,4 +1,8 @@
-﻿.form-group {
+﻿body {
+    background-color: #fffcf5
+}
+
+.form-group {
     margin-bottom: 15px;
 }
 
@@ -15,21 +19,6 @@ input[type="text"], textarea {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
-    margin-bottom: 5px;
-}
-
-textarea {
-    height: 100px;
-    resize: vertical;
-}
-
-.large-textarea {
-    width: 100%; /* Blijf de volledige breedte gebruiken */
-    min-height: 50px;
-    padding: 12px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
     margin-bottom: 5px;
 }
 
@@ -66,7 +55,7 @@ textarea {
 }
 
     .btn-success:hover {
-        background-color: #f7cf5f;
+        background-color: #27ae60;
         box-shadow: 0 4px 8px rgba(39, 174, 96, 0.2);
     }
 
