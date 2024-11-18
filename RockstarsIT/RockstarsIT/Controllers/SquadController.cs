@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RockstarsIT_BLL;
@@ -67,7 +68,7 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(SquadViewModel squad)
+        public IActionResult Create(SquadViewModel squadViewModel)
         {
             try
             {
@@ -75,14 +76,19 @@ namespace RockstarsIT.Controllers
                 {
                     CreateEditSquadDto squadDto = new CreateEditSquadDto()
                     {
-                        Name = squad.Name,
-                        Description = squad.Description
+                        Name = squadViewModel.Name,
+                        Description = squadViewModel.Description
                     };
                     
                     _squadService.CreateSquad(squadDto);
                     return RedirectToAction("Index");
                 }
-                return View(squad);
+                return View(squadViewModel);
+            }
+            catch (DuplicateNameException ex)
+            {
+                ViewData["ErrorMessage"] = ex.Message;
+                return View(squadViewModel);
             }
             catch (Exception e)
             {
@@ -91,11 +97,11 @@ namespace RockstarsIT.Controllers
         }
 
         // GET: Squads/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public IActionResult Edit(string id)
         {
             try
             {
-                SquadDto squadDto = _squadService.GetSquadById(int.Parse(id));
+                SquadDto? squadDto = _squadService.GetSquadById(int.Parse(id));
                 
                 if (squadDto == null)
                 {
@@ -121,7 +127,7 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(SquadViewModel squadViewModel)
+        public IActionResult Edit(SquadViewModel squadViewModel)
         {
             try
             {
@@ -132,24 +138,31 @@ namespace RockstarsIT.Controllers
                         Name = squadViewModel.Name,
                         Description = squadViewModel.Description
                     };
-                    
+
                     _squadService.EditSquad(squadViewModel.Id, squadDto);
                     return RedirectToAction("Index");
                 }
+
                 return View(squadViewModel);
-            } catch (Exception e)
+            }
+            catch (DuplicateNameException ex)
+            {
+                ViewData["ErrorMessage"] = ex.Message;
+                return View(squadViewModel);
+            }
+            catch (Exception e)
             {
                 return NotFound();
             }
         }
 
         // GET: Squads/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public IActionResult Delete(string id)
         {
             
             try
             {
-                SquadDto squadDto = _squadService.GetSquadById(int.Parse(id));
+                SquadDto? squadDto = _squadService.GetSquadById(int.Parse(id));
                 
                 if (squadDto == null)
                 {
