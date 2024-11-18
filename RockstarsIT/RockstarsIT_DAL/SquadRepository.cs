@@ -1,3 +1,4 @@
+using System.Data;
 using RockstarsIT_BLL.Dto;
 using RockstarsIT_BLL.Interfaces;
 using RockstarsIT_DAL.Data;
@@ -47,7 +48,6 @@ public class SquadRepository : ISquadRepository
                 throw new Exception("Squad not found");
             }
             
-            Console.WriteLine(squad);
             return new SquadDto
             {
                 Id = squad.Id,
@@ -66,46 +66,48 @@ public class SquadRepository : ISquadRepository
 
     public bool CreateSquad(CreateEditSquadDto squadDto)
     {
-        try
-        {
-            SquadEntity squad = new SquadEntity
-            {
-                Name = squadDto.Name,
-                Description = squadDto.Description,
-                CreatedAt = DateTime.Now
-            };
+        // check if squad with name already exists
+        bool squadNameExists = _context.Squads.Any(s => s.Name == squadDto.Name);
             
-            _context.Squads.Add(squad);
-            _context.SaveChanges();
-            return true;
-        }
-        catch (Exception e)
+        if (squadNameExists)
         {
-            throw new Exception("An error occurred while creating squad", e);
+            throw new DuplicateNameException($"Squad with this name {squadDto.Name} already exists");
         }
+            
+        SquadEntity squad = new SquadEntity
+        {
+            Name = squadDto.Name,
+            Description = squadDto.Description,
+            CreatedAt = DateTime.Now 
+        };
+        
+        _context.Squads.Add(squad);
+        _context.SaveChanges();
+        return true;
     }
     
     public bool EditSquad(int id, CreateEditSquadDto squadDto)
-    {
-        try
+    { 
+        bool squadNameExists = _context.Squads.Any(s => s.Name == squadDto.Name && s.Id != id);
+            
+        if (squadNameExists)
         {
-            SquadEntity? squad = _context.Squads.Find(id);
-            
-            if (squad == null)
-            {
-                throw new Exception("Squad not found");
-            }
-            
-            squad.Description = squadDto.Description;
-            squad.UpdatedAt = DateTime.Now;
-            
-            _context.SaveChanges();
-            return true;
+            throw new DuplicateNameException($"Squad with this name {squadDto.Name} already exists");
         }
-        catch (Exception e)
+            
+        SquadEntity? squad = _context.Squads.Find(id);
+            
+        if (squad == null)
         {
-            throw new Exception("An error occurred while editing squad", e);
+            throw new Exception("Squad not found");
         }
+
+        squad.Name = squadDto.Name;
+        squad.Description = squadDto.Description;
+        squad.UpdatedAt = DateTime.Now;
+            
+        _context.SaveChanges();
+        return true;
     }
     
     public bool DeleteSquad(int id)
