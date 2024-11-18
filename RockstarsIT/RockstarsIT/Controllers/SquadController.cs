@@ -1,9 +1,6 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using RockstarsIT_BLL;
 using RockstarsIT_BLL.Dto;
-using RockstarsIT_DAL.Data;
 using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
@@ -12,9 +9,12 @@ namespace RockstarsIT.Controllers
     {
         
         private readonly SquadService _squadService;
-        public SquadController(SquadService squadService)
+        private readonly CompanyService _companyService;
+
+        public SquadController(SquadService squadService, CompanyService companyService)
         {
             _squadService = squadService;
+            _companyService = companyService;
         }
 
         // GET: Squads
@@ -96,7 +96,8 @@ namespace RockstarsIT.Controllers
             try
             {
                 SquadDto squadDto = _squadService.GetSquadById(int.Parse(id));
-                
+                _companyService.GetAllCompanies();
+
                 if (squadDto == null)
                 {
                     return NotFound();
@@ -141,6 +142,8 @@ namespace RockstarsIT.Controllers
             {
                 return NotFound();
             }
+
+
         }
 
         // GET: Squads/Delete/5
@@ -185,10 +188,25 @@ namespace RockstarsIT.Controllers
             }
         }
 
-        public IActionResult LinkCompany(int id)
+        public IActionResult LinkCompany(int companyId, string companyName)
         {
+            try
+            {
+               CompanyDTO c= new CompanyDTO
+                {
+                    Id = companyId,
+                    Name = companyName
+                };
 
-            return RedirectToAction("Index");
+                _squadService.LinkCompany(c, companyId);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
+
     }
 }
