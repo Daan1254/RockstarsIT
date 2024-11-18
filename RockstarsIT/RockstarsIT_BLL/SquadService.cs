@@ -37,8 +37,8 @@ public class SquadService
         return _squadRepository.DeleteSquad(id);
     }
 
-    public void LinkCompany(SquadDto squadDto, int companyId)
+    public void LinkCompany(LinkCompanyDto linkCompanyDto)
     {
-        _squadRepository.LinkCompany(squadDto, companyId);
+        _squadRepository.LinkCompany(linkCompanyDto);
     }
 }

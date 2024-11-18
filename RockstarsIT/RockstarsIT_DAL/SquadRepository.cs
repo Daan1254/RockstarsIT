@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using RockstarsIT_BLL;
 using RockstarsIT_BLL.Dto;
 using RockstarsIT_BLL.Interfaces;
 using RockstarsIT_DAL.Data;
@@ -8,10 +10,12 @@ namespace RockstarsIT_DAL;
 public class SquadRepository : ISquadRepository
 {
     private readonly ApplicationDbContext _context;
+    private readonly CompanyService _companyService;
     
-    public SquadRepository(ApplicationDbContext context)
+    public SquadRepository(ApplicationDbContext context, CompanyService companyService)
     {
         _context = context;
+        _companyService = companyService;
     }
     
     public List<SquadDto> GetAllSquads()
@@ -39,14 +43,21 @@ public class SquadRepository : ISquadRepository
         try
         {
             // check if deletedAt is null
-            SquadEntity? squad = _context.Squads.Where(s => s.DeletedAt == null).FirstOrDefault(s => s.Id == id);
+            SquadEntity? squad = _context.Squads.Include(s => s.CompanyEntity).Where(s => s.DeletedAt == null).FirstOrDefault(s => s.Id == id);
             
             
             if (squad == null)
             {
                 throw new Exception("Squad not found");
             }
-            
+
+            CompanyDto company = new CompanyDto()
+            {
+                Id = squad.Id,
+                Name = squad.Name,
+            };
+
+
             Console.WriteLine(squad);
             return new SquadDto
             {
@@ -54,6 +65,7 @@ public class SquadRepository : ISquadRepository
                 Name = squad.Name,
                 Description = squad.Description, 
                 CompanyId = squad.CompanyEntityId,
+                Company = company,
                 CreatedAt = squad.CreatedAt,
                 UpdatedAt = squad.UpdatedAt,
                 DeletedAt = squad.DeletedAt
@@ -128,6 +140,29 @@ public class SquadRepository : ISquadRepository
         catch (Exception e)
         {
             throw new Exception("An error occurred while deleting squad", e);
+        }
+    }
+
+    public void LinkCompany(LinkCompanyDto linkCompanyDto)
+    {
+        try
+        {
+            var squadEntity = _context.Squads.Find(linkCompanyDto.SquadId);
+            Console.WriteLine(linkCompanyDto.CompanyId);
+            if (squadEntity != null)
+            {
+                squadEntity.CompanyEntityId = linkCompanyDto.CompanyId;
+
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Squad not found in the context.");
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while linking the company to the squad.", ex);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model RockstarsIT.Models.SquadViewModel
+﻿@model RockstarsIT.Models.CreateEditSquadViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -22,10 +22,12 @@
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
-        <form asp-controller="Squad" asp-action="UpdateCompanyEntityId" method="post">
-            <button type="submit" class="btn btn-danger">Voeg bedrijf toe</button>
-        </form>
-
+        @foreach(var item in Model.Companies)
+        {
+            <form asp-controller="Squad" asp-action="LinkCompany" asp-route-companyId="@item.Id" asp-route-squadId="@Model.Id" method="post">
+                <button type="submit" class="btn btn-danger">Voeg @item.Name</button>
+            </form>
+        }
     </div>
 </div>
 

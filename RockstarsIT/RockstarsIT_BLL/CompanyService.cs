@@ -12,7 +12,7 @@ namespace RockstarsIT_BLL
         {
             _companyRepository = companyRepository;
         }
-        public List<CompanyDTO> GetAllCompanies()
+        public List<CompanyDto> GetAllCompanies()
         {
             return _companyRepository.GetAllCompanies(); 
         }

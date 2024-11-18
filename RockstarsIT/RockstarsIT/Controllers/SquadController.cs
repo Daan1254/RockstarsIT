@@ -96,19 +96,25 @@ namespace RockstarsIT.Controllers
             try
             {
                 SquadDto squadDto = _squadService.GetSquadById(int.Parse(id));
-                _companyService.GetAllCompanies();
+                List<CompanyDto> companies = _companyService.GetAllCompanies();
 
                 if (squadDto == null)
                 {
                     return NotFound();
                 }
                 
-                SquadViewModel squadViewModel = new SquadViewModel()
+                CreateEditSquadViewModel squadViewModel = new CreateEditSquadViewModel()
                 {
                     Id = squadDto.Id,
                     Name = squadDto.Name,
-                    Description = squadDto.Description
+                    Description = squadDto.Description,
+                    Companies = companies.Select(s => new CompanyViewModel() { 
+                        Id = s.Id,
+                        Name = s.Name,
+                    }).ToList()
                 };
+
+                Console.WriteLine(companies[0].Name);
                 return View(squadViewModel);
 
             } catch (Exception e)
@@ -188,17 +194,19 @@ namespace RockstarsIT.Controllers
             }
         }
 
-        public IActionResult LinkCompany(int companyId, string companyName)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult LinkCompany(int companyId, int squadId)
         {
             try
             {
-               CompanyDTO c= new CompanyDTO
+               LinkCompanyDto linkCompanyDto= new LinkCompanyDto
                 {
-                    Id = companyId,
-                    Name = companyName
+                    CompanyId = companyId,
+                    SquadId = squadId
                 };
 
-                _squadService.LinkCompany(c, companyId);
+                _squadService.LinkCompany(linkCompanyDto);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
