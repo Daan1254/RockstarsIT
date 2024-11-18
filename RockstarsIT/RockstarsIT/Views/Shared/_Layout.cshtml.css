@@ -1,7 +1,50 @@
 ﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
-a.navbar-brand {
+.main-container {
+    display: flex; /* Gebruik flexbox voor een zij-aan-zij lay-out */
+}
+
+/* Sidebar CSS */
+.sidebar {
+    height: 100vh; /* Volledige hoogte van de viewport */
+    width: 250px; /* Breedte van de sidebar */
+    background-color: #f6de82; /* Sidebar achtergrondkleur */
+    padding-top: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    overflow-y: auto; /* Scrollen als content te lang is */
+    position: fixed; /* Zorgt ervoor dat de sidebar vast blijft staan aan de linkerkant */
+    left: 0;
+    top: 0;
+    padding-left: 10px;
+}
+
+    /* Stijlen voor de navigatie-links in de sidebar */
+    .sidebar a, .sidebar .nav-link {
+        display: block;
+        padding: 10px 15px;
+        text-decoration: none;
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 10px;
+        border-radius: 4px;
+    }
+
+        .sidebar a:hover, .sidebar .nav-link:hover {
+            background-color: #fcc205; /* Kleur bij hover */
+            color: #000; /* Tekstkleur bij hover */
+        }
+
+/* Content sectie naast de sidebar */
+.content {
+    margin-left: 270px; /* Zorg dat de content rechts van de sidebar start */
+    padding: 20px;
+    width: calc(100% - 270px); /* Breedte aanpassen op basis van de sidebar */
+}
+
+
+
+/*a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
@@ -10,7 +53,7 @@ a.navbar-brand {
 a {
   color: #0077cc;
 }
-
+*/
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
