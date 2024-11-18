@@ -6,6 +6,42 @@
 
 <link rel="stylesheet" href="~/css/Survey.css/Index.css" />
 
+<h1>Enquête overzicht</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary btn-lg">Toevoegen</a>
+</p>
+
+<div class="grid">
+    @foreach (var item in Model)
+    {
+        <div class="card">
+            <div class="card-header">
+                <h2>@item.Title</h2>
+            </div>
+            <div class="card-body">
+                <p>@item.Description</p>
+                <div class="actions">
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Details</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+
+@* @model IEnumerable<SurveyViewModel>
+
+@{
+    ViewData["Title"] = "Enquête overzicht";
+}
+
+<link rel="stylesheet" href="~/css/Survey.css/Index.css" />
+
 
 <h1>Enquête overzicht</h1>
 
@@ -37,6 +73,7 @@
                 </td>
 
                 <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Details</a>
                     @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-warning btn-sm" })
                     @*<a asp-action="Details" asp-route-id="@item.Id">Bekijken</a> |*@
                     @* <a asp-action="Edit" asp-route-id="@item.Id">Bewerken</a> | *@

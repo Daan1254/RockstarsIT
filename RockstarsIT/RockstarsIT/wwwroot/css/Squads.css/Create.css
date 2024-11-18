@@ -90,7 +90,7 @@ textarea {
 }
 
 /* Footer styles */
-.footer {
+/*.footer {
     text-align: center;
     padding: 20px 0;
     background-color: #f7cf5f;
@@ -98,14 +98,14 @@ textarea {
     border-top: 1px solid #ddd;
     margin-top: 40px;
     border-radius: 0 0 8px 8px;
-}
+}*/
 
 /* Links */
-a {
+/*a {
     color: #3498db;
     text-decoration: none;
 }
 
     a:hover {
         text-decoration: underline;
-    }
+    }*/

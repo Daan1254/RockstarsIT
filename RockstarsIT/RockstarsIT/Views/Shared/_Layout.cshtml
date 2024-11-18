@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - RockstarsIT</title>
+    <title>@ViewData["Title"] - RockstarsIT</title> 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/RockstarsIT.styles.css" asp-append-version="true"/>
@@ -12,8 +12,9 @@
     <div class="main-container">
 
         <div class="sidebar">
+            <img src="~/pictures/RockstarLogo.png" alt="RockstarsIT Logo" class="sidebar-logo img-fluid mb-3" />
             @* <img src="~<img src=" ~ \OneDrive\Bureaublad\Group Project\RockstarLogo.png" alt="RockstarsIT Logo" class="sidebar-logo img-fluid mb-3" />" alt="RockstarsIT Logo" class="sidebar-logo img-fluid mb-3" /> *@
-            <a class="sidebar-brand" asp-area="" asp-controller="Home" asp-action="Index">RockstarsIT</a>
+            @* <a class="sidebar-brand" asp-area="" asp-controller="Home" asp-action="Index">RockstarsIT</a> *@
             <ul class="sidebar-nav">
                 <li class="nav-item">
                     <a class="btn btn-link" href="@Url.Action("Index", "Home")">Home</a>

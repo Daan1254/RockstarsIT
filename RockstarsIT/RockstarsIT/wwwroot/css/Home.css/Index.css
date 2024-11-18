@@ -1,4 +1,72 @@
-﻿body {
+﻿/* Global font style */
+body {
+    background-color: #fffcf5;
+    font-family: Arial, sans-serif; /* Replace with your preferred font */
+    font-size: 14px; /* Base font size */
+    color: #333; /* Default text color */
+    margin: 0;
+    padding: 0;
+}
+
+/* Remove bullet points from lists */
+ul {
+    list-style-type: none; /* Removes bullet points */
+    padding: 0; /* Removes default padding */
+    margin: 0; /* Removes default margin */
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+    font-family: inherit; /* Use the same global font */
+}
+
+input[type="text"], textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-family: inherit; /* Use the same global font */
+}
+
+/* General button styling */
+.btn {
+    font-size: inherit; /* Ensures buttons use the global font size */
+    font-family: inherit;
+    display: inline-block;
+    padding: 12px 20px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    background-color: #000000; /* Default dark background */
+    color: white; /* White text */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+    /* Hover effect: yellow background with black text */
+    .btn:hover {
+        background-color: #fcc205; /* Yellow background */
+        color: #000; /* Black text */
+    }
+
+
+
+
+
+
+
+/*ody {
     background-color: #fffcf5
 }
 
@@ -20,10 +88,10 @@ input[type="text"], textarea {
     border-radius: 5px;
     font-size: 14px;
     margin-bottom: 5px;
-}
+}*/
 
 /* General button styling */
-.btn {
+/*.btn {
     display: inline-block;
     padding: 12px 20px;
     font-size: 14px;
@@ -34,14 +102,14 @@ input[type="text"], textarea {
     border: none;
     border-radius: 5px;
     transition: background-color 0.3s, box-shadow 0.3s;
-    margin-right: 10px; /* Space between buttons */
-    color: #333;
-}
+    margin-right: 10px;*/ /* Space between buttons */
+    /*color: #333;
+}*/
 
 /* Primary button */
-.btn-primary {
-    background-color: #f6de82;
-    color: #333;
+/*.btn-primary {
+    background-color: #000000;
+    color: #ffffff;
 }
 
 .btn:hover {
@@ -51,10 +119,10 @@ input[type="text"], textarea {
 .btn-primary:hover {
     background-color: #fcc205;
     box-shadow: 0 4px 8px rgba(41, 128, 185, 0.2);
-}
+}*/
 
 /* Success button */
-.btn-success {
+/*.btn-success {
     background-color: #2ecc71;
     color: #ffffff;
 }
@@ -62,10 +130,10 @@ input[type="text"], textarea {
     .btn-success:hover {
         background-color: #27ae60;
         box-shadow: 0 4px 8px rgba(39, 174, 96, 0.2);
-    }
+    }*/
 
 /* Secondary button */
-.btn-secondary {
+/*.btn-secondary {
     background-color: #7f8c8d;
     color: #ffffff;
 }
@@ -73,26 +141,6 @@ input[type="text"], textarea {
     .btn-secondary:hover {
         background-color: #95a5a6;
         box-shadow: 0 4px 8px rgba(149, 165, 166, 0.2);
-    }
+    }*/
 
 
-/* Footer styles */
-.footer {
-    text-align: center;
-    padding: 20px 0;
-    background-color: #f7cf5f;
-    color: white;
-    border-top: 1px solid #ddd;
-    margin-top: 40px;
-    border-radius: 0 0 8px 8px;
-}
-
-/* Links */
-a {
-    color: #3498db;
-    text-decoration: none;
-}
-
-    a:hover {
-        text-decoration: underline;
-    }

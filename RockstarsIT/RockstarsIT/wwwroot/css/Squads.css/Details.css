@@ -33,6 +33,7 @@ textarea {
     margin-bottom: 5px;
 }
 
+
 /* General button styling */
 .btn {
     display: inline-block;
@@ -59,51 +60,8 @@ textarea {
         background-color: #fcc205;
         box-shadow: 0 4px 8px rgba(41, 128, 185, 0.2);
     }
-.btn:hover {
-    color: #333;
-}
-/* Success button */
-.btn-success {
-    background-color: #2ecc71;
-    color: #333;
-}
 
-    .btn-success:hover {
-        background-color: #f7cf5f;
-        box-shadow: 0 4px 8px rgba(39, 174, 96, 0.2);
-    }
-
-/* Secondary button */
-.btn-secondary {
-    background-color: #7f8c8d;
-    color: #333;
-}
-
-    .btn-secondary:hover {
-        background-color: #95a5a6;
-        box-shadow: 0 4px 8px rgba(149, 165, 166, 0.2);
-    }
 .btn:hover {
     color: #333;
 }
 
-/* Footer styles */
-.footer {
-    text-align: center;
-    padding: 20px 0;
-    background-color: #f7cf5f;
-    color: white;
-    border-top: 1px solid #ddd;
-    margin-top: 40px;
-    border-radius: 0 0 8px 8px;
-}
-
-/* Links */
-a {
-    color: #3498db;
-    text-decoration: none;
-}
-
-    a:hover {
-        text-decoration: underline;
-    }
