@@ -137,7 +137,8 @@ namespace RockstarsIT.Controllers
 
             } catch (Exception e)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = e.Message;
+                return View();
             }
         }
 

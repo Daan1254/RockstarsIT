@@ -11,21 +11,16 @@ namespace RockstarsIT_DAL;
 public class SquadRepository : ISquadRepository
 {
     private readonly ApplicationDbContext _context;
-    private readonly CompanyService _companyService;
     
-    public SquadRepository(ApplicationDbContext context, CompanyService companyService)
+    public SquadRepository(ApplicationDbContext context)
     {
         _context = context;
-        _companyService = companyService;
     }
     
     public List<SquadDto> GetAllSquads()
     {
         try
         {
-            
-            // check if deletedAt is null
-
             return _context.Squads.Where(s => s.DeletedAt == null).Select(s => new SquadDto
             {
                 Id = s.Id,
@@ -49,13 +44,15 @@ public class SquadRepository : ISquadRepository
         try
         {
             // check if deletedAt is null
-            SquadEntity? squad = _context.Squads.Include(s => s.CompanyEntity).Where(s => s.DeletedAt == null).FirstOrDefault(s => s.Id == id);
+            SquadEntity? squad = _context.Squads.Where(s => s.DeletedAt == null)
+                .Include(squadEntity => squadEntity.CompanyEntity).FirstOrDefault(s => s.Id == id);
             
             
             if (squad == null)
             {
                 throw new Exception("Squad not found");
             }
+            
             CompanyDto company = new CompanyDto()
             {
                 Id = squad.CompanyEntity.Id,
