@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RockstarsIT_DAL.Entities
 {
-    public class SurveyAnswerEntity
+    public class AnswerEntity
     {
         public int Id { get; set; }               
         public short Result { get; set; }         

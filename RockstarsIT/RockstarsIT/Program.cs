@@ -29,6 +29,8 @@ builder.Services.AddScoped<SurveyService>();
 builder.Services.AddScoped<SquadService>();
 builder.Services.AddScoped<ISurveyRepository, SurveyRepository>();
 builder.Services.AddScoped<ISquadRepository, SquadRepository>();
+builder.Services.AddScoped<IAnswerRepository, AnswerRepository>();
+
 
 var app = builder.Build();
 
