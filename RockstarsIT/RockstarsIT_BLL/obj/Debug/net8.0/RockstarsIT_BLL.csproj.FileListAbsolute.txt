@@ -1,0 +1,12 @@
+C:\Users\ck825\OneDrive\Bureaublad\Group Project\RockstarsIT\RockstarsIT\RockstarsIT_BLL\bin\Debug\net8.0\RockstarsIT_BLL.deps.json
+C:\Users\ck825\OneDrive\Bureaublad\Group Project\RockstarsIT\RockstarsIT\RockstarsIT_BLL\bin\Debug\net8.0\RockstarsIT_BLL.dll
+C:\Users\ck825\OneDrive\Bureaublad\Group Project\RockstarsIT\RockstarsIT\RockstarsIT_BLL\bin\Debug\net8.0\RockstarsIT_BLL.pdb
+C:\Users\ck825\OneDrive\Bureaublad\Group Project\RockstarsIT\RockstarsIT\RockstarsIT_BLL\obj\Debug\net8.0\RockstarsIT_BLL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ck825\OneDrive\Bureaublad\Group Project\RockstarsIT\RockstarsIT\RockstarsIT_BLL\obj\Debug\net8.0\RockstarsIT_BLL.AssemblyInfoInputs.cache
+C:\Users\ck825\OneDrive\Bureaublad\Group Project\RockstarsIT\RockstarsIT\RockstarsIT_BLL\obj\Debug\net8.0\RockstarsIT_BLL.AssemblyInfo.cs
+C:\Users\ck825\OneDrive\Bureaublad\Group Project\RockstarsIT\RockstarsIT\RockstarsIT_BLL\obj\Debug\net8.0\RockstarsIT_BLL.csproj.CoreCompileInputs.cache
+C:\Users\ck825\OneDrive\Bureaublad\Group Project\RockstarsIT\RockstarsIT\RockstarsIT_BLL\obj\Debug\net8.0\RockstarsIT_BLL.sourcelink.json
+C:\Users\ck825\OneDrive\Bureaublad\Group Project\RockstarsIT\RockstarsIT\RockstarsIT_BLL\obj\Debug\net8.0\RockstarsIT_BLL.dll
+C:\Users\ck825\OneDrive\Bureaublad\Group Project\RockstarsIT\RockstarsIT\RockstarsIT_BLL\obj\Debug\net8.0\refint\RockstarsIT_BLL.dll
+C:\Users\ck825\OneDrive\Bureaublad\Group Project\RockstarsIT\RockstarsIT\RockstarsIT_BLL\obj\Debug\net8.0\RockstarsIT_BLL.pdb
+C:\Users\ck825\OneDrive\Bureaublad\Group Project\RockstarsIT\RockstarsIT\RockstarsIT_BLL\obj\Debug\net8.0\ref\RockstarsIT_BLL.dll

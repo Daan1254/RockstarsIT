@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "RockstarsIT_BLL/1.0.0": {
+        "runtime": {
+          "RockstarsIT_BLL.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "RockstarsIT_BLL/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
