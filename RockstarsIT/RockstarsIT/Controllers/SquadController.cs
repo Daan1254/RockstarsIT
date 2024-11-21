@@ -36,9 +36,6 @@ namespace RockstarsIT.Controllers
                 } : null
             }).ToList();
 
-            Console.WriteLine(squadViewModels[0].Company?.Name);
-
-
             return View(squadViewModels);
         }
 
@@ -131,8 +128,6 @@ namespace RockstarsIT.Controllers
                         Name = s.Name,
                     }).ToList()
                 };
-
-                Console.WriteLine(companies[0].Name);
                 return View(squadViewModel);
 
             } catch (Exception e)
@@ -235,7 +230,8 @@ namespace RockstarsIT.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                TempData["ErrorMessage"] = ex.Message;
+                return View();
             }
         }
 

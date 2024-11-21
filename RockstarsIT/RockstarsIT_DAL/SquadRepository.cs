@@ -26,10 +26,10 @@ public class SquadRepository : ISquadRepository
                 Id = s.Id,
                 Name = s.Name,
                 Description = s.Description,
-                Company = s.CompanyEntity != null ? new CompanyDto()
+                Company = s.Company != null ? new CompanyDto()
                 {
-                    Name = s.CompanyEntity.Name,
-                    Id = s.CompanyEntity.Id
+                    Name = s.Company.Name,
+                    Id = s.Company.Id
                 } : null
             }).ToList();
         }
@@ -45,7 +45,7 @@ public class SquadRepository : ISquadRepository
         {
             // check if deletedAt is null
             SquadEntity? squad = _context.Squads.Where(s => s.DeletedAt == null)
-                .Include(squadEntity => squadEntity.CompanyEntity).FirstOrDefault(s => s.Id == id);
+                .Include(squadEntity => squadEntity.Company).FirstOrDefault(s => s.Id == id);
             
             
             if (squad == null)
@@ -54,12 +54,12 @@ public class SquadRepository : ISquadRepository
             }
 
             CompanyDto company = null;
-            if (squad.CompanyEntity != null)
+            if (squad.Company != null)
             {
                 company = new CompanyDto()
                 {
-                    Id = squad.CompanyEntity.Id,
-                    Name = squad.CompanyEntity.Name
+                    Id = squad.Company.Id,
+                    Name = squad.Company.Name
                 };
             }
 
@@ -68,7 +68,7 @@ public class SquadRepository : ISquadRepository
                 Id = squad.Id,
                 Name = squad.Name,
                 Description = squad.Description, 
-                CompanyId = squad.CompanyEntityId,
+                CompanyId = squad.CompanyId,
                 Company = company,
                 CreatedAt = squad.CreatedAt,
                 UpdatedAt = squad.UpdatedAt,
@@ -154,10 +154,9 @@ public class SquadRepository : ISquadRepository
         try
         {
             var squadEntity = _context.Squads.Find(linkCompanyDto.SquadId);
-            Console.WriteLine(linkCompanyDto.CompanyId);
             if (squadEntity != null)
             {
-                squadEntity.CompanyEntityId = linkCompanyDto.CompanyId;
+                squadEntity.CompanyId = linkCompanyDto.CompanyId;
 
                 _context.SaveChanges();
             }

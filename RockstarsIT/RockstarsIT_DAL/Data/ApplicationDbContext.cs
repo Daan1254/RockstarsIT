@@ -14,19 +14,19 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<SurveyEntity> Surveys { get; set; }
     public DbSet<SquadEntity> Squads { get; set; }
 
-    public DbSet<CompanyEntity> Companies { get; set; }
+    public DbSet<Company> Companies { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<CompanyEntity>().ToTable("Companies");
+        modelBuilder.Entity<Company>().ToTable("Companies");
 
         modelBuilder.Entity<SquadEntity>()
-            .HasOne(s => s.CompanyEntity)
+            .HasOne(s => s.Company)
             .WithMany(c => c.Squads)
-            .HasForeignKey(s => s.CompanyEntityId)
+            .HasForeignKey(s => s.CompanyId)
             .OnDelete(DeleteBehavior.Restrict); // Or Cascade/SetNull depending on requirements
     }
 

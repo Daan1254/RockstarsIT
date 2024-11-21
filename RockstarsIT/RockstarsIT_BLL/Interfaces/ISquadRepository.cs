@@ -11,5 +11,5 @@ public interface ISquadRepository
     public bool EditSquad(int id, CreateEditSquadDto squadDto);
     
     public bool DeleteSquad(int id);
-    public void LinkCompany(LinkCompanyDto linkCompanyDto);
+    public bool LinkCompany(LinkCompanyDto linkCompanyDto);
 }
