@@ -35,10 +35,10 @@ namespace RockstarsIT.Controllers
                     Name = s.Company.Name
                 } : null
             }).ToList();
-            
-            //Console.WriteLine(squadViewModels[0].Company?.Name);
 
-            
+            Console.WriteLine(squadViewModels[0].Company?.Name);
+
+
             return View(squadViewModels);
         }
 
