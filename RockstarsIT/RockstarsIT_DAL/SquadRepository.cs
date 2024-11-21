@@ -52,12 +52,25 @@ public class SquadRepository : ISquadRepository
             {
                 throw new Exception("Squad not found");
             }
-            
-            CompanyDto company = new CompanyDto()
+            // Log squad data
+            Console.WriteLine($"Squad found: Id={squad.Id}, Name={squad.Name}");
+
+            CompanyDto company = null;
+            if (squad.CompanyEntity != null)
             {
-                Id = squad.CompanyEntity.Id,
-                Name = squad.CompanyEntity.Name,
-            };
+                company = new CompanyDto()
+                {
+                    Id = squad.CompanyEntity.Id,
+                    Name = squad.CompanyEntity.Name
+                };
+                // Log company data
+                Console.WriteLine($"Company found: Id={company.Id}, Name={company.Name}");
+            }
+           else
+            {
+                // Log if CompanyEntity is null
+                Console.WriteLine("CompanyEntity is null for the squad.");
+            }
 
             return new SquadDto
             {

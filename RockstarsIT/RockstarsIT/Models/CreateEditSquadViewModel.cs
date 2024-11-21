@@ -4,5 +4,5 @@ namespace RockstarsIT.Models;
 
 public class CreateEditSquadViewModel : SquadViewModel
 {
-    public List<CompanyViewModel> Companies { get; set; }
+    public List<CompanyViewModel> Companies { get; set; } = new List<CompanyViewModel>();
 }

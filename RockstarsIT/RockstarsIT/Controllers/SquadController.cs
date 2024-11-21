@@ -36,7 +36,7 @@ namespace RockstarsIT.Controllers
                 } : null
             }).ToList();
             
-            Console.WriteLine(squadViewModels[0].Company?.Name);
+            //Console.WriteLine(squadViewModels[0].Company?.Name);
 
             
             return View(squadViewModels);
@@ -174,8 +174,6 @@ namespace RockstarsIT.Controllers
             {
                 return NotFound();
             }
-
-
         }
 
         // GET: Squads/Delete/5
