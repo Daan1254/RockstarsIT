@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RockstarsIT_BLL.Dto;
-using RockstarsIT_BLL.Interfaces;  // Zorg ervoor dat je deze namespace gebruikt voor IAnswerRepository
-using RockstarsIT.Models;  // Zorg ervoor dat de juiste ViewModel gebruikt wordt
+using RockstarsIT_BLL.Interfaces;  
+using RockstarsIT.Models; 
 
 namespace RockstarsIT.Controllers
 {
@@ -16,7 +16,7 @@ namespace RockstarsIT.Controllers
 
         public IActionResult Index()
         {
-            // Haal de antwoorden op uit de repository (zonder service-laag)
+
             var answerDTOs = _answerRepository.GetAllAnswers();
 
             // Map de DTO naar ViewModel
