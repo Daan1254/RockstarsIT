@@ -6,10 +6,12 @@ using RockstarsIT_BLL;
 using RockstarsIT_BLL.Interfaces;
 using RockstarsIT_DAL;
 using RockstarsIT_DAL.Data;
+using RockstarsIT.Data;
 
 DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
+//var connectionString = builder.Configuration.GetConnectionString("RockstarsITContextConnection") ?? throw new InvalidOperationException("Connection string 'RockstarsITContextConnection' not found.");
 
 
 
