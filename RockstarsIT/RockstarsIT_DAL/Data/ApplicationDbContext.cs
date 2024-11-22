@@ -13,5 +13,6 @@ public class ApplicationDbContext : IdentityDbContext
     
     public DbSet<SurveyEntity> Surveys { get; set; }
     public DbSet<SquadEntity> Squads { get; set; }
+    public DbSet<QuestionEntity> Questions { get; set; }
 
 }
