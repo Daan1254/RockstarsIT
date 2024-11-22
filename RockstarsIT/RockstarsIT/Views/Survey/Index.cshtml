@@ -13,19 +13,26 @@
 </p>
 
 <div class="grid">
-    @foreach (var item in Model)
+    @if (Model != null)
     {
-        <div class="card">
-            <div class="card-header">
-                <h2>@item.Title</h2>
-            </div>
-            <div class="card-body">
-                <p>@item.Description</p>
-                <div class="actions">
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Details</a>
+        @foreach (var item in Model)
+        {
+            <div class="card">
+                <div class="card-header">
+                    <h2>@item.Title</h2>
+                </div>
+                <div class="card-body">
+                    <p>@item.Description</p>
+                    <div class="actions">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Details</a>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
+    }
+    else
+    {
+        <p>Geen Enquêtes gevonden.</p>
     }
 </div>
 

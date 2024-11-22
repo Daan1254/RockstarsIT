@@ -8,7 +8,7 @@ for details on configuring this project to bundle and minify static web assets. 
 /* Sidebar CSS */
 .sidebar {
     height: 100vh; /* Volledige hoogte van de viewport */
-    width: 250px; /* Breedte van de sidebar */
+    width: 270px; /* Breedte van de sidebar */
     background-color: #000000/*#f6de82*/; /* Sidebar achtergrondkleur */
     padding-top: 20px;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);

@@ -19,7 +19,8 @@ h1 {
 }
 
 .card-header h2 {
-    font-size: 18px;
+    font-size: 10px; 
+    /*18px*/
     margin: 0 0 10px;
 }
 
