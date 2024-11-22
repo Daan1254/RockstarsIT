@@ -149,21 +149,21 @@ public class SquadRepository : ISquadRepository
         }
     }
 
-    public void LinkCompany(LinkCompanyDto linkCompanyDto)
+    public bool LinkCompany(LinkCompanyDto linkCompanyDto)
     {
         try
         {
-            var squadEntity = _context.Squads.Find(linkCompanyDto.SquadId);
-            if (squadEntity != null)
+            SquadEntity? squadEntity = _context.Squads.Find(linkCompanyDto.SquadId);
+            
+            if (squadEntity == null)
             {
-                squadEntity.CompanyId = linkCompanyDto.CompanyId;
-
-                _context.SaveChanges();
-            }
-            else
-            {
+             
                 throw new Exception("Squad not found in the context.");
             }
+            
+            squadEntity.CompanyId = linkCompanyDto.CompanyId;
+
+            return _context.SaveChanges() == 1;
         }
         catch (Exception ex)
         {

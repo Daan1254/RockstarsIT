@@ -1,8 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Data;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using RockstarsIT_BLL;
 using RockstarsIT_BLL.Dto;
 using RockstarsIT.Models;
@@ -95,7 +92,7 @@ namespace RockstarsIT.Controllers
             }
             catch (DuplicateNameException ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
+                ViewData["ErrorMessage"] = "Er bestaat al een squad met deze naam";
                 return View(squadViewModel);
             }
             catch (Exception e)
@@ -132,7 +129,7 @@ namespace RockstarsIT.Controllers
 
             } catch (Exception e)
             {
-                TempData["ErrorMessage"] = e.Message;
+                TempData["ErrorMessage"] = "Er is iets fout gegaan bij het ophalen van de squad";
                 return View();
             }
         }
@@ -162,7 +159,7 @@ namespace RockstarsIT.Controllers
             }
             catch (DuplicateNameException ex)
             {
-                TempData["ErrorMessage"] = ex.Message;
+                TempData["ErrorMessage"] = "Er bestaat al een squad met deze naam";
                 return RedirectToAction("Edit", new { id = squadViewModel.Id });
             }
             catch (Exception e)
@@ -230,11 +227,9 @@ namespace RockstarsIT.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = ex.Message;
-                return View();
+                TempData["ErrorMessage"] = "Er is iets fout gegaan bij het linken van de company aan de squad";
+                return RedirectToAction("Details", new { id = squadId });
             }
         }
-
-
     }
 }

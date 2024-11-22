@@ -4,9 +4,8 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h4>Bewerk @Model.Name</h4>
 
-<h4>@Model.Name</h4>
 <hr />
 
 <div class="row">
@@ -18,17 +17,17 @@
                 <div class="text-danger">@TempData["ErrorMessage"]</div>
             }
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name"  class="control-label">Naam</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label asp-for="Description" class="control-label">Beschrijving</label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Opslaan" class="btn btn-primary" />
             </div>
         </form>
         <br/>
@@ -46,9 +45,7 @@
     </div>
 </div>
 <br/>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<a asp-action="Index">Terug</a>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
