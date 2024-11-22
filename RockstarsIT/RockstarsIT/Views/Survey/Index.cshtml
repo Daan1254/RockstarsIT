@@ -4,12 +4,13 @@
     ViewData["Title"] = "Enquête overzicht";
 }
 
-<link rel="stylesheet" href="~/css/Survey.css/Index.css" />
+<link rel="stylesheet" href="~/css/Squads.css/Index.css" />
 
 <h1>Enquête overzicht</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary btn-lg">Toevoegen</a>
+    <a asp-action="Create" class="btn btn-primary btn-lg voeg-toe-button">Toevoegen</a>
+   @*  <a asp-action="Create" class="btn btn-primary btn-lg">Toevoegen</a> *@
 </p>
 
 <div class="grid">
@@ -18,6 +19,7 @@
         @foreach (var item in Model)
         {
             <div class="card">
+                <button class="plus-button" aria-label="Add Item">+</button>
                 <div class="card-header">
                     <h2>@item.Title</h2>
                 </div>

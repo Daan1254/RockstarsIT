@@ -6,26 +6,50 @@ body {
     padding: 20px;
 }
 
+
 h1 {
     text-align: center;
     margin-bottom: 20px;
 }
 
-/* Grid lay-out */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Flexibele kolommen */
+    gap: 20px; /* Ruimte tussen de kaarten */
+    margin-top: 80px; /* Zorg voor ruimte voor de Toevoegen knop */
+}
+/* Kaartstijl */
+.card {
+    background-color: #ffffff; /* Witte achtergrondkleur voor de card */
+    border-radius: 10px; /* Afgeronde hoeken */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Schaduw rondom de card */
+    overflow: hidden; /* Zorg ervoor dat de inhoud netjes binnen de card blijft */
+    transition: transform 0.3s ease-in-out; /* Zorg voor een soepel effect bij hover */
+    display: flex;
+    flex-direction: column; /* Zorg ervoor dat de card-inhoud verticaal gestapeld wordt */
 }
 
-.card-header h2 {
-    font-size: 10px; 
-    /*18px*/
-    margin: 0 0 10px;
+    /* Effect bij hover - maakt de card iets groter */
+    .card:hover {
+        transform: translateY(-10px); /* De card wordt lichtjes omhoog geschoven bij hover */
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Schaduw wordt groter bij hover */
+    }
+
+/* Stijlen voor de card-header */
+.card-header {
+    background-color: #ffffff; /* Witte achtergrondkleur voor de header */
+    padding: 15px;
+    text-align: center; /* Center de tekst in de header */
+    color: #333; /* Donkere tekstkleur voor leesbaarheid tegen een witte achtergrond */
+    font-size: 18px; /* Iets grotere tekst in de header */
+    font-weight: bold; /* Maak de tekst vetgedrukt */
 }
 
-.card-body p {
-    margin: 0 0 15px;
+/* Stijlen voor de card-body */
+.card-body {
+    padding: 20px; /* Ruimte rondom de inhoud van de card */
+    font-size: 16px; /* Grotere lettergrootte voor de tekst */
+    color: #555; /* Donkere tekstkleur voor leesbaarheid */
 }
 
 /* Actieknoppen */
@@ -80,17 +104,48 @@ h1 {
     }
 }
 
-/* Kaartstijl */
-.card {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+
+.circle {
+    background-color: #FFDD33;
+    color: #333;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-align: center; /* Optioneel: centreren van tekst */
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px;
 }
+.plus-button {
+    background-color: #333; /* Dark background */
+    color: white; /* White text */
+    width: 40px; /* Width of the button */
+    height: 40px; /* Height of the button */
+    font-size: 24px; /* Larger font for + symbol */
+    border: none; /* Remove default border */
+    border-radius: 50%; /* Make it circular */
+    display: flex;
+    justify-content: center; /* Center the content */
+    align-items: center; /* Center the content vertically */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for background */
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Slight shadow */
+}
+
+    /* Hover effect */
+    .plus-button:hover {
+        background-color: #555; /* Darker background on hover */
+    }
+
+    /* Click effect */
+    .plus-button:active {
+        background-color: #777; /* Even darker when clicked */
+        transform: scale(0.95); /* Slight shrinking effect on click */
+    }
 
 ul {
     list-style-type: none; /* Removes bullet points */
@@ -119,6 +174,41 @@ ul {
         background-color: #fcc205; /* Yellow background */
         color: #000; /* Black text */
     }
+
+
+/* Target the "Toevoegen" button specifically by class */
+.voeg-toe-button {
+    position: absolute; /* Absolute positioning */
+    top: 20px; /* 20px from the top */
+    right: 20px; /* 20px from the right edge */
+    z-index: 1000; /* Ensure it stays above other elements */
+    padding: 15px 30px;
+    font-size: 18px;
+    background-color: #fcc205; /* Primary color */
+    color: black;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+    /* Hover effect */
+    .voeg-toe-button:hover {
+        background-color: #fcc205;
+        color: #000;
+    }
+
+    /* Active effect when button is clicked */
+    .voeg-toe-button:active {
+        background-color: #004085; /* Even darker when clicked */
+        transform: scale(0.98); /* Slight shrink effect */
+    }
+
+
+
+
+
+
+
 
 /*body
 {
