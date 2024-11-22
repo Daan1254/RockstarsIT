@@ -21,12 +21,14 @@ public class SurveyService
         return _surveyRepository.GetAllSurveys();
     }
 
-    public void CreateSurvey(SurveyDto survey)
+    public void CreateSurveyWithQuestions(SurveyDto survey)
     {
-        foreach (var question in survey.Questions)
+        int surveyId = _surveyRepository.CreateSurvey(survey);
+        
+        foreach (QuestionDto question in survey.Questions)
         {
+            question.SurveyId = surveyId;
             _questionRepository.CreateQuestion(question);
-        }
-        _surveyRepository.CreateSurvey(survey);
+        }   
     }
 }

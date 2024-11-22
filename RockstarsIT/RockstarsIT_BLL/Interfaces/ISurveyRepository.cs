@@ -7,5 +7,5 @@ public interface ISurveyRepository
     
     public List<SurveyDto> GetAllSurveys();
 
-    public void CreateSurvey(SurveyDto survey);
+    public int CreateSurvey(SurveyDto survey);
 }

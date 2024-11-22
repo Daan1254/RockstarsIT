@@ -26,6 +26,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<SurveyService>();
 builder.Services.AddScoped<ISurveyRepository, SurveyRepository>();
+builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 
 var app = builder.Build();
 

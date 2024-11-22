@@ -12,7 +12,7 @@ public class QuestionRepository : IQuestionRepository {
         _context = context;
     }
 
-    public IEnumerable<QuestionDto> GetQuestionsBySurveyId(int surveyId) {
+    public List<QuestionDto> GetQuestionsBySurveyId(int surveyId) {
         return _context.Questions.Where(q => q.SurveyId == surveyId).Select(q => new QuestionDto {
             Id = q.Id,
             Title = q.Title

@@ -24,7 +24,7 @@ public class SurveyRepository : ISurveyRepository
     }
 
     
-    public void CreateSurvey(SurveyDto survey)
+    public int CreateSurvey(SurveyDto survey)
     {
         _context.Surveys.Add(new SurveyEntity
         {
@@ -32,5 +32,7 @@ public class SurveyRepository : ISurveyRepository
             Description = survey.Description,
         });
         _context.SaveChanges();
+
+        return _context.Surveys.OrderByDescending(s => s.Id).First().Id;
     }
 }

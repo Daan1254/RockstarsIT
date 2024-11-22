@@ -50,15 +50,19 @@ public class SurveyController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public void Create([Bind("Title,Description")] SurveyViewModel survey)
+    public void Create([Bind("Title,Description")] SurveyViewModel survey, List<QuestionViewModel> questions)
     {
         SurveyDto surveyDto = new()
         {
             Title = survey.Title,
-            Description = survey.Description
+            Description = survey.Description,
+            Questions = questions.Select(q => new QuestionDto
+            {
+                Title = q.Title
+            }).ToList()
         };
 
-        _surveyService.CreateSurvey(surveyDto);
+        _surveyService.CreateSurveyWithQuestions(surveyDto);
 
         RedirectToAction("Index");
     }

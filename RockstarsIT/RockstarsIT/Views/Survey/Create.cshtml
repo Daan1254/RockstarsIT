@@ -20,15 +20,39 @@
               <input asp-for="Description" />
           </div>
 
-          <div>
-              <label>Vragen</label>
-              <div id="questions-container">
-                  <input type="text" name="questionTitles" placeholder="Enter question title" />
-                  <input type="text" name="questionTitles" placeholder="Enter question title" />
-              </div>
-          </div>
+           <div class="form-group">
+                <label>Vragen</label>
+                <div id="questions-container">
+                    <input type="text" asp-for="Questions[0].Title" class="form-control" placeholder="Vraag 1" />
+                </div>
+            </div>
 
           <button type="submit">Enquete Aanmaken</button>
       </form>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.getElementById("questions-container");
+            const addQuestionButton = document.getElementById("add-question");
+
+            // Track the number of questions added
+            let questionIndex = 0;
+
+            // Add a new question input
+            addQuestionButton.addEventListener("click", function () {
+                const questionDiv = document.createElement("div");
+                questionDiv.classList.add("form-group", "mt-2");
+                
+                questionDiv.innerHTML = `
+                    <input type="text" name="Questions[${questionIndex}].Title" asp-for="Questions[${questionIndex}].Title" class="form-control" placeholder="Vraag ${questionIndex + 1}" />
+                `;
+
+                container.appendChild(questionDiv);
+                questionIndex++;
+            });
+        });
+    </script>
+}
