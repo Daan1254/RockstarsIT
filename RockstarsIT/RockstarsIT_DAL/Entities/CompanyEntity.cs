@@ -3,7 +3,7 @@
 namespace RockstarsIT_DAL.Entities;
 
 [Table("Companies")]
-public class Company
+public class CompanyEntity
 {
     public int Id { get; set; }
     public string Name { get; set; }
