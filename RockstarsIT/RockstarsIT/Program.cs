@@ -6,6 +6,7 @@ using RockstarsIT_BLL;
 using RockstarsIT_BLL.Interfaces;
 using RockstarsIT_DAL;
 using RockstarsIT_DAL.Data;
+using RockstarsIT_DAL.Entities;
 
 DotEnv.Load();
 
@@ -26,11 +27,16 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<SurveyService>();
-builder.Services.AddScoped<SquadService>();
-builder.Services.AddScoped<CompanyService>();
 builder.Services.AddScoped<ISurveyRepository, SurveyRepository>();
+
+builder.Services.AddScoped<SquadService>();
 builder.Services.AddScoped<ISquadRepository, SquadRepository>();
+
+builder.Services.AddScoped<CompanyService>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
