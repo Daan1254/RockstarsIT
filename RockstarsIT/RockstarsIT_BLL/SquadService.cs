@@ -65,4 +65,9 @@ public class SquadService
     {
         return _squadRepository.DeleteSquad(id);
     }
+
+    public bool LinkCompany(LinkCompanyDto linkCompanyDto)
+    {
+         return _squadRepository.LinkCompany(linkCompanyDto);
+    }
 }

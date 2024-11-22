@@ -4,20 +4,24 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>The Squads:</h1>
+<h1>Squads</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Nieuwe Squad</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Naam
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Beschrijving
             </th>
+            <th>
+                Bedrijf
+            </th>
+            
             
             <th></th>
         </tr>
@@ -33,9 +37,21 @@
             </td>
             
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @if (item.Company == null)
+                {
+                    <p>Not Linked</p>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Company.Name)
+                }
+            </td>
+            
+            
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Bewerken</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Bekijken</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a>
             </td>
         </tr>
 }
