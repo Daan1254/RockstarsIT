@@ -14,14 +14,14 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<SurveyEntity> Surveys { get; set; }
     public DbSet<SquadEntity> Squads { get; set; }
 
-    public DbSet<Company> Companies { get; set; }
+    public DbSet<CompanyEntity> Companies { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Company>().ToTable("Companies");
+        modelBuilder.Entity<CompanyEntity>().ToTable("Companies");
 
         modelBuilder.Entity<SquadEntity>()
             .HasOne(s => s.Company)
