@@ -19,7 +19,7 @@
         @foreach (var item in Model)
         {
             <div class="card">
-                <button class="plus-button" aria-label="Add Item">+</button>
+                <a class="plus-button" asp-action="Edit" asp-route-id="@item.Id" aria-label="Add Item">+</a>
                 <div class="card-header">
                     <h2>@item.Title</h2>
                 </div>

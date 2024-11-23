@@ -119,10 +119,11 @@ h1 {
     font-size: 14px;
 }
 .plus-button {
+    text-decoration: none;
     background-color: #333; /* Dark background */
     color: white; /* White text */
-    width: 40px; /* Width of the button */
-    height: 40px; /* Height of the button */
+    width: 35px; /* Width of the button */
+    height: 35px; /* Height of the button */
     font-size: 24px; /* Larger font for + symbol */
     border: none; /* Remove default border */
     border-radius: 50%; /* Make it circular */
@@ -140,6 +141,7 @@ h1 {
     /* Hover effect */
     .plus-button:hover {
         background-color: #555; /* Darker background on hover */
+        color: #000;
     }
 
     /* Click effect */
