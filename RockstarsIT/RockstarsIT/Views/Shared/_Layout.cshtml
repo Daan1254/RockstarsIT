@@ -12,24 +12,41 @@
     <div class="main-container">
 
         <div class="sidebar">
-            <img src="~/pictures/RockstarLogo.png" alt="RockstarsIT Logo" class="sidebar-logo img-fluid mb-3" />
+            <div class="sidebar-header">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbyT0H-ajNqyO7jH78Nkww6cwlI8VFx_w5yC3te5d1xAOEnF-eHOyPX6nVvZuntUrtSLo&usqp=CAU.png" alt="RockstarsIT Logo" class="icon-img" />
+                <h1 class="dashboard-title">DASHBOARD</h1>
+            </div>
             <ul class="sidebar-nav">
-                <li class="nav-item">
+               @*  <li class="nav-item">
                     <a class="btn btn-link" href="@Url.Action("Index", "Home")">HOME</a>
-                    @* <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a> *@
+                    @* <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a> 
+                </li> *@
+                <li class="nav-item">
+                    <a class="btn btn-link" href="@Url.Action("Index", "Survey")">ENQUÊTES</a>
+                    @* <a class="nav-link" asp-controller="Survey" asp-action="Index">Enquête</a> *@
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-link" href="@Url.Action("Index", "Survey")">ANTWOORDEN</a>
                 </li>
                 <li class="nav-item">
                     <a class="btn btn-link" href="@Url.Action("Index", "Squad")">SQUADS</a>
                     @* <a class="nav-link" asp-controller="Squad" asp-action="Index">Squads</a> *@
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-link" href="@Url.Action("Index", "Survey")">SURVEYS</a>
-                    @* <a class="nav-link" asp-controller="Survey" asp-action="Index">Enquête</a> *@
+                    <a class="btn btn-primary w-100 mb-2" asp-area="Identity" asp-page="/Account/Login">ACCOUNT</a>
+                    @* <a class="btn btn-primary w-100" asp-area="Identity" asp-page="/Account/Register">REGISTER</a> *@
                 </li>
+                @* <li class="nav-item">
+                    <a class="btn btn-link" href="@Url.Action("Index", "Survey")">ACCOUNT</a>
+                </li> *@
                 <li class="nav-item">
-                    <a class="btn btn-primary w-100 mb-2" asp-area="Identity" asp-page="/Account/Login">LOGIN</a>
-                    <a class="btn btn-primary w-100" asp-area="Identity" asp-page="/Account/Register">REGISTER</a>
+                    <a class="btn btn-link" href="@Url.Action("Index", "Survey")">INSTELLINGEN</a>
                 </li>
+                
+                @* <li class="nav-item">
+                    <a class="btn btn-primary w-100 mb-2" asp-area="Identity" asp-page="/Account/Login">ACCOUNT</a>
+                    @* <a class="btn btn-primary w-100" asp-area="Identity" asp-page="/Account/Register">REGISTER</a> 
+                </li> *@
             </ul>
             @* <partial name="_LoginPartial" /> *@
         </div>

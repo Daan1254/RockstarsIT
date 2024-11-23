@@ -4,12 +4,40 @@ for details on configuring this project to bundle and minify static web assets. 
 .main-container {
     display: flex; /* Gebruik flexbox voor een zij-aan-zij lay-out */
 }
+/* Stijlen voor icon-afbeeldingen in de sidebar */
+/*.icon-img {
+    width: 95px;*/ /* Pas de grootte van het icoon aan */
+    /*height: 90px;*/ /* Pas de grootte van het icoon aan */
+    /*object-fit: contain;*/ /* Zorg dat de afbeelding goed binnen de ruimte past */
+    /*margin-right: 10px;*/ /* Ruimte tussen afbeelding en tekst */
+/*}*/
+.sidebar-header {
+    display: flex; /* Gebruik flexbox om logo en tekst naast elkaar te zetten */
+    align-items: center; /* Centreer logo en tekst verticaal */
+    padding: 10px 15px; /* Voeg padding toe rond de header */
+    gap: 0px; /* Ruimte tussen het logo en de tekst */
+}
 
+/* Stijl voor het logo */
+.icon-img {
+    width: 95px; /* Breedte van het logo */
+    height: auto; /* Zorg ervoor dat de verhouding behouden blijft */
+    margin-left: 0;
+}
+
+/* Stijl voor de DASHBOARD titel */
+.dashboard-title {
+    font-size: 24px; /* Pas de lettergrootte aan voor de juiste grootte */
+    font-weight: bold; /* Maak de tekst vetgedrukt */
+    color: #FFFFFF; /* Witte kleur voor de tekst */
+    margin: 0; /* Verwijder standaard marges van de h1 */
+    text-transform: uppercase; /* Alle letters in hoofdletters */
+}
 /* Sidebar CSS */
 .sidebar {
     height: 100vh; /* Volledige hoogte van de viewport */
-    width: 220px; /* Breedte van de sidebar */
-    background-color: #000000/*#f6de82*/; /* Sidebar achtergrondkleur */
+    width: 280px; /* Breedte van de sidebar */
+    background-color: #000000 /*#f6de82*/; /* Sidebar achtergrondkleur */
     padding-top: 20px;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     overflow-y: auto; /* Scrollen als content te lang is */

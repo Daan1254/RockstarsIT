@@ -8,7 +8,7 @@ body {
 
 
 h1 {
-    text-align: center;
+    text-align: left;
     margin-bottom: 20px;
 }
 
@@ -27,6 +27,7 @@ h1 {
     transition: transform 0.3s ease-in-out; /* Zorg voor een soepel effect bij hover */
     display: flex;
     flex-direction: column; /* Zorg ervoor dat de card-inhoud verticaal gestapeld wordt */
+    margin-right:20px
 }
 
     /* Effect bij hover - maakt de card iets groter */
