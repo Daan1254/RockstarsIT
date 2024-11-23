@@ -32,6 +32,7 @@ for details on configuring this project to bundle and minify static web assets. 
     color: #FFFFFF; /* Witte kleur voor de tekst */
     margin: 0; /* Verwijder standaard marges van de h1 */
     text-transform: uppercase; /* Alle letters in hoofdletters */
+    
 }
 /* Sidebar CSS */
 .sidebar {
@@ -46,6 +47,9 @@ for details on configuring this project to bundle and minify static web assets. 
     top: 0;
     padding-left: 10px;
     color: #fff;
+    display: flex;
+    flex-direction: column; /* Align items vertically */
+    justify-content: flex-start;
 }
 
     /* Stijlen voor de navigatie-links in de sidebar */
@@ -57,6 +61,7 @@ for details on configuring this project to bundle and minify static web assets. 
         color: #fff;
         margin-bottom: 10px;
         border-radius: 4px;
+        flex-direction: column;
     }
 
         .sidebar a:hover, .sidebar .nav-link:hover {
@@ -65,6 +70,15 @@ for details on configuring this project to bundle and minify static web assets. 
             transform: scale(0.85);
             border-radius: 20px;
         }
+.nav-item {
+    color: white; /* Text color */
+    text-decoration: none; /* Remove underline */
+    display: block; /* Ensure links are block level elements and stack properly */
+    padding: 10px 20px; /* Padding for clickable area */
+    background-color: #444; /* Dark background for each link */
+    border-radius: 5px; /* Rounded corners for links */
+    transition: background-color 0.3s ease; /* Smooth background color transition */
+}
 /*.nav-icon {
     width: 20px;*/ /* Icon width */
     /*height: 20px;*/ /* Icon height */
