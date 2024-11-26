@@ -21,7 +21,7 @@ public class SquadRepository : ISquadRepository
     {
         try
         {
-            return _context.Squads.Where(s => s.DeletedAt == null).Select(s => new SquadDto
+            return _context.Squads.Select(s => new SquadDto
             {
                 Id = s.Id,
                 Name = s.Name,
@@ -44,7 +44,7 @@ public class SquadRepository : ISquadRepository
         try
         {
             // check if deletedAt is null
-            SquadEntity? squad = _context.Squads.Where(s => s.DeletedAt == null)
+            SquadEntity? squad = _context.Squads
                 .Include(squadEntity => squadEntity.Company)
                 .Include(squadEntity => squadEntity.Users)
                 .FirstOrDefault(s => s.Id == id);

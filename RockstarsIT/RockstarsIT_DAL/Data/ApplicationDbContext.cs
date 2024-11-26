@@ -37,6 +37,8 @@ public class ApplicationDbContext : IdentityDbContext
             .OnDelete(DeleteBehavior.Restrict);
         
         modelBuilder.Entity<UserEntity>().ToTable("AspNetUsers");
+        
+        modelBuilder.Entity<SquadEntity>().HasQueryFilter(s => s.DeletedAt == null);
     }
 
 
