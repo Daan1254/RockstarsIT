@@ -16,7 +16,6 @@
                     0 => "🔴", // Rode cirkel
                     1 => "🟡", // Gele cirkel
                     2 => "🟢", // Groene cirkel
-                    _ => "❓"  // Onbekend
                 };
             }
         }
