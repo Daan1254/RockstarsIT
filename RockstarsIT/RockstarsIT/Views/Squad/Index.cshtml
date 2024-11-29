@@ -1,0 +1,59 @@
+﻿@model IEnumerable<SquadViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Squads</h1>
+
+<p>
+    <a asp-action="Create">Nieuwe Squad</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Naam
+            </th>
+            <th>
+                Beschrijving
+            </th>
+            <th>
+                Bedrijf
+            </th>
+            
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            
+            <td>
+                @if (item.Company == null)
+                {
+                    <p>Not Linked</p>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Company.Name)
+                }
+            </td>
+            
+            
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Bewerken</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Bekijken</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

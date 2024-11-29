@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using dotenv.net;
+using Microsoft.Extensions.Options;
 using RockstarsIT_BLL;
 using RockstarsIT_BLL.Interfaces;
 using RockstarsIT_DAL;
@@ -25,8 +26,12 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<SurveyService>();
+builder.Services.AddScoped<SquadService>();
+builder.Services.AddScoped<CompanyService>();
 builder.Services.AddScoped<ISurveyRepository, SurveyRepository>();
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
+builder.Services.AddScoped<ISquadRepository, SquadRepository>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 
 var app = builder.Build();
 
