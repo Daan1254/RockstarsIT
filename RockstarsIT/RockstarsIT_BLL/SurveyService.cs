@@ -66,4 +66,9 @@ public class SurveyService
             throw new Exception("An error occurred while editing a squad", e);
         }
     }
+
+    public bool DeleteSurvey(int id)
+    {
+        return (_surveyRepository.DeleteSurvey(id));
+    }
 }

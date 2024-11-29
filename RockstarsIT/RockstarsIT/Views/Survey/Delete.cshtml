@@ -1,0 +1,15 @@
+﻿@model RockstarsIT.Models.SurveyViewModel
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h3>Weet je zeker dat je @Model.Title wilt verwijderen?</h3>
+
+<div>
+    <hr/>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Bevestigen" class="btn btn-danger" /> |
+        <a asp-action="Index">Terug</a>
+    </form>
+</div>

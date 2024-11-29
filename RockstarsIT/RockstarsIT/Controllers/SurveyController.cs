@@ -26,6 +26,7 @@ public class SurveyController : Controller
         // convert SurveyDto to SurveyViewModel
         List<SurveyViewModel> surveyViewModels = surveys.Select(s => new SurveyViewModel
         {
+            Id = s.Id,
             Title = s.Title,
             Description = s.Description,
         }).ToList();
@@ -162,6 +163,46 @@ public class SurveyController : Controller
         catch (Exception e)
         {
             return NotFound();
+        }
+    }
+
+    //GET: Survey/Delete/5
+    public IActionResult Delete(string id)
+    {
+        try
+        {
+            SurveyDto? surveyDto = _surveyService.GetSurveyById(int.Parse(id));
+
+            if (surveyDto == null)
+            {
+                return NotFound();
+            }
+            SurveyViewModel surveyviewModel = new SurveyViewModel()
+            {
+                Id = surveyDto.Id,
+                Title = surveyDto.Title,
+                Description = surveyDto.Description,
+            };
+            return View(surveyviewModel);
+        } catch (Exception e)
+        {
+            return NotFound();
+        }
+    }
+
+    //POST: Survey/Delete/5
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Delete(int id)
+    {
+        try
+        {
+            _surveyService.DeleteSurvey(id);
+            return RedirectToAction("Index");
+        } catch (Exception e)
+        {
+            return RedirectToAction("Index");
+            //return NotFound();
         }
     }
 }
