@@ -26,11 +26,17 @@ public class SurveyRepository : ISurveyRepository
     
     public int CreateSurvey(SurveyDto survey)
     {
-        _context.Surveys.Add(new SurveyEntity
-        {
-            Title = survey.Title,
-            Description = survey.Description,
-        });
+        try {
+            _context.Surveys.Add(new SurveyEntity
+            {
+                Title = survey.Title,
+                Description = survey.Description,
+            });
+        }
+        catch (Exception ex) {
+            throw new Exception("An error occurred while creating the survey.", ex);
+        }
+        
         _context.SaveChanges();
 
         return _context.Surveys.OrderByDescending(s => s.Id).First().Id;

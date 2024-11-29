@@ -19,11 +19,17 @@ public class QuestionRepository : IQuestionRepository {
         }).ToList();
     }
 
-    public void CreateQuestion(QuestionDto question) {
-        _context.Questions.Add(new QuestionEntity {
-            Title = question.Title,
-            SurveyId = question.SurveyId
-        });
+    public void CreateQuestion(CreateEditQuestionDto question) {
+        try {
+            _context.Questions.Add(new QuestionEntity {
+                Title = question.Title,
+                SurveyId = question.SurveyId
+            });
+        }
+        catch (Exception ex) {
+            throw new Exception("An error occurred while creating the question.", ex);
+        }
+        
         _context.SaveChanges();
     }
 }

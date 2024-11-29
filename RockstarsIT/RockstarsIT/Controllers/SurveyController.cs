@@ -43,6 +43,39 @@ public class SurveyController : Controller
         return View(new SurveyViewModel());
     }
 
+        public IActionResult SendEmail(int id) {
+        // SurveyViewModel? survey = _context.Surveys.Find(id);
+        //
+        // // Define sender and recipient email addresses
+        // string host = DotEnv.Read()["BRAVO_SMTP_HOST"];
+        // string port = DotEnv.Read()["BRAVO_SMTP_PORT"];
+        // string fromEmail = DotEnv.Read()["BRAVO_SMTP_FROM_EMAIL"];
+        // string userName = DotEnv.Read()["BRAVO_SMTP_USERNAME"];
+        // string password = DotEnv.Read()["BRAVO_SMTP_PASSWORD"];
+        // string toEmail = "daanverbeek15@gmail.com";
+        //
+        // // Email message setup
+        // var mail = new MailMessage();
+        // mail.From = new MailAddress(fromEmail);
+        // mail.To.Add(toEmail);
+        // mail.Subject = $"U bent uitgenodigd voor de {survey?.Title} enquête!";
+        // mail.Body = "Beste, <br> U bent uitgenodigd om de volgende enquête in te vullen: <br> <br> " +
+        //             $"<b>{survey?.Title}</b> <br> {survey?.Description} <br> <br> " +
+        //             "Klik op de volgende link om de enquête in te vullen: <br> " +
+        //             "<a href='http://localhost:5169/Survey/'>Klik hier om de enquête in te vullen</a>";
+        //
+        // mail.IsBodyHtml = true; // Make sure to set this so the HTML renders properly
+        //
+        // // Configure SMTP client
+        // using (var smtp = new SmtpClient(host, int.Parse(port)))
+        // {
+        //     smtp.Credentials = new NetworkCredential(userName, password);
+        //     smtp.Send(mail);
+        // }
+        //
+        return View("Details", new SurveyViewModel()); 
+    } 
+
     public IActionResult Create()
     {
         return View();
@@ -50,13 +83,18 @@ public class SurveyController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public void Create([Bind("Title,Description")] SurveyViewModel survey, List<QuestionViewModel> questions)
+    public IActionResult Create(SurveyViewModel survey)
     {
+        if (!ModelState.IsValid)
+        {
+            return View(survey);
+        }
+
         SurveyDto surveyDto = new()
         {
             Title = survey.Title,
             Description = survey.Description,
-            Questions = questions.Select(q => new QuestionDto
+            Questions = survey.Questions.Select(q => new CreateEditQuestionDto
             {
                 Title = q.Title
             }).ToList()
@@ -64,6 +102,6 @@ public class SurveyController : Controller
 
         _surveyService.CreateSurveyWithQuestions(surveyDto);
 
-        RedirectToAction("Index");
+        return RedirectToAction("Index");
     }
 }

@@ -23,12 +23,25 @@ public class SurveyService
 
     public void CreateSurveyWithQuestions(SurveyDto survey)
     {
-        int surveyId = _surveyRepository.CreateSurvey(survey);
-        
-        foreach (QuestionDto question in survey.Questions)
+        try
         {
-            question.SurveyId = surveyId;
-            _questionRepository.CreateQuestion(question);
-        }   
+            int surveyId = _surveyRepository.CreateSurvey(survey);
+        
+            foreach (CreateEditQuestionDto question in survey.Questions)
+            {
+                try {
+                    question.SurveyId = surveyId;
+                    _questionRepository.CreateQuestion(question);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("An error occurred while creating questions.", ex);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while creating the survey with questions.", ex);
+        }
     }
 }
