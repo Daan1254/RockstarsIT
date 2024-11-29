@@ -13,10 +13,15 @@ public class QuestionRepository : IQuestionRepository {
     }
 
     public List<QuestionDto> GetQuestionsBySurveyId(int surveyId) {
-        return _context.Questions.Where(q => q.SurveyId == surveyId).Select(q => new QuestionDto {
-            Id = q.Id,
-            Title = q.Title
-        }).ToList();
+        try {
+            return _context.Questions.Where(q => q.SurveyId == surveyId).Select(q => new QuestionDto {
+                Id = q.Id,
+                Title = q.Title
+            }).ToList();
+        }
+        catch (Exception ex) {
+            throw new Exception("An error occurred while retrieving the questions.", ex);
+        }
     }
 
     public void CreateQuestion(CreateEditQuestionDto question) {
@@ -25,11 +30,12 @@ public class QuestionRepository : IQuestionRepository {
                 Title = question.Title,
                 SurveyId = question.SurveyId
             });
+            
+            _context.SaveChanges();
         }
         catch (Exception ex) {
             throw new Exception("An error occurred while creating the question.", ex);
         }
         
-        _context.SaveChanges();
     }
 }

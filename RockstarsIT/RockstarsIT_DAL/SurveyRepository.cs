@@ -32,13 +32,13 @@ public class SurveyRepository : ISurveyRepository
                 Title = survey.Title,
                 Description = survey.Description,
             });
+            
+            _context.SaveChanges();
+
+            return _context.Surveys.OrderByDescending(s => s.Id).First().Id;
         }
         catch (Exception ex) {
             throw new Exception("An error occurred while creating the survey.", ex);
         }
-        
-        _context.SaveChanges();
-
-        return _context.Surveys.OrderByDescending(s => s.Id).First().Id;
     }
 }
