@@ -95,9 +95,9 @@ public class SurveyRepository : ISurveyRepository
             throw new Exception("Survey not found");
         }
 
-        surveyDTO.Title = surveyDTO.Title;
-        surveyDTO.Description = surveyDTO.Description;
-        surveyDTO.Questions = surveyDTO.Questions;
+        survey.Title = surveyDTO.Title;
+        survey.Description = surveyDTO.Description;
+        //survey.Questions = surveyDTO.Questions;
 
         _context.SaveChanges();
         return true;
