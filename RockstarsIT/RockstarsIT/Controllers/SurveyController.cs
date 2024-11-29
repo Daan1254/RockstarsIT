@@ -3,6 +3,8 @@ using RockstarsIT_BLL;
 using RockstarsIT_BLL.Dto;
 using RockstarsIT_DAL.Data;
 using RockstarsIT.Models;
+using System.Data;
+using RockstarsIT_BLL.Interfaces;
 
 namespace RockstarsIT.Controllers;
 
@@ -90,7 +92,7 @@ public class SurveyController : Controller
             return View(survey);
         }
 
-        SurveyDto surveyDto = new()
+        CreateEditSurveyDto surveyDto = new()
         {
             Title = survey.Title,
             Description = survey.Description,
@@ -103,5 +105,63 @@ public class SurveyController : Controller
         _surveyService.CreateSurveyWithQuestions(surveyDto);
 
         return RedirectToAction("Index");
+    }
+
+    public IActionResult Edit(int id)
+    {
+        try
+        {
+            SurveyDto? surveyDto = _surveyService.GetSurveyById(id);
+            //List<SurveyDto> questions = IQuestionRepository.CreateQuestion();
+
+
+            if (surveyDto == null)
+            {
+                return NotFound();
+            }
+
+            SurveyViewModel editSurveyViewModel = new SurveyViewModel()
+            {
+                Id = surveyDto.Id,
+                Title = surveyDto.Title,
+                Description = surveyDto.Description,
+            };
+            return View(editSurveyViewModel);
+
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = "Er is iets fout gegaan bij het ophalen van de squad";
+            return View();
+        }
+    }
+
+    // POST: Squads/Edit/5
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(SurveyViewModel surveyViewModel)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                CreateEditSurveyDto createEditSurveyDto = new CreateEditSurveyDto()
+                {
+                    Title = surveyViewModel.Title,
+                    Description = surveyViewModel.Description
+                };
+
+                _surveyService.EditSurvey(surveyViewModel.Id, createEditSurveyDto);
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Details", new { id = surveyViewModel.Id });
+        }
+        catch (Exception e)
+        {
+            return NotFound();
+        }
     }
 }

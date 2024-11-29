@@ -1,0 +1,51 @@
+﻿@model RockstarsIT.Models.SurveyViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h4>Bewerk @Model.Title</h4>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="text-danger">@TempData["ErrorMessage"]</div>
+            }
+            <div class="form-group">
+                <label asp-for="Title"  class="control-label">Naam</label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Beschrijving</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Opslaan" class="btn btn-primary" />
+            </div>
+        </form>
+        <br/>
+        <h5>Vragen</h5>
+        <br/>
+        <div style="display: flex; flex-direction: row; gap: 15px;">
+             @foreach(var item in Model.Questions)
+             {
+                 <form asp-controller="Survey" asp-action="EditSurvey" asp-route-companyId="@item.Id" asp-route-squadId="@Model.Id" method="post">
+                     <p>@item.</p>
+                 </form>
+             }
+        </div>
+    </div>
+</div>
+<br/>
+<a asp-action="Index">Terug</a>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
