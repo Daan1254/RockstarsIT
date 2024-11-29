@@ -14,7 +14,7 @@ for details on configuring this project to bundle and minify static web assets. 
 .sidebar-header {
     display: flex; /* Gebruik flexbox om logo en tekst naast elkaar te zetten */
     align-items: center; /* Centreer logo en tekst verticaal */
-    padding: 10px 15px; /* Voeg padding toe rond de header */
+    padding: 10px 5px; /* Voeg padding toe rond de header */
     gap: 0px; /* Ruimte tussen het logo en de tekst */
 }
 
@@ -64,18 +64,18 @@ for details on configuring this project to bundle and minify static web assets. 
         flex-direction: column;
     }
 
-        .sidebar a:hover, .sidebar .nav-link:hover {
-            background-color: #fcc205; /* Kleur bij hover */
-            color: #000; /* Tekstkleur bij hover */
-            transform: scale(0.85);
+        /*.sidebar a:hover, .sidebar .nav-link:hover {
+            background-color: #fcc205;*/ /* Kleur bij hover */
+            /*color: #000;*/ /* Tekstkleur bij hover */
+            /*transform: scale(0.85);
             border-radius: 20px;
-        }
+        }*/
 .nav-item {
     color: white; /* Text color */
     text-decoration: none; /* Remove underline */
     display: block; /* Ensure links are block level elements and stack properly */
     padding: 10px 20px; /* Padding for clickable area */
-    background-color: #444; /* Dark background for each link */
+    background-color: #000; /* Dark background for each link */
     border-radius: 5px; /* Rounded corners for links */
     transition: background-color 0.3s ease; /* Smooth background color transition */
 }
