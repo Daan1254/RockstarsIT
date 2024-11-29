@@ -9,9 +9,6 @@ using RockstarsIT_DAL.Data;
 DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
-//var connectionString = builder.Configuration.GetConnectionString("RockstarsITContextConnection") ?? throw new InvalidOperationException("Connection string 'RockstarsITContextConnection' not found.");
-
-
 
 // Add services to the container.
 var connectionString = DotEnv.Read()["DEFAULT_CONNECTION"] ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
