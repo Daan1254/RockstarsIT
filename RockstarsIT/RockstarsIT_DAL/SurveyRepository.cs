@@ -20,6 +20,7 @@ public class SurveyRepository : ISurveyRepository
     {
         return _context.Surveys.Select(s => new SurveyDto
         {
+            Id = s.Id,
             Title = s.Title,
             Description = s.Description
         }).ToList();
@@ -80,18 +81,18 @@ public class SurveyRepository : ISurveyRepository
 
     public bool EditSurvey (int id, CreateEditSurveyDto surveyDTO)
     {
-        bool squadNameExists = _context.Squads.Any(s => s.Name == surveyDTO.Title && s.Id != id);
+        bool surveyNameExists = _context.Surveys.Any(s => s.Title == surveyDTO.Title && s.Id != id);
 
-        if (squadNameExists)
+        if (surveyNameExists)
         {
-            throw new DuplicateNameException($"Squad with this name {surveyDTO.Title} already exists");
+            throw new DuplicateNameException($"Survey with this name {surveyDTO.Title} already exists");
         }
 
-        SquadEntity? squad = _context.Squads.Find(id);
+        SurveyEntity? survey = _context.Surveys.Find(id);
 
-        if (squad == null)
+        if (survey == null)
         {
-            throw new Exception("Squad not found");
+            throw new Exception("Survey not found");
         }
 
         surveyDTO.Title = surveyDTO.Title;

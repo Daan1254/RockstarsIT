@@ -26,6 +26,7 @@ public class SurveyController : Controller
         // convert SurveyDto to SurveyViewModel
         List<SurveyViewModel> surveyViewModels = surveys.Select(s => new SurveyViewModel
         {
+            Id = s.Id,
             Title = s.Title,
             Description = s.Description,
         }).ToList();
@@ -120,13 +121,13 @@ public class SurveyController : Controller
                 return NotFound();
             }
 
-            SurveyViewModel editSurveyViewModel = new SurveyViewModel()
+            SurveyViewModel surveyViewModel = new SurveyViewModel()
             {
                 Id = surveyDto.Id,
                 Title = surveyDto.Title,
                 Description = surveyDto.Description,
             };
-            return View(editSurveyViewModel);
+            return View(surveyViewModel);
 
         }
         catch (Exception e)
