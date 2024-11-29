@@ -1,5 +1,6 @@
 using RockstarsIT_BLL.Dto;
 using RockstarsIT_BLL.Interfaces;
+using System.Data;
 
 namespace RockstarsIT_BLL;
 
@@ -21,7 +22,12 @@ public class SurveyService
         return _surveyRepository.GetAllSurveys();
     }
 
-    public void CreateSurveyWithQuestions(SurveyDto survey)
+    public SurveyDto? GetSurveyById(int id)
+    {
+        return _surveyRepository.GetSurveyById(id);
+    }
+
+    public void CreateSurveyWithQuestions(CreateEditSurveyDto survey)
     {
         try
         {
@@ -42,6 +48,22 @@ public class SurveyService
         catch (Exception ex)
         {
             throw new Exception("An error occurred while creating the survey with questions.", ex);
+        }
+    }
+
+    public bool EditSurvey (int id, CreateEditSurveyDto surveyDTO)
+    {
+        try
+        {
+            return _surveyRepository.EditSurvey(id, surveyDTO);
+        }
+        catch (DuplicateNameException ex)
+        {
+            throw new DuplicateNameException($"A squad with this name {surveyDTO.Title} already exists");
+        }
+        catch (Exception e)
+        {
+            throw new Exception("An error occurred while editing a squad", e);
         }
     }
 }
