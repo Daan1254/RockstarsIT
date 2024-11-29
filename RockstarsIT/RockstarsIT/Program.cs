@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using dotenv.net;
-using Microsoft.Extensions.Options;
 using RockstarsIT_BLL;
 using RockstarsIT_BLL.Interfaces;
 using RockstarsIT_DAL;
@@ -11,8 +10,6 @@ using RockstarsIT_DAL.Entities;
 DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
-
-
 
 // Add services to the container.
 var connectionString = DotEnv.Read()["DEFAULT_CONNECTION"] ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
