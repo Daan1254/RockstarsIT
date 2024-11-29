@@ -1,19 +1,8 @@
-﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-
-.main-container {
+﻿.main-container {
     display: flex; /* Gebruik flexbox voor een zij-aan-zij lay-out */
     flex-direction: row;
     gap: 20px;
 }
-/* Stijlen voor icon-afbeeldingen in de sidebar */
-/*.icon-img {
-    width: 95px;*/ /* Pas de grootte van het icoon aan */
-    /*height: 90px;*/ /* Pas de grootte van het icoon aan */
-    /*object-fit: contain;*/ /* Zorg dat de afbeelding goed binnen de ruimte past */
-    /*margin-right: 10px;*/ /* Ruimte tussen afbeelding en tekst */
-/*}*/
 .sidebar-header {
     display: flex; /* Gebruik flexbox om logo en tekst naast elkaar te zetten */
     align-items: center; /* Centreer logo en tekst verticaal */
@@ -64,13 +53,6 @@ for details on configuring this project to bundle and minify static web assets. 
         border-radius: 4px;
         flex-direction: column;
     }
-
-        /*.sidebar a:hover, .sidebar .nav-link:hover {
-            background-color: #fcc205;*/ /* Kleur bij hover */
-            /*color: #000;*/ /* Tekstkleur bij hover */
-            /*transform: scale(0.85);
-            border-radius: 20px;
-        }*/
 .nav-item {
     color: white; /* Text color */
     text-decoration: none; /* Remove underline */
@@ -80,12 +62,6 @@ for details on configuring this project to bundle and minify static web assets. 
     border-radius: 5px; /* Rounded corners for links */
     transition: background-color 0.3s ease; /* Smooth background color transition */
 }
-/*.nav-icon {
-    width: 20px;*/ /* Icon width */
-    /*height: 20px;*/ /* Icon height */
-    /*margin-right: 10px;*/ /* Space between icon and text */
-/*}*/
-
 /* Content sectie naast de sidebar */
 .content {
     margin-left: 270px; /* Zorg dat de content rechts van de sidebar start */
@@ -137,19 +113,3 @@ button.accept-policy {
     white-space: nowrap;
     line-height: 60px;
 }
-
-
-
-
-/*a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-}
-
-a {
-  color: #0077cc;
-}
-*/
-
-
