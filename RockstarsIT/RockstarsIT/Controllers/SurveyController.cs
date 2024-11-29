@@ -8,21 +8,16 @@ namespace RockstarsIT.Controllers;
 
 public class SurveyController : Controller
 {
-    
-    
-    private readonly ApplicationDbContext _context;
-
     private readonly SurveyService _surveyService;
 
     // Injecting DbContext in the constructor
-    public SurveyController(ApplicationDbContext context, SurveyService surveyService)
+    public SurveyController(SurveyService surveyService)
     {
-        _context = context;
         _surveyService = surveyService;
     }
     
     // GET
-    public async Task<IActionResult> Index()
+    public IActionResult Index()
     {
         List<SurveyDto> surveys = _surveyService.GetAllSurveys();
         
@@ -47,9 +42,8 @@ public class SurveyController : Controller
         //
         return View(new SurveyViewModel());
     }
-    
-    
-    public IActionResult SendEmail(int id) {
+
+        public IActionResult SendEmail(int id) {
         // SurveyViewModel? survey = _context.Surveys.Find(id);
         //
         // // Define sender and recipient email addresses
@@ -81,4 +75,33 @@ public class SurveyController : Controller
         //
         return View("Details", new SurveyViewModel()); 
     } 
+
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Create(SurveyViewModel survey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(survey);
+        }
+
+        SurveyDto surveyDto = new()
+        {
+            Title = survey.Title,
+            Description = survey.Description,
+            Questions = survey.Questions.Select(q => new CreateEditQuestionDto
+            {
+                Title = q.Title
+            }).ToList()
+        };
+
+        _surveyService.CreateSurveyWithQuestions(surveyDto);
+
+        return RedirectToAction("Index");
+    }
 }
