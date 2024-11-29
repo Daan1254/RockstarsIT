@@ -11,66 +11,65 @@
 
 </head>
 <body>
-    <div class="main-container">
+<div class="main-container">
 
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbyT0H-ajNqyO7jH78Nkww6cwlI8VFx_w5yC3te5d1xAOEnF-eHOyPX6nVvZuntUrtSLo&usqp=CAU.png" alt="RockstarsIT Logo" class="icon-img" />
-                <h1 class="dashboard-title">DASHBOARD</h1>
-            </div>
-            <ul class="sidebar-nav">
-               @*  <li class="nav-item">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbyT0H-ajNqyO7jH78Nkww6cwlI8VFx_w5yC3te5d1xAOEnF-eHOyPX6nVvZuntUrtSLo&usqp=CAU.png" alt="RockstarsIT Logo" class="icon-img" />
+            <h1 class="dashboard-title">DASHBOARD</h1>
+        </div>
+        <ul class="sidebar-nav">
+            @*  <li class="nav-item">
                     <a class="btn btn-link" href="@Url.Action("Index", "Home")">HOME</a>
                     @* <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a> 
                 </li> *@
-                <li class="nav-item">
-                    <a class="btn btn-link" href="@Url.Action("Index", "Survey")">
-                        <i class="bi bi-pencil-fill"></i> ENQUÊTES
-                    </a>
-
-                    @* <a class="nav-link" asp-controller="Survey" asp-action="Index">Enquête</a> *@
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-link" href="@Url.Action("Index", "Survey")">
-                         <i class="bi bi-check-circle-fill"></i> ANTWOORDEN    
+            <li class="nav-item">
+                <a class="btn btn-link" href="@Url.Action("Index", "Survey")">
+                    <i class="bi bi-pencil-fill"></i> ENQUÊTES
                 </a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-link" href="@Url.Action("Index", "Squad")">
-                        <i class="bi bi-people-fill"></i> SQUADS
-                    </a>
-                    @* <a class="nav-link" asp-controller="Squad" asp-action="Index">Squads</a> *@
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-link" href="@Url.Action("Index", "Account")">
-                        <i class="bi bi-people-fill"></i> ACCOUNT
-                    </a>
-                    @* <a class="btn btn-link" asp-area="Identity" asp-page="/Account/Login">ACCOUNT</a> *@
-                     @* </a> *@
-                    @* <a class="btn btn-primary w-100" asp-area="Identity" asp-page="/Account/Register">REGISTER</a> *@
-                </li>
-                @* <li class="nav-item">
+
+                @* <a class="nav-link" asp-controller="Survey" asp-action="Index">Enquête</a> *@
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-link" href="@Url.Action("Index", "Survey")">
+                    <i class="bi bi-check-circle-fill"></i> ANTWOORDEN    
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-link" href="@Url.Action("Index", "Squad")">
+                    <i class="bi bi-people-fill"></i> SQUADS
+                </a>
+                @* <a class="nav-link" asp-controller="Squad" asp-action="Index">Squads</a> *@
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-link" href="@Url.Action("Index", "Account")">
+                    <i class="bi bi-people-fill"></i> ACCOUNT
+                </a>
+                @* <a class="btn btn-link" asp-area="Identity" asp-page="/Account/Login">ACCOUNT</a> *@
+                @* </a> *@
+                @* <a class="btn btn-primary w-100" asp-area="Identity" asp-page="/Account/Register">REGISTER</a> *@
+            </li>
+            @* <li class="nav-item">
                     <a class="btn btn-link" href="@Url.Action("Index", "Survey")">ACCOUNT</a>
                 </li> *@
-                <li class="nav-item">
-                    <a class="btn btn-link" href="@Url.Action("Index", "Survey")">
-                        <i class="bi bi-gear-fill"></i> INSTELLINGEN
+            <li class="nav-item">
+                <a class="btn btn-link" href="@Url.Action("Index", "Survey")">
+                    <i class="bi bi-gear-fill"></i> INSTELLINGEN
                 </a>
-                </li>
+            </li>
                 
-                @* <li class="nav-item">
+            @* <li class="nav-item">
                     <a class="btn btn-primary w-100 mb-2" asp-area="Identity" asp-page="/Account/Login">ACCOUNT</a>
                     @* <a class="btn btn-primary w-100" asp-area="Identity" asp-page="/Account/Register">REGISTER</a> 
                 </li> *@
-            </ul>
-            @* <partial name="_LoginPartial" /> *@
-        </div>
-     </div>
-<div class="container">
+        </ul>
+        @* <partial name="_LoginPartial" /> *@
+    </div>
     <main role="main" class="pb-3">
         @RenderBody()
     </main>
 </div>
+
 
 @* <footer class="border-top footer text-muted">
     <div class="container">

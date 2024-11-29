@@ -3,21 +3,29 @@ body {
     font-family: Arial, sans-serif;
     background-color: #fffcf5;
     margin: 0;
-    padding: 20px;
 }
 
 
-h1 {
-    text-align: left;
-    margin-bottom: 20px;
-    margin-top: 65px; /* Adjust this value as needed */
-}
+
 
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Flexibele kolommen */
     gap: 20px; /* Ruimte tussen de kaarten */
     margin-top: 80px; /* Zorg voor ruimte voor de Toevoegen knop */
+    max-height: 75vh;
+    overflow-y: scroll;
+}
+
+.header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: max-content;
+    
+    margin-top: 50px;
+    text-align: center;
 }
 /* Kaartstijl */
 .card {
@@ -180,26 +188,18 @@ ul {
         background-color: #fcc205; /* Yellow background */
         color: #000; /* Black text */
     }
-
-
+    
 /* Target the "Toevoegen" button specifically by class */
 .voeg-toe-button {
-    position: absolute; /* Absolute positioning */
-    top: 20px; /* 20px from the top */
-    right: 20px; /* 20px from the right edge */
-    z-index: 1000; /* Ensure it stays above other elements */
-    padding: 15px 30px;
+    padding: 10px 20px;
     font-size: 18px;
     background-color: #fcc205; /* Primary color */
     color: black;
-    border-radius: 5px;
+    border-radius: 10px;
     text-decoration: none;
     transition: background-color 0.3s ease, color 0.3s ease;
-    border-radius: 50px;
     font-weight: normal;
     font-family: 'Arial', sans-serif;
-    margin-bottom: 20px;
-    margin-top: 65px;
 }
 
     /* Hover effect */
@@ -213,12 +213,6 @@ ul {
         background-color: #004085; /* Even darker when clicked */
         transform: scale(0.98); /* Slight shrink effect */
     }
-
-
-
-
-
-
 
 
 /*body

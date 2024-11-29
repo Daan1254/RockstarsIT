@@ -1,8 +1,11 @@
 ﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+
 .main-container {
     display: flex; /* Gebruik flexbox voor een zij-aan-zij lay-out */
+    flex-direction: row;
+    gap: 20px;
 }
 /* Stijlen voor icon-afbeeldingen in de sidebar */
 /*.icon-img {
@@ -39,12 +42,10 @@ for details on configuring this project to bundle and minify static web assets. 
     height: 100vh; /* Volledige hoogte van de viewport */
     width: 280px; /* Breedte van de sidebar */
     background-color: #000000 /*#f6de82*/; /* Sidebar achtergrondkleur */
-    padding-top: 20px;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     overflow-y: auto; /* Scrollen als content te lang is */
-    position: fixed; /* Zorgt ervoor dat de sidebar vast blijft staan aan de linkerkant */
-    left: 0;
-    top: 0;
+    /*left: 0;*/
+    /*top: 0;*/
     padding-left: 10px;
     color: #fff;
     display: flex;

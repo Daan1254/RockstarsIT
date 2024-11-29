@@ -1,12 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using dotenv.net;
-using Microsoft.Extensions.Options;
 using RockstarsIT_BLL;
 using RockstarsIT_BLL.Interfaces;
 using RockstarsIT_DAL;
 using RockstarsIT_DAL.Data;
-using RockstarsIT.Data;
 
 DotEnv.Load();
 
