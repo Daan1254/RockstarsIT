@@ -29,8 +29,10 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<SurveyService>();
 builder.Services.AddScoped<SquadService>();
+builder.Services.AddScoped<CompanyService>();
 builder.Services.AddScoped<ISurveyRepository, SurveyRepository>();
 builder.Services.AddScoped<ISquadRepository, SquadRepository>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 
 var app = builder.Build();
 

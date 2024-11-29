@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using RockstarsIT_BLL;
+using System.Data;
 using RockstarsIT_BLL.Dto;
 using RockstarsIT_BLL.Interfaces;
 using RockstarsIT_DAL.Data;
@@ -18,14 +21,16 @@ public class SquadRepository : ISquadRepository
     {
         try
         {
-            
-            // check if deletedAt is null
-
             return _context.Squads.Where(s => s.DeletedAt == null).Select(s => new SquadDto
             {
                 Id = s.Id,
                 Name = s.Name,
-                Description = s.Description
+                Description = s.Description,
+                Company = s.Company != null ? new CompanyDto()
+                {
+                    Name = s.Company.Name,
+                    Id = s.Company.Id
+                } : null
             }).ToList();
         }
         catch (Exception e)
@@ -39,20 +44,32 @@ public class SquadRepository : ISquadRepository
         try
         {
             // check if deletedAt is null
-            SquadEntity? squad = _context.Squads.Where(s => s.DeletedAt == null).FirstOrDefault(s => s.Id == id);
+            SquadEntity? squad = _context.Squads.Where(s => s.DeletedAt == null)
+                .Include(squadEntity => squadEntity.Company).FirstOrDefault(s => s.Id == id);
             
             
             if (squad == null)
             {
                 throw new Exception("Squad not found");
             }
-            
-            Console.WriteLine(squad);
+
+            CompanyDto company = null;
+            if (squad.Company != null)
+            {
+                company = new CompanyDto()
+                {
+                    Id = squad.Company.Id,
+                    Name = squad.Company.Name
+                };
+            }
+
             return new SquadDto
             {
                 Id = squad.Id,
                 Name = squad.Name,
-                Description = squad.Description,
+                Description = squad.Description, 
+                CompanyId = squad.CompanyId,
+                Company = company,
                 CreatedAt = squad.CreatedAt,
                 UpdatedAt = squad.UpdatedAt,
                 DeletedAt = squad.DeletedAt
@@ -66,46 +83,48 @@ public class SquadRepository : ISquadRepository
 
     public bool CreateSquad(CreateEditSquadDto squadDto)
     {
-        try
-        {
-            SquadEntity squad = new SquadEntity
-            {
-                Name = squadDto.Name,
-                Description = squadDto.Description,
-                CreatedAt = DateTime.Now
-            };
+        // check if squad with name already exists
+        bool squadNameExists = _context.Squads.Any(s => s.Name == squadDto.Name);
             
-            _context.Squads.Add(squad);
-            _context.SaveChanges();
-            return true;
-        }
-        catch (Exception e)
+        if (squadNameExists)
         {
-            throw new Exception("An error occurred while creating squad", e);
+            throw new DuplicateNameException($"Squad with this name {squadDto.Name} already exists");
         }
+            
+        SquadEntity squad = new SquadEntity
+        {
+            Name = squadDto.Name,
+            Description = squadDto.Description,
+            CreatedAt = DateTime.Now 
+        };
+        
+        _context.Squads.Add(squad);
+        _context.SaveChanges();
+        return true;
     }
     
     public bool EditSquad(int id, CreateEditSquadDto squadDto)
-    {
-        try
+    { 
+        bool squadNameExists = _context.Squads.Any(s => s.Name == squadDto.Name && s.Id != id);
+            
+        if (squadNameExists)
         {
-            SquadEntity? squad = _context.Squads.Find(id);
-            
-            if (squad == null)
-            {
-                throw new Exception("Squad not found");
-            }
-            
-            squad.Description = squadDto.Description;
-            squad.UpdatedAt = DateTime.Now;
-            
-            _context.SaveChanges();
-            return true;
+            throw new DuplicateNameException($"Squad with this name {squadDto.Name} already exists");
         }
-        catch (Exception e)
+            
+        SquadEntity? squad = _context.Squads.Find(id);
+            
+        if (squad == null)
         {
-            throw new Exception("An error occurred while editing squad", e);
+            throw new Exception("Squad not found");
         }
+
+        squad.Name = squadDto.Name;
+        squad.Description = squadDto.Description;
+        squad.UpdatedAt = DateTime.Now;
+            
+        _context.SaveChanges();
+        return true;
     }
     
     public bool DeleteSquad(int id)
@@ -127,6 +146,28 @@ public class SquadRepository : ISquadRepository
         catch (Exception e)
         {
             throw new Exception("An error occurred while deleting squad", e);
+        }
+    }
+
+    public bool LinkCompany(LinkCompanyDto linkCompanyDto)
+    {
+        try
+        {
+            SquadEntity? squadEntity = _context.Squads.Find(linkCompanyDto.SquadId);
+            
+            if (squadEntity == null)
+            {
+             
+                throw new Exception("Squad not found in the context.");
+            }
+            
+            squadEntity.CompanyId = linkCompanyDto.CompanyId;
+
+            return _context.SaveChanges() == 1;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while linking the company to the squad.", ex);
         }
     }
 }

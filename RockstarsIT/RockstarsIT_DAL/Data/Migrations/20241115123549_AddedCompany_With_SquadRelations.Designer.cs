@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RockstarsIT_DAL.Data;
 
@@ -11,9 +12,11 @@ using RockstarsIT_DAL.Data;
 namespace RockstarsIT_DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241115123549_AddedCompany_With_SquadRelations")]
+    partial class AddedCompany_With_SquadRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,7 +241,7 @@ namespace RockstarsIT_DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies", (string)null);
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("RockstarsIT_DAL.Entities.SquadEntity", b =>
@@ -249,7 +252,7 @@ namespace RockstarsIT_DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CompanyId")
+                    b.Property<int?>("CompanyEntityId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -271,7 +274,7 @@ namespace RockstarsIT_DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
+                    b.HasIndex("CompanyEntityId");
 
                     b.ToTable("Squads");
                 });
@@ -359,12 +362,12 @@ namespace RockstarsIT_DAL.Migrations
 
             modelBuilder.Entity("RockstarsIT_DAL.Entities.SquadEntity", b =>
                 {
-                    b.HasOne("RockstarsIT_DAL.Entities.CompanyEntity", "Company")
+                    b.HasOne("RockstarsIT_DAL.Entities.CompanyEntity", "CompanyEntity")
                         .WithMany("Squads")
-                        .HasForeignKey("CompanyId")
+                        .HasForeignKey("CompanyEntityId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("Company");
+                    b.Navigation("CompanyEntity");
                 });
 
             modelBuilder.Entity("RockstarsIT_DAL.Entities.CompanyEntity", b =>

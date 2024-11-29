@@ -11,5 +11,7 @@ namespace RockstarsIT.Models
         public string Name { get; set; }
         [Required]
         public string Description { get; set; }
+        
+        public CompanyViewModel? Company { get; set; }
     }
 }

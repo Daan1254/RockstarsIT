@@ -1,17 +1,19 @@
 ﻿@model RockstarsIT.Models.SquadViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = @Model.Name;
 }
 
 <link rel="stylesheet" href="~/css/Squads.css/Index.css" />
 
-
-<h1>Details</h1>
+<h1>@Model.Name</h1>
 
 <div>
-    <h4>Squads</h4>
-    <hr />
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="text-danger">@ViewData["ErrorMessage"]</div>
+    }
+    
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
@@ -30,6 +32,6 @@
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-success btn-lg">Edit</a>
-    <a asp-action="Index" class="btn btn-primary btn-lg">Back to List</a></div>
+
+<a asp-action="Edit" asp-route-id="@Model.Id">Bewerken</a> |
+<a asp-action="Index">Terug</a>
