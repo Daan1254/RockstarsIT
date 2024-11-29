@@ -78,7 +78,9 @@ public class SurveyController : Controller
         //     smtp.Credentials = new NetworkCredential(userName, password);
         //     smtp.Send(mail);
         // }
-        //
+        //Template maken voor de emails. Dat er automatisch iets is ingevuld.
+        //Het mag geen page zijn.
+        //Denkt dat file/ template niet in presentation layer staat. 
         return View("Details", new SurveyViewModel()); 
     } 
 }
