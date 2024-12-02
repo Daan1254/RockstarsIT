@@ -158,7 +158,7 @@ public class SurveyController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Edit(SurveyViewModel surveyViewModel)
+    public IActionResult Edit(SurveyViewModel surveyViewModel, string newQuestionTitle)
     {
         try
         {
@@ -178,6 +178,15 @@ public class SurveyController : Controller
                     { 
                         Title = question.Title, 
                         SurveyId = surveyViewModel.Id
+                    }); 
+                }
+
+                if (!string.IsNullOrWhiteSpace(newQuestionTitle))
+                {
+                    _questionService.CreateQuestion(new CreateEditQuestionDto() 
+                    { 
+                        Title = newQuestionTitle, 
+                        SurveyId = surveyViewModel.Id 
                     }); 
                 }
                 return RedirectToAction("Index");
