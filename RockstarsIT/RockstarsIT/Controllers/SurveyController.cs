@@ -158,7 +158,7 @@ public class SurveyController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Edit(SurveyViewModel surveyViewModel)
+    public IActionResult Edit(SurveyViewModel surveyViewModel, List<QuestionViewModel> newQuestions)
     {
         try
         {
@@ -167,21 +167,12 @@ public class SurveyController : Controller
                 CreateEditSurveyDto createEditSurveyDto = new CreateEditSurveyDto()
                 {
                     Title = surveyViewModel.Title,
-                    Description = surveyViewModel.Description
+                    Description = surveyViewModel.Description,
+                    
                 };
 
                 _surveyService.EditSurvey(surveyViewModel.Id, createEditSurveyDto);
-
-                foreach (QuestionViewModel question in surveyViewModel.Questions)
-                { 
-                    _questionService.EditQuestion(question.Id, new CreateEditQuestionDto() 
-                    { 
-                        Title = question.Title, 
-                        SurveyId = surveyViewModel.Id
-                    }); 
-                }
-
-                foreach (QuestionViewModel question in surveyViewModel.Questions)
+                foreach (var question in surveyViewModel.Questions)
                 {
                     CreateEditQuestionDto createEditQuestionDto = new CreateEditQuestionDto()
                     {
@@ -189,8 +180,28 @@ public class SurveyController : Controller
                         SurveyId = surveyViewModel.Id,
                     };
 
-                    _questionService.CreateQuestion(createEditQuestionDto);
+                    if (question.Id != 0) 
+                    {
+                        _questionService.EditQuestion(question.Id, createEditQuestionDto);
+                    }
+                    else 
+                    {
+                        _questionService.CreateQuestion(createEditQuestionDto);
+                    }
                 }
+
+                if (newQuestions != null)
+                {
+                    foreach (var newQuestion in newQuestions)
+                    {
+                        _questionService.CreateQuestion(new CreateEditQuestionDto()
+                        {
+                            Title = newQuestion.Title,
+                            SurveyId = surveyViewModel.Id
+                        });
+                    }
+                }
+
                 return RedirectToAction("Index");
             }
 
@@ -198,7 +209,9 @@ public class SurveyController : Controller
         }
         catch (Exception e)
         {
-            return NotFound();
+            TempData["ErrorMessage"] = "Er is iets fout gegaan bij het opslaan van de survey en vragen.";
+            return View(surveyViewModel);
         }
     }
+
 }
