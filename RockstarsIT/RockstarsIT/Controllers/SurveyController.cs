@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using RockstarsIT_BLL;
 using RockstarsIT_BLL.Dto;
-using RockstarsIT_DAL.Data;
 using RockstarsIT.Models;
 using System.Data;
+using RockstarsIT_DAL;
 using RockstarsIT_BLL.Interfaces;
 
 namespace RockstarsIT.Controllers;
@@ -11,11 +11,14 @@ namespace RockstarsIT.Controllers;
 public class SurveyController : Controller
 {
     private readonly SurveyService _surveyService;
+    private readonly IQuestionRepository _iQuestionRepository;
+
 
     // Injecting DbContext in the constructor
-    public SurveyController(SurveyService surveyService)
+    public SurveyController(SurveyService surveyService, IQuestionRepository iQuestionRepository)
     {
         _surveyService = surveyService;
+        _iQuestionRepository = iQuestionRepository;
     }
     
     // GET
@@ -110,10 +113,10 @@ public class SurveyController : Controller
 
     public IActionResult Edit(int id)
     {
+
         try
         {
             SurveyDto? surveyDto = _surveyService.GetSurveyById(id);
-            //List<SurveyDto> questions = IQuestionRepository.CreateQuestion();
 
 
             if (surveyDto == null)
@@ -126,6 +129,9 @@ public class SurveyController : Controller
                 Id = surveyDto.Id,
                 Title = surveyDto.Title,
                 Description = surveyDto.Description,
+                Questions = _iQuestionRepository.GetQuestionsBySurveyId(surveyDto.Id)
+                                               .Select(q => new QuestionViewModel { Id = q.Id, Title = q.Title })
+                                               .ToList()
             };
             return View(surveyViewModel);
 
@@ -155,6 +161,15 @@ public class SurveyController : Controller
                 };
 
                 _surveyService.EditSurvey(surveyViewModel.Id, createEditSurveyDto);
+
+                foreach (var question in surveyViewModel.Questions)
+                { 
+                    _iQuestionRepository.UpdateQuestion(new QuestionDto 
+                    { 
+                        Id = question.Id, 
+                        Title = question.Title, 
+                        SurveyId = surveyViewModel.Id }); 
+                }
                 return RedirectToAction("Index");
             }
 

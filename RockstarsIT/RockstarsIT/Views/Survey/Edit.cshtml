@@ -17,7 +17,7 @@
                 <div class="text-danger">@TempData["ErrorMessage"]</div>
             }
             <div class="form-group">
-                <label asp-for="Title"  class="control-label">Naam</label>
+                <label asp-for="Title" class="control-label">Naam</label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
@@ -26,26 +26,27 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+            <h5>Vragen</h5>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                @for (int i = 0; i < Model.Questions.Count; i++)
+                {
+                    <div class="form-group">
+                        <input asp-for="Questions[i].Title" class="form-control" />
+                        <input type="hidden" asp-for="Questions[i].Id" />
+                    </div>
+                }
+            </div>
             <div class="form-group">
                 <input type="submit" value="Opslaan" class="btn btn-primary" />
             </div>
         </form>
-        <br/>
-        <h5>Vragen</h5>
-        <br/>
-        <div style="display: flex; flex-direction: row; gap: 15px;">
-             @foreach(var item in Model.Questions)
-             {
-                 <form asp-controller="Survey" asp-action="EditSurvey" asp-route-companyId="@item.Id" asp-route-squadId="@Model.Id" method="post">
-                     <p>@item.</p>
-                 </form>
-             }
-        </div>
     </div>
 </div>
-<br/>
+<br />
 <a asp-action="Index">Terug</a>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

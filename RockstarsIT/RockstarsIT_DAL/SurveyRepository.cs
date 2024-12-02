@@ -44,6 +44,7 @@ public class SurveyRepository : ISurveyRepository
 
             return new SurveyDto
             {
+                Id = survey.Id,
                 Title = survey.Title,
                 Description = survey.Description,
                 Questions = survey.Questions.Select(q => new QuestionDto()

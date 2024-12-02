@@ -6,4 +6,5 @@ public interface IQuestionRepository
 {
   public List<QuestionDto> GetQuestionsBySurveyId(int surveyId);
   public void CreateQuestion(CreateEditQuestionDto question);
+    public void UpdateQuestion(QuestionDto question);
 }
