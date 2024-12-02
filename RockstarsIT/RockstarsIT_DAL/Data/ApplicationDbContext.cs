@@ -33,7 +33,7 @@ public class ApplicationDbContext : IdentityDbContext
         modelBuilder.Entity<SurveyEntity>()
             .HasMany(s => s.Squads)
             .WithMany(sq => sq.Surveys)
-            .UsingEntity(j => j.ToTable("SquadSurveys"));
+            .UsingEntity(j => j.ToTable("Squad_Surveys"));
     }
 
 
