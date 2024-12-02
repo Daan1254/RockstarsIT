@@ -38,6 +38,11 @@ public class ApplicationDbContext : IdentityDbContext
                 .WithMany(q => q.Answers)
                 .HasForeignKey(a => a.QuestionId)
                 .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<SurveyEntity>()
+            .HasMany(s => s.Squads)
+            .WithMany(sq => sq.Surveys)
+            .UsingEntity(j => j.ToTable("Squad_Surveys"));
     }
 
 

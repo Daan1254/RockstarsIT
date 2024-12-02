@@ -1,0 +1,83 @@
+﻿@model RockstarsIT.Models.SurveyViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h4>Bewerk @Model.Title</h4>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="text-danger">@TempData["ErrorMessage"]</div>
+            }
+            <div class="form-group">
+                <label asp-for="Title" class="control-label">Naam</label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Beschrijving</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <h5>Vragen</h5>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                @for (int i = 0; i < Model.Questions.Count; i++)
+                {
+                    <div class="form-group">
+                        <input asp-for="Questions[i].Title" class="form-control" />
+                        <input type="hidden" asp-for="Questions[i].Id" />
+                    </div>
+                }
+            </div>
+            <h5>Nieuwe Vraag</h5>
+            <div class="form-group">
+                <div id="questions-container">
+                </div>
+            </div>
+            <button type="button" id="add-question" class="btn btn-secondary mt-2">Voeg Vraag Toe</button>
+            <div class="form-group">
+                <input type="submit" value="Opslaan" class="btn btn-primary mt-2" />
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<a asp-action="Index">Terug</a>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+@section ScriptAddQuestions {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.getElementById("questions-container");
+            const addQuestionButton = document.getElementById("add-question");
+
+            // Track the number of questions added
+            let questionIndex = 0;
+
+            // Add a new question input
+            addQuestionButton.addEventListener("click", function () {
+                const questionDiv = document.createElement("div");
+                questionDiv.classList.add("form-group", "mt-2");
+
+                questionDiv.innerHTML = `
+                            <input type="text" name="Questions[${questionIndex}].Title" class="form-control" placeholder="Vraag ${questionIndex + 1}" />
+                        `;
+
+                container.appendChild(questionDiv);
+                questionIndex++;
+            });
+        });
+    </script>
+}

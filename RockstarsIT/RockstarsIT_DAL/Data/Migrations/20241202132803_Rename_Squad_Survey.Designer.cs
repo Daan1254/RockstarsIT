@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RockstarsIT_DAL.Data;
 
@@ -11,9 +12,11 @@ using RockstarsIT_DAL.Data;
 namespace RockstarsIT_DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241202132803_Rename_Squad_Survey")]
+    partial class Rename_Squad_Survey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -304,7 +307,7 @@ namespace RockstarsIT_DAL.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Squads", (string)null);
+                    b.ToTable("Squads");
                 });
 
             modelBuilder.Entity("RockstarsIT_DAL.Entities.SurveyEntity", b =>
@@ -334,7 +337,7 @@ namespace RockstarsIT_DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Surveys", (string)null);
+                    b.ToTable("Surveys");
                 });
 
             modelBuilder.Entity("SquadEntitySurveyEntity", b =>

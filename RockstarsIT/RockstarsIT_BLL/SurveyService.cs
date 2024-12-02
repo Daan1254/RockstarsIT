@@ -21,27 +21,46 @@ public class SurveyService
         return _surveyRepository.GetAllSurveys();
     }
 
-    public void CreateSurveyWithQuestions(SurveyDto survey)
+    public SurveyDto? GetSurveyById(int id)
+    {
+        return _surveyRepository.GetSurveyById(id);
+    }
+    
+    public SurveyWithQuestionsDto? GetSurveyWithQuestionsById(int id)
     {
         try
         {
-            int surveyId = _surveyRepository.CreateSurvey(survey);
-        
-            foreach (CreateEditQuestionDto question in survey.Questions)
-            {
-                try {
-                    question.SurveyId = surveyId;
-                    _questionRepository.CreateQuestion(question);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("An error occurred while creating questions.", ex);
-                }
-            }
+            return _surveyRepository.GetSurveyWithQuestionsById(id);
         }
         catch (Exception ex)
         {
-            throw new Exception("An error occurred while creating the survey with questions.", ex);
+            throw new Exception("An error occurred while getting the survey with its questions", ex);
         }
     }
+
+    public int CreateSurvey(CreateEditSurveyDto survey)
+    {
+        try
+        {
+            return _surveyRepository.CreateSurvey(survey);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while creating the survey", ex);
+        }
+    }
+
+    public bool EditSurvey(int id, CreateEditSurveyDto surveyDto)
+    {
+        try
+        {
+            return _surveyRepository.EditSurvey(id, surveyDto);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("An error occurred while editing the survey and its questions", e);
+        }
+    }
+
+
 }
