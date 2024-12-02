@@ -29,6 +29,11 @@ public class ApplicationDbContext : IdentityDbContext
             .WithMany(c => c.Squads)
             .HasForeignKey(s => s.CompanyId)
             .OnDelete(DeleteBehavior.Restrict); // Or Cascade/SetNull depending on requirements
+        
+        modelBuilder.Entity<SurveyEntity>()
+            .HasMany(s => s.Squads)
+            .WithMany(sq => sq.Surveys)
+            .UsingEntity(j => j.ToTable("SquadSurveys"));
     }
 
 
