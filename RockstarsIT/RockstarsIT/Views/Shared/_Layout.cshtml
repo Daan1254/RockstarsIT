@@ -11,7 +11,6 @@
 </head>
 <body>
     <div class="main-container">
-
         <div class="sidebar">
             <div class="sidebar-header">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbyT0H-ajNqyO7jH78Nkww6cwlI8VFx_w5yC3te5d1xAOEnF-eHOyPX6nVvZuntUrtSLo&usqp=CAU.png" alt="RockstarsIT Logo" class="icon-img" />
@@ -24,7 +23,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-link" href="@Url.Action("Index", "Survey")">
+                    <a class="btn btn-link">
                         <i class="bi bi-check-circle-fill"></i> ANTWOORDEN
                     </a>
                 </li>
@@ -33,19 +32,14 @@
                         <i class="bi bi-people-fill"></i> SQUADS
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="btn btn-link" href="@Url.Action("Index", "Account")">
-                        <i class="bi bi-people-fill"></i> ACCOUNT
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-link" href="@Url.Action("Index", "Survey")">
-                        <i class="bi bi-gear-fill"></i> INSTELLINGEN
-                    </a>
-                </li>
+                @* <li class="nav-item"> *@
+                @*     <a class="btn btn-link" href="@Url.Action("Index", "Account")"> *@
+                @*         <i class="bi bi-people-fill"></i> ACCOUNT *@
+                @*     </a> *@
+                @* </li> *@
             </ul>
         </div>
-        <main role="main" class="pb-3">
+        <main  role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>

@@ -6,11 +6,10 @@
 
 <link rel="stylesheet" href="~/css/Squads.css/Index.css" />
 
-<h1>Squads</h1>
-
-<p>
-    <a asp-action="Create" class="btn btn-primary btn-lg voeg-toe-button">TOEVOEGEN</a>
-</p>
+<div class="header-container">
+    <h2>Squads</h2>
+    <a asp-action="Create" class="btn btn-primary voeg-toe-button">TOEVOEGEN</a>
+</div>
 
 <div class="grid">
     @if (Model != null)
