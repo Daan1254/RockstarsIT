@@ -9,5 +9,6 @@ public class QuestionEntity
     public DateTime? DeletedAt { get; set; }
     public int SurveyId { get; set; }
     public SurveyEntity Survey { get; set; }
-    public ICollection<AnswerEntity> Answers { get; set; } = new List<AnswerEntity>();
+    public List<AnswerEntity> Answers { get; set; } = new List<AnswerEntity>();
+
 }
