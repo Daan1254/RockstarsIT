@@ -4,6 +4,8 @@
     ViewData["Title"] = "Edit";
 }
 
+<link rel="stylesheet" href="~/css/Squads.css/Index.css" />
+
 <h4>Bewerk @Model.Name</h4>
 
 <hr />
@@ -44,9 +46,13 @@
         </div>
     </div>
 </div>
+
 <br/>
 <a asp-action="Index">Terug</a>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+
+

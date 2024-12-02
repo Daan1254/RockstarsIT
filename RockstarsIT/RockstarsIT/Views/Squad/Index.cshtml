@@ -4,56 +4,37 @@
     ViewData["Title"] = "Index";
 }
 
+<link rel="stylesheet" href="~/css/Squads.css/Index.css" />
+
 <h1>Squads</h1>
 
 <p>
-    <a asp-action="Create">Nieuwe Squad</a>
+    <a asp-action="Create" class="btn btn-primary btn-lg voeg-toe-button">TOEVOEGEN</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Naam
-            </th>
-            <th>
-                Beschrijving
-            </th>
-            <th>
-                Bedrijf
-            </th>
-            
-            
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            
-            <td>
-                @if (item.Company == null)
-                {
-                    <p>Not Linked</p>
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.Company.Name)
-                }
-            </td>
-            
-            
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Bewerken</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Bekijken</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="grid">
+    @if (Model != null)
+    {
+        @foreach (var item in Model)
+        {
+            <div class="card">
+                <a class="plus-button" asp-action="Edit" asp-route-id="@item.Id" aria-label="Add Item">+</a>
+                <div class="card-header">
+                    <h2>@item.Name</h2>
+                </div>
+                <div class="card-body">
+                    <p>@item.Description</p>
+                    <div class="actions">
+                         @* <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info btn-sm">Edit</a> *@
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p>Geen Squads gevonden.</p>
+    }
+</div>
