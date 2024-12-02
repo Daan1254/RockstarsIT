@@ -4,6 +4,8 @@
     ViewData["Title"] = @Model.Name;
 }
 
+<link rel="stylesheet" href="~/css/Squads.css/Index.css" />
+
 <h1>@Model.Name</h1>
 
 <div>
@@ -30,5 +32,6 @@
         </dd>
     </dl>
 </div>
+
 <a asp-action="Edit" asp-route-id="@Model.Id">Bewerken</a> |
 <a asp-action="Index">Terug</a>
