@@ -38,10 +38,12 @@
             </div>
             <h5>Nieuwe Vraag</h5>
             <div class="form-group">
-                <input type="text" name="NewQuestionTitle" class="form-control" placeholder="Nieuwe vraag titel" />
+                <div id="questions-container">
+                </div>
             </div>
+            <button type="button" id="add-question" class="btn btn-secondary mt-2">Voeg Vraag Toe</button>
             <div class="form-group">
-                <input type="submit" value="Opslaan" class="btn btn-primary" />
+                <input type="submit" value="Opslaan" class="btn btn-primary mt-2" />
             </div>
         </form>
     </div>
@@ -53,4 +55,29 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+}
+
+@section ScriptAddQuestions {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.getElementById("questions-container");
+            const addQuestionButton = document.getElementById("add-question");
+
+            // Track the number of questions added
+            let questionIndex = 0;
+
+            // Add a new question input
+            addQuestionButton.addEventListener("click", function () {
+                const questionDiv = document.createElement("div");
+                questionDiv.classList.add("form-group", "mt-2");
+
+                questionDiv.innerHTML = `
+                            <input type="text" name="Questions[${questionIndex}].Title" class="form-control" placeholder="Vraag ${questionIndex + 1}" />
+                        `;
+
+                container.appendChild(questionDiv);
+                questionIndex++;
+            });
+        });
+    </script>
 }
