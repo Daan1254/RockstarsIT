@@ -39,11 +39,11 @@ public class QuestionRepository : IQuestionRepository {
         
     }
 
-    public void UpdateQuestion(CreateEditQuestionDto question)
+    public void UpdateQuestion(CreateEditQuestionDto question, int id)
     {
         try
         {
-            var existingQuestion = _context.Questions.Find(question.Id);
+            QuestionEntity existingQuestion = _context.Questions.Find(id);
             if (existingQuestion != null)
             {
                 existingQuestion.Title = question.Title;

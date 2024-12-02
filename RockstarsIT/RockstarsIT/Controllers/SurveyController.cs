@@ -3,8 +3,6 @@ using RockstarsIT_BLL;
 using RockstarsIT_BLL.Dto;
 using RockstarsIT.Models;
 using System.Data;
-using RockstarsIT_DAL;
-using RockstarsIT_BLL.Interfaces;
 
 namespace RockstarsIT.Controllers;
 

@@ -59,19 +59,15 @@ public class SurveyService
 
             foreach (var question in surveyDTO.Questions)
             {
-                _questionRepository.UpdateQuestion(new CreateEditQuestionDto
+                _questionRepository.UpdateQuestion(new QuestionDto
                 {
                     Id = question.Id,
                     Title = question.Title,
-                    SurveyId = id
+                    Survey = 
                 });
             }
 
             return result;
-        }
-        catch (DuplicateNameException ex)
-        {
-            throw new DuplicateNameException($"A survey with this name {surveyDTO.Title} already exists");
         }
         catch (Exception e)
         {
