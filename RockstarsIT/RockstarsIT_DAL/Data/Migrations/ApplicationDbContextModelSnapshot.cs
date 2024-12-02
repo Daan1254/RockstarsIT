@@ -453,10 +453,7 @@ namespace RockstarsIT_DAL.Migrations
                     b.Navigation("Squads");
                 });
 
-            modelBuilder.Entity("RockstarsIT_DAL.Entities.SquadEntity", b =>
-                {
-                    b.Navigation("Users");
-                
+            modelBuilder.Entity("RockstarsIT_DAL.Entities.SquadEntity", b => { b.Navigation("Users"); });
             modelBuilder.Entity("RockstarsIT_DAL.Entities.QuestionEntity", b =>
                 {
                     b.HasOne("RockstarsIT_DAL.Entities.SurveyEntity", "Survey")
