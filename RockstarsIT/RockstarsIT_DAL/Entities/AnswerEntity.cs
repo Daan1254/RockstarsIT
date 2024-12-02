@@ -10,6 +10,9 @@ namespace RockstarsIT_DAL.Entities
     {
         public int Id { get; set; }               
         public short Result { get; set; }         
-        public string? Feedback { get; set; }     
+        public string? Feedback { get; set; }
+
+        public int QuestionId { get; set; }
+        public QuestionEntity Question { get; set; } = null!;
     }
 }

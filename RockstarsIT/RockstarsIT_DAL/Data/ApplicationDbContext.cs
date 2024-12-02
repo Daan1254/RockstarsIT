@@ -32,6 +32,12 @@ public class ApplicationDbContext : IdentityDbContext
             .WithMany(c => c.Squads)
             .HasForeignKey(s => s.CompanyId)
             .OnDelete(DeleteBehavior.Restrict); // Or Cascade/SetNull depending on requirements
+
+        modelBuilder.Entity<AnswerEntity>()
+                .HasOne(a => a.Question)
+                .WithMany(q => q.Answers)
+                .HasForeignKey(a => a.QuestionId)
+                .OnDelete(DeleteBehavior.Cascade);
     }
 
 
