@@ -11,14 +11,12 @@ namespace RockstarsIT.Controllers;
 public class SurveyController : Controller
 {
     private readonly SurveyService _surveyService;
-    private readonly IQuestionRepository _iQuestionRepository;
 
 
     // Injecting DbContext in the constructor
-    public SurveyController(SurveyService surveyService, IQuestionRepository iQuestionRepository)
+    public SurveyController(SurveyService surveyService)
     {
         _surveyService = surveyService;
-        _iQuestionRepository = iQuestionRepository;
     }
     
     // GET

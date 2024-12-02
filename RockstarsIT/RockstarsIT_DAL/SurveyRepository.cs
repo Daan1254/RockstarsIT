@@ -82,13 +82,6 @@ public class SurveyRepository : ISurveyRepository
 
     public bool EditSurvey (int id, CreateEditSurveyDto surveyDTO)
     {
-        bool surveyNameExists = _context.Surveys.Any(s => s.Title == surveyDTO.Title && s.Id != id);
-
-        if (surveyNameExists)
-        {
-            throw new DuplicateNameException($"Survey with this name {surveyDTO.Title} already exists");
-        }
-
         SurveyEntity? survey = _context.Surveys.Find(id);
 
         if (survey == null)
@@ -98,7 +91,6 @@ public class SurveyRepository : ISurveyRepository
 
         survey.Title = surveyDTO.Title;
         survey.Description = surveyDTO.Description;
-        //survey.Questions = surveyDTO.Questions;
 
         _context.SaveChanges();
         return true;

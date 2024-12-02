@@ -39,20 +39,21 @@ public class QuestionRepository : IQuestionRepository {
         
     }
 
-    public void UpdateQuestion(QuestionDto question) 
-    { 
-        try 
+    public void UpdateQuestion(CreateEditQuestionDto question)
+    {
+        try
         {
-            QuestionEntity? existingQuestion = _context.Questions.Find(question.Id);
+            var existingQuestion = _context.Questions.Find(question.Id);
             if (existingQuestion != null)
-            { 
+            {
                 existingQuestion.Title = question.Title;
                 _context.SaveChanges();
-            } 
+            }
         }
         catch (Exception ex)
         {
             throw new Exception("An error occurred while updating the question.", ex);
-        } 
+        }
     }
+
 }

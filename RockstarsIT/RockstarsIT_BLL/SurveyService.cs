@@ -51,19 +51,33 @@ public class SurveyService
         }
     }
 
-    public bool EditSurvey (int id, CreateEditSurveyDto surveyDTO)
+    public bool EditSurvey(int id, CreateEditSurveyDto surveyDTO)
     {
         try
         {
-            return _surveyRepository.EditSurvey(id, surveyDTO);
+            bool result = _surveyRepository.EditSurvey(id, surveyDTO);
+
+            foreach (var question in surveyDTO.Questions)
+            {
+                _questionRepository.UpdateQuestion(new CreateEditQuestionDto
+                {
+                    Id = question.Id,
+                    Title = question.Title,
+                    SurveyId = id
+                });
+            }
+
+            return result;
         }
         catch (DuplicateNameException ex)
         {
-            throw new DuplicateNameException($"A squad with this name {surveyDTO.Title} already exists");
+            throw new DuplicateNameException($"A survey with this name {surveyDTO.Title} already exists");
         }
         catch (Exception e)
         {
-            throw new Exception("An error occurred while editing a squad", e);
+            throw new Exception("An error occurred while editing the survey and its questions", e);
         }
     }
+
+
 }
