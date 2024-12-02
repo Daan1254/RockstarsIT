@@ -1,0 +1,57 @@
+@model SurveyViewModel
+
+@{
+    ViewBag.Title = "Nieuwe Enquete";
+}
+
+<h1>Nieuwe Enquete Aanmaken</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+      <form asp-action="Create" method="post">
+          <div>
+              <label>Enquete Titel</label>
+              <input asp-for="Title" />
+          </div>
+          <div>
+              <label>Omschrijving</label>
+              <input asp-for="Description" />
+          </div>
+
+           <div class="form-group">
+                <label>Vragen</label>
+                <div id="questions-container">
+
+                </div>
+                <button type="button" id="add-question" class="btn btn-primary mt-2">Voeg Vraag Toe</button>
+            </div>
+
+          <button type="submit">Enquete Aanmaken</button>
+      </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.getElementById("questions-container");
+            const addQuestionButton = document.getElementById("add-question");
+
+            // Track the number of questions added
+            let questionIndex = 0;
+
+            // Add a new question input
+            addQuestionButton.addEventListener("click", function () {
+                const questionDiv = document.createElement("div");
+                questionDiv.classList.add("form-group", "mt-2");
+                
+                questionDiv.innerHTML = `
+                    <input type="text" name="Questions[${questionIndex}].Title" asp-for="Questions[${questionIndex}].Title" class="form-control" placeholder="Vraag ${questionIndex + 1}" />
+                `;
+
+                container.appendChild(questionDiv);
+                questionIndex++;
+            });
+        });
+    </script>
+}

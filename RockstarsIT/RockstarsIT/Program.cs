@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using dotenv.net;
-using Microsoft.Extensions.Options;
 using RockstarsIT_BLL;
 using RockstarsIT_BLL.Interfaces;
 using RockstarsIT_DAL;
@@ -10,8 +9,6 @@ using RockstarsIT_DAL.Data;
 DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
-
-
 
 // Add services to the container.
 var connectionString = DotEnv.Read()["DEFAULT_CONNECTION"] ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -29,6 +26,7 @@ builder.Services.AddScoped<SurveyService>();
 builder.Services.AddScoped<SquadService>();
 builder.Services.AddScoped<CompanyService>();
 builder.Services.AddScoped<ISurveyRepository, SurveyRepository>();
+builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<ISquadRepository, SquadRepository>();
 builder.Services.AddScoped<IAnswerRepository, AnswerRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
