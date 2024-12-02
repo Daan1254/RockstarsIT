@@ -9,5 +9,5 @@ public class SurveyEntity
     public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; set; }
     public List<QuestionEntity> Questions { get; set; }
-
+    public List<SquadEntity> Squads { get; set; }
 }
