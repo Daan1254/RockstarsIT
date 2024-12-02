@@ -26,48 +26,36 @@ public class SurveyService
     {
         return _surveyRepository.GetSurveyById(id);
     }
-
-    public void CreateSurveyWithQuestions(CreateEditSurveyDto survey)
+    
+    public SurveyWithQuestionsDto? GetSurveyWithQuestionsById(int id)
     {
         try
         {
-            int surveyId = _surveyRepository.CreateSurvey(survey);
-        
-            foreach (CreateEditQuestionDto question in survey.Questions)
-            {
-                try {
-                    question.SurveyId = surveyId;
-                    _questionRepository.CreateQuestion(question);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("An error occurred while creating questions.", ex);
-                }
-            }
+            return _surveyRepository.GetSurveyWithQuestionsById(id);
         }
         catch (Exception ex)
         {
-            throw new Exception("An error occurred while creating the survey with questions.", ex);
+            throw new Exception("An error occurred while getting the survey with its questions", ex);
         }
     }
 
-    public bool EditSurvey(int id, CreateEditSurveyDto surveyDTO)
+    public int CreateSurvey(CreateEditSurveyDto survey)
     {
         try
         {
-            bool result = _surveyRepository.EditSurvey(id, surveyDTO);
+            return _surveyRepository.CreateSurvey(survey);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while creating the survey", ex);
+        }
+    }
 
-            foreach (var question in surveyDTO.Questions)
-            {
-                _questionRepository.UpdateQuestion(new QuestionDto
-                {
-                    Id = question.Id,
-                    Title = question.Title,
-                    Survey = 
-                });
-            }
-
-            return result;
+    public bool EditSurvey(int id, CreateEditSurveyDto surveyDto)
+    {
+        try
+        {
+            return _surveyRepository.EditSurvey(id, surveyDto);
         }
         catch (Exception e)
         {

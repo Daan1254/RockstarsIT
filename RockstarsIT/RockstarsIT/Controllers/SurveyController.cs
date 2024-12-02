@@ -9,12 +9,14 @@ namespace RockstarsIT.Controllers;
 public class SurveyController : Controller
 {
     private readonly SurveyService _surveyService;
+    private readonly QuestionService _questionService;
 
 
     // Injecting DbContext in the constructor
-    public SurveyController(SurveyService surveyService)
+    public SurveyController(SurveyService surveyService, QuestionService questionService)
     {
         _surveyService = surveyService;
+        _questionService = questionService;
     }
     
     // GET
@@ -98,13 +100,21 @@ public class SurveyController : Controller
         {
             Title = survey.Title,
             Description = survey.Description,
-            Questions = survey.Questions.Select(q => new CreateEditQuestionDto
-            {
-                Title = q.Title
-            }).ToList()
         };
 
-        _surveyService.CreateSurveyWithQuestions(surveyDto);
+        int surveyId = _surveyService.CreateSurvey(surveyDto);
+
+        foreach (QuestionViewModel question in survey.Questions)
+        {
+            CreateEditQuestionDto createEditQuestionDto = new CreateEditQuestionDto()
+            {
+                Title = question.Title,
+                SurveyId = surveyId
+            };
+            
+            _questionService.CreateQuestion(createEditQuestionDto);
+        }
+
 
         return RedirectToAction("Index");
     }
@@ -114,7 +124,7 @@ public class SurveyController : Controller
 
         try
         {
-            SurveyDto? surveyDto = _surveyService.GetSurveyById(id);
+            SurveyWithQuestionsDto? surveyDto = _surveyService.GetSurveyWithQuestionsById(id);
 
 
             if (surveyDto == null)
@@ -127,9 +137,11 @@ public class SurveyController : Controller
                 Id = surveyDto.Id,
                 Title = surveyDto.Title,
                 Description = surveyDto.Description,
-                Questions = _iQuestionRepository.GetQuestionsBySurveyId(surveyDto.Id)
-                                               .Select(q => new QuestionViewModel { Id = q.Id, Title = q.Title })
-                                               .ToList()
+                Questions = surveyDto.Questions.Select(q => new QuestionViewModel
+                {
+                    Id = q.Id,
+                    Title = q.Title
+                }).ToList()
             };
             return View(surveyViewModel);
 
@@ -160,13 +172,13 @@ public class SurveyController : Controller
 
                 _surveyService.EditSurvey(surveyViewModel.Id, createEditSurveyDto);
 
-                foreach (var question in surveyViewModel.Questions)
+                foreach (QuestionViewModel question in surveyViewModel.Questions)
                 { 
-                    _iQuestionRepository.UpdateQuestion(new QuestionDto 
+                    _questionService.EditQuestion(question.Id, new CreateEditQuestionDto() 
                     { 
-                        Id = question.Id, 
                         Title = question.Title, 
-                        SurveyId = surveyViewModel.Id }); 
+                        SurveyId = surveyViewModel.Id
+                    }); 
                 }
                 return RedirectToAction("Index");
             }
