@@ -25,6 +25,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<SurveyService>();
 builder.Services.AddScoped<SquadService>();
 builder.Services.AddScoped<CompanyService>();
+builder.Services.AddScoped<QuestionService>();
 builder.Services.AddScoped<ISurveyRepository, SurveyRepository>();
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<ISquadRepository, SquadRepository>();

@@ -6,6 +6,11 @@ public interface ISurveyRepository
 {
     
     public List<SurveyDto> GetAllSurveys();
+    public SurveyDto? GetSurveyById (int id);
+    
+    public SurveyWithQuestionsDto? GetSurveyWithQuestionsById (int id);
 
-    public int CreateSurvey(SurveyDto survey);
+    public int CreateSurvey(CreateEditSurveyDto survey);
+
+    public bool EditSurvey(int id, CreateEditSurveyDto surveyDTO);
 }

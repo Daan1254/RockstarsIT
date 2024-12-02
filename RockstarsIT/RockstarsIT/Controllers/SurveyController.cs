@@ -1,19 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
 using RockstarsIT_BLL;
 using RockstarsIT_BLL.Dto;
-using RockstarsIT_DAL.Data;
 using RockstarsIT.Models;
+using System.Data;
 
 namespace RockstarsIT.Controllers;
 
 public class SurveyController : Controller
 {
     private readonly SurveyService _surveyService;
+    private readonly QuestionService _questionService;
+
 
     // Injecting DbContext in the constructor
-    public SurveyController(SurveyService surveyService)
+    public SurveyController(SurveyService surveyService, QuestionService questionService)
     {
         _surveyService = surveyService;
+        _questionService = questionService;
     }
     
     // GET
@@ -24,6 +27,7 @@ public class SurveyController : Controller
         // convert SurveyDto to SurveyViewModel
         List<SurveyViewModel> surveyViewModels = surveys.Select(s => new SurveyViewModel
         {
+            Id = s.Id,
             Title = s.Title,
             Description = s.Description,
         }).ToList();
@@ -92,18 +96,122 @@ public class SurveyController : Controller
             return View(survey);
         }
 
-        SurveyDto surveyDto = new()
+        CreateEditSurveyDto surveyDto = new()
         {
             Title = survey.Title,
             Description = survey.Description,
-            Questions = survey.Questions.Select(q => new CreateEditQuestionDto
-            {
-                Title = q.Title
-            }).ToList()
         };
 
-        _surveyService.CreateSurveyWithQuestions(surveyDto);
+        int surveyId = _surveyService.CreateSurvey(surveyDto);
+
+        foreach (QuestionViewModel question in survey.Questions)
+        {
+            CreateEditQuestionDto createEditQuestionDto = new CreateEditQuestionDto()
+            {
+                Title = question.Title,
+                SurveyId = surveyId
+            };
+            
+            _questionService.CreateQuestion(createEditQuestionDto);
+        }
+
 
         return RedirectToAction("Index");
     }
+
+    public IActionResult Edit(int id)
+    {
+
+        try
+        {
+            SurveyWithQuestionsDto? surveyDto = _surveyService.GetSurveyWithQuestionsById(id);
+
+
+            if (surveyDto == null)
+            {
+                return NotFound();
+            }
+
+            SurveyViewModel surveyViewModel = new SurveyViewModel()
+            {
+                Id = surveyDto.Id,
+                Title = surveyDto.Title,
+                Description = surveyDto.Description,
+                Questions = surveyDto.Questions.Select(q => new QuestionViewModel
+                {
+                    Id = q.Id,
+                    Title = q.Title
+                }).ToList()
+            };
+            return View(surveyViewModel);
+
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = "Er is iets fout gegaan bij het ophalen van de squad";
+            return View();
+        }
+    }
+
+    // POST: Squads/Edit/5
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(SurveyViewModel surveyViewModel, List<QuestionViewModel> newQuestions)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                CreateEditSurveyDto createEditSurveyDto = new CreateEditSurveyDto()
+                {
+                    Title = surveyViewModel.Title,
+                    Description = surveyViewModel.Description,
+                    
+                };
+
+                _surveyService.EditSurvey(surveyViewModel.Id, createEditSurveyDto);
+                foreach (var question in surveyViewModel.Questions)
+                {
+                    CreateEditQuestionDto createEditQuestionDto = new CreateEditQuestionDto()
+                    {
+                        Title = question.Title,
+                        SurveyId = surveyViewModel.Id,
+                    };
+
+                    if (question.Id != 0) 
+                    {
+                        _questionService.EditQuestion(question.Id, createEditQuestionDto);
+                    }
+                    else 
+                    {
+                        _questionService.CreateQuestion(createEditQuestionDto);
+                    }
+                }
+
+                if (newQuestions != null)
+                {
+                    foreach (var newQuestion in newQuestions)
+                    {
+                        _questionService.CreateQuestion(new CreateEditQuestionDto()
+                        {
+                            Title = newQuestion.Title,
+                            SurveyId = surveyViewModel.Id
+                        });
+                    }
+                }
+
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Details", new { id = surveyViewModel.Id });
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = "Er is iets fout gegaan bij het opslaan van de survey en vragen.";
+            return View(surveyViewModel);
+        }
+    }
+
 }
