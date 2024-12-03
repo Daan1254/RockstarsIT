@@ -6,12 +6,14 @@
 
 <link rel="stylesheet" href="~/css/Squads.css/Index.css" />
 
-<h3>Weet je zeker dat je @Model.Name wilt verwijderen?</h3>
-<div>
-    <hr />
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Bevestigen" class="btn btn-danger" /> |
-        <a asp-action="Index">Terug</a>
-    </form>
+<div class="delete-container">
+    <div class="inner-container">
+        <h3>Weet je zeker dat je @Model.Name wilt verwijderen?</h3>
+        <hr/>
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id"/>
+            <input type="submit" value="Bevestigen" class="btn btn-danger"/> |
+            <a asp-action="Index">Terug</a>
+        </form>
+    </div>
 </div>

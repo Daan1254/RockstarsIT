@@ -112,7 +112,10 @@ public class SurveyRepository : ISurveyRepository
         {
             throw new Exception("Survey not found");
         }
-
+        
+        survey.Title = surveyDTO.Title;
+        survey.Description = surveyDTO.Description;
+        
         _context.SaveChanges();
         return true;
     }

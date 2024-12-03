@@ -35,16 +35,28 @@ public class SurveyController : Controller
         return View(surveyViewModels);
     }
     
-    public IActionResult Details(int? id)
+    public IActionResult Details(int id)
     {
-        // SurveyViewModel? survey = _context.Surveys.Find(id);
-        //
-        // if (survey == null)
-        // {
-        //     return NotFound();
-        // }
-        //
-        return View(new SurveyWithQuestionsViewModel());
+        SurveyWithQuestionsDto? survey = _surveyService.GetSurveyWithQuestionsById(id);
+        
+        if (survey == null)
+        {
+            return NotFound();
+        }
+        
+        SurveyWithQuestionsViewModel surveyViewModel = new SurveyWithQuestionsViewModel()
+        {
+            Id = survey.Id,
+            Title = survey.Title,
+            Description = survey.Description,
+            Questions = survey.Questions.Select(q => new QuestionViewModel
+            {
+                Id = q.Id,
+                Title = q.Title
+            }).ToList()
+        };
+        
+        return View(surveyViewModel);
     }
 
         public IActionResult SendEmail(int id) {

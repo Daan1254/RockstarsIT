@@ -6,12 +6,13 @@
 
 <link rel="stylesheet" href="~/css/Squads.css/Index.css" />
 
-<h4>Bewerk @Model.Name</h4>
 
-<hr />
 
-<div class="row">
-    <div class="col-md-4">
+<div class="edit-container">
+    <div class="inner-container">
+        <h4>Bewerk @Model.Name</h4>
+        
+        <hr />
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @if (TempData["ErrorMessage"] != null)
@@ -19,36 +20,37 @@
                 <div class="text-danger">@TempData["ErrorMessage"]</div>
             }
             <div class="form-group">
-                <label asp-for="Name"  class="control-label">Naam</label>
-                <input asp-for="Name" class="form-control" />
+                <label asp-for="Name" class="control-label">Naam</label>
+                <input asp-for="Name" class="form-control"/>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label">Beschrijving</label>
-                <input asp-for="Description" class="form-control" />
+                <input asp-for="Description" class="form-control"/>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Opslaan" class="btn btn-primary" />
+                <input type="submit" value="Opslaan" class="btn btn-primary"/>
             </div>
         </form>
         <br/>
         <h5>Bedrijven</h5>
         <br/>
         <div style="display: flex; flex-direction: row; gap: 15px;">
-             @foreach(var item in Model.Companies)
-             {
-                 <form asp-controller="Squad" asp-action="LinkCompany" asp-route-companyId="@item.Id" asp-route-squadId="@Model.Id" method="post">
-                     <p>@item.Name</p>
-                     <button type="submit" class="btn btn-info">Linken</button>
-                 </form>
-             }
+            @foreach (var item in Model.Companies)
+            {
+                <form asp-controller="Squad" asp-action="LinkCompany" asp-route-companyId="@item.Id" asp-route-squadId="@Model.Id" method="post">
+                    <p>@item.Name</p>
+                    <button type="submit" class="btn btn-info">Linken</button>
+                </form>
+            }
         </div>
+        <a asp-action="Index">Terug</a>
     </div>
 </div>
 
 <br/>
-<a asp-action="Index">Terug</a>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
