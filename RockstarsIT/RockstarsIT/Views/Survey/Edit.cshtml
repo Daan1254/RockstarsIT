@@ -8,46 +8,46 @@
 
 <div class="edit-container">
     <div class="inner-container">
-         <h4>Bewerk @Model.Title</h4>
+        <h4>Bewerk @Model.Title</h4>
         
-            <hr/>
-            <form asp-action="Edit">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                @if (TempData["ErrorMessage"] != null)
+        <hr/>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="text-danger">@TempData["ErrorMessage"]</div>
+            }
+            <div class="form-group">
+                <label asp-for="Title" class="control-label">Naam</label>
+                <input asp-for="Title" class="form-control"/>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Beschrijving</label>
+                <input asp-for="Description" class="form-control"/>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <h5>Vragen</h5>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                @for (int i = 0; i < Model.Questions.Count; i++)
                 {
-                    <div class="text-danger">@TempData["ErrorMessage"]</div>
-                }
-                <div class="form-group">
-                    <label asp-for="Title" class="control-label">Naam</label>
-                    <input asp-for="Title" class="form-control"/>
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label">Beschrijving</label>
-                    <input asp-for="Description" class="form-control"/>
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-                <h5>Vragen</h5>
-                <div style="display: flex; flex-direction: column; gap: 15px;">
-                    @for (int i = 0; i < Model.Questions.Count; i++)
-                    {
-                        <div class="form-group">
-                            <input asp-for="Questions[i].Title" class="form-control"/>
-                            <input type="hidden" asp-for="Questions[i].Id"/>
-                        </div>
-                    }
-                </div>
-                <h5>Nieuwe Vraag</h5>
-                <div class="form-group">
-                    <div id="questions-container">
+                    <div class="form-group">
+                        <input asp-for="Questions[i].Title" class="form-control"/>
+                        <input type="hidden" asp-for="Questions[i].Id"/>
                     </div>
+                }
+            </div>
+            <h5>Nieuwe Vraag</h5>
+            <div class="form-group">
+                <div id="questions-container">
                 </div>
-                <button type="button" id="add-question" class="btn btn-secondary mt-2">Voeg Vraag Toe</button>
-                <div class="form-group">
-                    <input type="submit" value="Opslaan" class="btn btn-primary mt-2"/>
-                </div>
-            </form>
-            <a class="btn btn-info text-white" asp-action="Index">Terug</a>
+            </div>
+            <button type="button" id="add-question" class="btn btn-secondary mt-2">Voeg Vraag Toe</button>
+            <div class="form-group">
+                <input type="submit" value="Opslaan" class="btn btn-warning text-white mt-2" style="width: 100%; margin-top: 50px !important;"/>
+            </div>
+        </form>
+        <a class="btn bg-black text-white" asp-action="Index">Terug</a>
     </div>
 </div>
 

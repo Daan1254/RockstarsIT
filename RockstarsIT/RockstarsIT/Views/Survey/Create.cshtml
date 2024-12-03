@@ -4,28 +4,37 @@
     ViewBag.Title = "Nieuwe Enquete";
 }
 
-<h1>Nieuwe Enquete Aanmaken</h1>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-      <form asp-action="Create" method="post">
-          <div>
-              <label>Enquete Titel</label>
-              <input asp-for="Title" />
-          </div>
-          <div>
-              <label>Omschrijving</label>
-              <input asp-for="Description" />
-          </div>
 
-           <div class="form-group">
-                <label>Vragen</label>
+<div class="create-container">
+    <div class="inner-container">
+        <h1>Nieuwe Enquete Aanmaken</h1>
+        
+        <hr />
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="text-danger">@TempData["ErrorMessage"]</div>
+            }
+            <div>
+                <label asp-for="Title" class="control-label">Titel</label>
+                <input asp-for="Title" class="form-control"/>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div>
+                <label asp-for="Description" class="control-label">Omschrijving</label>
+                <input asp-for="Description" class="form-control"/>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Vragen</label>
                 <div id="questions-container"> </div>
                 <button type="button" id="add-question" class="btn btn-primary mt-2">Voeg Vraag Toe</button>
             </div>
 
-          <button type="submit">Enquete Aanmaken</button>
-      </form>
+            <button class="btn btn-primary mt-2" style="width: 100%; margin-top: 50px !important;" type="submit">Enquete Aanmaken</button>
+        </form>
     </div>
 </div>
 

@@ -23,6 +23,14 @@
                 </div>
                 <div class="card-body">
                     <p>@item.Description</p>
+                    @if (item.Company != null)
+                    {
+                        <p>Gekopppeld aan @item.Company.Name</p>
+                    }
+                    else
+                    {
+                        <p>Niet gekoppeld aan een bedrijf</p>  
+                    }
                     <div class="actions">
                          @* <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info btn-sm">Edit</a> *@
                         <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Details</a>

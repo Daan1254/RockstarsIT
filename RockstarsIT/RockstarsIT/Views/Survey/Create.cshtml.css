@@ -1,5 +1,5 @@
-.edit-container {
-    display: flex; 
+.create-container {
+    display: flex;
     overflow: hidden;
     justify-content: center;
     width: 100%;
