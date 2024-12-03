@@ -83,7 +83,7 @@ public class SurveyRepository : ISurveyRepository
         }
     }
 
-    public bool EditSurvey (int id, CreateEditSurveyDto surveyDTO)
+    public bool EditSurvey (int id, CreateEditSurveyDto surveyDto)
     {
         SurveyEntity? survey = _context.Surveys.Find(id);
 
@@ -92,10 +92,10 @@ public class SurveyRepository : ISurveyRepository
             throw new Exception("Survey not found");
         }
 
-        survey.Title = surveyDTO.Title;
-        survey.Description = surveyDTO.Description;
+        survey.Title = surveyDto.Title;
+        survey.Description = surveyDto.Description;
 
-        foreach (var squadId in surveyDTO.SquadIds)
+        foreach (var squadId in surveyDto.SquadIds)
         {
             var squad = _context.Squads.Find(squadId);
             if (squad != null)

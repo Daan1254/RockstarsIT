@@ -37,16 +37,28 @@ public class SurveyController : Controller
         return View(surveyViewModels);
     }
     
-    public IActionResult Details(int? id)
+    public IActionResult Details(int id)
     {
-        // SurveyViewModel? survey = _context.Surveys.Find(id);
-        //
-        // if (survey == null)
-        // {
-        //     return NotFound();
-        // }
-        //
-        return View(new SurveyViewModel());
+        SurveyDto? survey = _surveyService.GetSurveyById(id);
+        
+        if (survey == null)
+        {
+            return NotFound();
+        }
+        
+        SurveyWithQuestionsViewModel surveyViewModel = new SurveyWithQuestionsViewModel()
+        {
+            Id = survey.Id,
+            Title = survey.Title,
+            Description = survey.Description,
+            Questions = survey.Questions.Select(q => new QuestionViewModel
+            {
+                Id = q.Id,
+                Title = q.Title
+            }).ToList()
+        };
+        
+        return View(surveyViewModel);
     }
 
         public IActionResult SendEmail(int id) {
@@ -81,17 +93,18 @@ public class SurveyController : Controller
         //Template maken voor de emails. Dat er automatisch iets is ingevuld.
         //Het mag geen page zijn.
         //Denkt dat file/ template niet in presentation layer staat. 
-        return View("Details", new SurveyViewModel()); 
+        return View("Details", new SurveyWithQuestionsViewModel()); 
     } 
 
     public IActionResult Create()
     {
         return View();
     }
+    
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(SurveyViewModel survey)
+    public IActionResult Create(CreateEditSurveyViewModel survey)
     {
         if (!ModelState.IsValid)
         {
@@ -138,7 +151,7 @@ public class SurveyController : Controller
 
             List<SquadDto> squadsNotInSurvey = allSquads.Where(s => !surveyDto.Squads.Any(sq => sq.Id == s.Id)).ToList();
 
-            SurveyViewModel surveyViewModel = new SurveyViewModel()
+            CreateEditSurveyViewModel surveyViewModel = new CreateEditSurveyViewModel()
             {
                 Id = surveyDto.Id,
                 Title = surveyDto.Title,
@@ -171,7 +184,7 @@ public class SurveyController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Edit(SurveyViewModel surveyViewModel, List<QuestionViewModel> newQuestions, List<int> selectedSquadIds)
+    public IActionResult Edit(CreateEditSurveyViewModel surveyViewModel, List<QuestionViewModel> newQuestions, List<int> selectedSquadIds)
     {
         try
         {
@@ -203,18 +216,6 @@ public class SurveyController : Controller
                     }
                 }
 
-                if (newQuestions != null)
-                {
-                    foreach (var newQuestion in newQuestions)
-                    {
-                        _questionService.CreateQuestion(new CreateEditQuestionDto()
-                        {
-                            Title = newQuestion.Title,
-                            SurveyId = surveyViewModel.Id
-                        });
-                    }
-                }
-
                 return RedirectToAction("Index");
             }
 
@@ -226,5 +227,4 @@ public class SurveyController : Controller
             return View(surveyViewModel);
         }
     }
-
 }
