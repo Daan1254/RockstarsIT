@@ -159,7 +159,7 @@ public class SurveyController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Edit(CreateEditSurveyViewModel surveyViewModel, List<QuestionViewModel> newQuestions)
+    public IActionResult Edit(CreateEditSurveyViewModel surveyViewModel)
     {
         try
         {
@@ -188,18 +188,6 @@ public class SurveyController : Controller
                     else 
                     {
                         _questionService.CreateQuestion(createEditQuestionDto);
-                    }
-                }
-
-                if (newQuestions != null)
-                {
-                    foreach (var newQuestion in newQuestions)
-                    {
-                        _questionService.CreateQuestion(new CreateEditQuestionDto()
-                        {
-                            Title = newQuestion.Title,
-                            SurveyId = surveyViewModel.Id
-                        });
                     }
                 }
 
