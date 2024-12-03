@@ -201,8 +201,8 @@ public class SurveyController : Controller
             return RedirectToAction("Index");
         } catch (Exception e)
         {
-            return RedirectToAction("Index");
-            //return NotFound();
+            //return RedirectToAction("Index");
+            return NotFound();
         }
     }
 }
