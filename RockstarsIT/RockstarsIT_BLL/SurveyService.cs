@@ -7,12 +7,10 @@ public class SurveyService
 {
     
     private readonly ISurveyRepository _surveyRepository;
-    private readonly IQuestionRepository _questionRepository;
     
-    public SurveyService(ISurveyRepository surveyRepository, IQuestionRepository questionRepository)
+    public SurveyService(ISurveyRepository surveyRepository)
     {
         _surveyRepository = surveyRepository;
-        _questionRepository = questionRepository;
     }
  
     

@@ -10,13 +10,15 @@ public class SurveyController : Controller
 {
     private readonly SurveyService _surveyService;
     private readonly QuestionService _questionService;
+    private readonly SquadService _squadService;
 
 
     // Injecting DbContext in the constructor
-    public SurveyController(SurveyService surveyService, QuestionService questionService)
+    public SurveyController(SurveyService surveyService, QuestionService questionService, SquadService squadService)
     {
         _surveyService = surveyService;
         _questionService = questionService;
+        _squadService = squadService;
     }
     
     // GET
@@ -131,6 +133,8 @@ public class SurveyController : Controller
             {
                 return NotFound();
             }
+            
+            List<SquadDto> allSquads = _squadService.GetSquads();
 
             SurveyViewModel surveyViewModel = new SurveyViewModel()
             {
@@ -141,7 +145,14 @@ public class SurveyController : Controller
                 {
                     Id = q.Id,
                     Title = q.Title
-                }).ToList()
+                }).ToList(),
+                AllSquads = allSquads.Select(s => new SquadViewModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Description = s.Description
+                }).ToList(),
+                SelectedSquadIds = allSquads.Select(s => s.Id).ToList()
             };
             return View(surveyViewModel);
 
@@ -158,7 +169,7 @@ public class SurveyController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Edit(SurveyViewModel surveyViewModel, List<QuestionViewModel> newQuestions)
+    public IActionResult Edit(SurveyViewModel surveyViewModel, List<QuestionViewModel> newQuestions, List<int> selectedSquadIds)
     {
         try
         {
@@ -168,7 +179,7 @@ public class SurveyController : Controller
                 {
                     Title = surveyViewModel.Title,
                     Description = surveyViewModel.Description,
-                    
+                    SquadIds = selectedSquadIds
                 };
 
                 _surveyService.EditSurvey(surveyViewModel.Id, createEditSurveyDto);

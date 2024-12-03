@@ -113,6 +113,18 @@ public class SurveyRepository : ISurveyRepository
             throw new Exception("Survey not found");
         }
 
+        survey.Title = surveyDTO.Title;
+        survey.Description = surveyDTO.Description;
+
+        foreach (var squadId in surveyDTO.SquadIds)
+        {
+            var squad = _context.Squads.Find(squadId);
+            if (squad != null)
+            {
+                survey.Squads.Add(squad);
+            }
+        }
+
         _context.SaveChanges();
         return true;
     }

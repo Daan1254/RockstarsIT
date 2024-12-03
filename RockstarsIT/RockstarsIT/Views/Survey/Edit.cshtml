@@ -8,8 +8,8 @@
 
 <hr />
 
-<div class="row">
-    <div class="col-md-4">
+<div>
+    <div>
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @if (TempData["ErrorMessage"] != null)
@@ -44,6 +44,11 @@
             <button type="button" id="add-question" class="btn btn-secondary mt-2">Voeg Vraag Toe</button>
             <div class="form-group">
                 <input type="submit" value="Opslaan" class="btn btn-primary mt-2" />
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedSquadIds" class="control-label">Squad</label>
+                <select asp-for="SelectedSquadIds" class="form-control" asp-items="@(new SelectList(Model.AllSquads, "Id", "Name"))"></select>
+                <span asp-validation-for="SelectedSquadIds" class="text-danger"></span>
             </div>
         </form>
     </div>
