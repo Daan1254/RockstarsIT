@@ -126,7 +126,7 @@ public class SurveyController : Controller
 
         try
         {
-            SurveyWithQuestionsDto? surveyDto = _surveyService.GetSurveyWithQuestionsById(id);
+            SurveyDto? surveyDto = _surveyService.GetSurveyById(id);
 
 
             if (surveyDto == null)
@@ -135,6 +135,8 @@ public class SurveyController : Controller
             }
             
             List<SquadDto> allSquads = _squadService.GetSquads();
+
+            List<SquadDto> squadsNotInSurvey = allSquads.Where(s => !surveyDto.Squads.Any(sq => sq.Id == s.Id)).ToList();
 
             SurveyViewModel surveyViewModel = new SurveyViewModel()
             {
@@ -146,13 +148,13 @@ public class SurveyController : Controller
                     Id = q.Id,
                     Title = q.Title
                 }).ToList(),
-                AllSquads = allSquads.Select(s => new SquadViewModel
+                AllSquads = squadsNotInSurvey.Select(s => new SquadViewModel
                 {
                     Id = s.Id,
                     Name = s.Name,
                     Description = s.Description
                 }).ToList(),
-                SelectedSquadIds = allSquads.Select(s => s.Id).ToList()
+                SelectedSquadIds = squadsNotInSurvey.Select(s => s.Id).ToList()
             };
             return View(surveyViewModel);
 

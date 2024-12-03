@@ -32,9 +32,9 @@ public class SurveyRepository : ISurveyRepository
         {
             // check if deletedAt is null
             SurveyEntity? survey = _context.Surveys
+                .Include(s => s.Questions)
+                .Include(s => s.Squads)
                 .FirstOrDefault(s => s.Id == id);
-                
-
 
             if (survey == null)
             {
@@ -46,36 +46,15 @@ public class SurveyRepository : ISurveyRepository
                 Id = survey.Id,
                 Title = survey.Title,
                 Description = survey.Description,
-            };
-        }
-        catch (Exception e)
-        {
-            throw new Exception("An error occurred while getting squad by id", e);
-        }
-    }
-    
-    public SurveyWithQuestionsDto? GetSurveyWithQuestionsById(int id)
-    {
-        try
-        {
-            SurveyEntity? survey = _context.Surveys
-                .Include(s => s.Questions)
-                .FirstOrDefault(s => s.Id == id);
-
-            if (survey == null)
-            {
-                throw new Exception("Survey not found");
-            }
-
-            return new SurveyWithQuestionsDto
-            {
-                Id = survey.Id,
-                Title = survey.Title,
-                Description = survey.Description,
                 Questions = survey.Questions.Select(q => new QuestionDto
                 {
                     Id = q.Id,
-                    Title = q.Title
+                    Title = q.Title,
+                }).ToList(),
+                Squads = survey.Squads.Select(s => new SquadDto
+                {
+                    Id = s.Id,
+                    Name = s.Name,
                 }).ToList()
             };
         }

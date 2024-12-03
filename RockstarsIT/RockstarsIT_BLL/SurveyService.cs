@@ -23,18 +23,6 @@ public class SurveyService
     {
         return _surveyRepository.GetSurveyById(id);
     }
-    
-    public SurveyWithQuestionsDto? GetSurveyWithQuestionsById(int id)
-    {
-        try
-        {
-            return _surveyRepository.GetSurveyWithQuestionsById(id);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("An error occurred while getting the survey with its questions", ex);
-        }
-    }
 
     public int CreateSurvey(CreateEditSurveyDto survey)
     {
