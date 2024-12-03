@@ -1,31 +1,42 @@
-@model SurveyViewModel
+@model CreateEditSurveyViewModel
 
 @{
     ViewBag.Title = "Nieuwe Enquete";
 }
 
-<h1>Nieuwe Enquete Aanmaken</h1>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-      <form asp-action="Create" method="post">
-          <div>
-              <label>Enquete Titel</label>
-              <input asp-for="Title" />
-          </div>
-          <div>
-              <label>Omschrijving</label>
-              <input asp-for="Description" />
-          </div>
+<link rel="stylesheet" href="~/css/Squads.css/Index.css" />
 
-           <div class="form-group">
-                <label>Vragen</label>
+
+<div class="create-container">
+    <div class="inner-container">
+        <h1>Nieuwe Enquete Aanmaken</h1>
+        
+        <hr />
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="text-danger">@TempData["ErrorMessage"]</div>
+            }
+            <div>
+                <label asp-for="Title" class="control-label">Titel</label>
+                <input asp-for="Title" class="form-control"/>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div>
+                <label asp-for="Description" class="control-label">Omschrijving</label>
+                <input asp-for="Description" class="form-control"/>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Vragen</label>
                 <div id="questions-container"> </div>
                 <button type="button" id="add-question" class="btn btn-primary mt-2">Voeg Vraag Toe</button>
             </div>
 
-          <button type="submit">Enquete Aanmaken</button>
-      </form>
+            <button class="btn btn-primary mt-2" style="width: 100%; margin-top: 50px !important;" type="submit">Enquete Aanmaken</button>
+        </form>
     </div>
 </div>
 
@@ -35,20 +46,44 @@
             const container = document.getElementById("questions-container");
             const addQuestionButton = document.getElementById("add-question");
 
-            // Track the number of questions added
+            // Unique identifier for questions
             let questionIndex = 0;
 
             // Add a new question input
             addQuestionButton.addEventListener("click", function () {
+                const uniqueId = `question-${questionIndex}`; // Unique ID for this question
                 const questionDiv = document.createElement("div");
                 questionDiv.classList.add("form-group", "mt-2");
-                
+                questionDiv.setAttribute("data-id", uniqueId); // Assign unique ID
+
                 questionDiv.innerHTML = `
-                    <input type="text" name="Questions[${questionIndex}].Title" asp-for="Questions[${questionIndex}].Title" class="form-control" placeholder="Vraag ${questionIndex + 1}" />
+                <div class="flex flex-row gap-2">
+                    <input type="text" name="Questions[${questionIndex}].Title" class="form-control question-title" placeholder="Vraag ${questionIndex + 1}" />
+                    <button type="button" class="btn btn-danger mt-2 remove-question">Verwijder Vraag</button>
+                </div>
                 `;
 
                 container.appendChild(questionDiv);
                 questionIndex++;
+            });
+
+            // Handle question removal
+            container.addEventListener("click", function (event) {
+                if (event.target.classList.contains("remove-question")) {
+                    const questionDiv = event.target.closest(".form-group");
+                    questionDiv.remove();
+
+                    // After removal, reindex all questions
+                    const remainingQuestions = container.querySelectorAll(".form-group");
+                    remainingQuestions.forEach((question, newIndex) => {
+                        const input = question.querySelector(".question-title");
+                        input.name = `Questions[${newIndex}].Title`;
+                        input.placeholder = `Vraag ${newIndex + 1}`;
+                    });
+
+                    // Update questionIndex to reflect the new total count
+                    questionIndex = remainingQuestions.length;
+                }
             });
         });
     </script>

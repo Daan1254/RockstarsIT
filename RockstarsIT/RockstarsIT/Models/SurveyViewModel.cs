@@ -9,5 +9,4 @@ public class SurveyViewModel
     public string Title { get; set; }
     [Required]
     public string Description { get; set; }
-    public List<QuestionViewModel> Questions { get; set; } = new();
 }
