@@ -30,7 +30,7 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Opslaan" class="btn btn-primary"/>
+                <input type="submit" value="Opslaan" class="button button-primary button-full"/>
             </div>
         </form>
         <br/>
@@ -41,11 +41,11 @@
             {
                 <form asp-controller="Squad" asp-action="LinkCompany" asp-route-companyId="@item.Id" asp-route-squadId="@Model.Id" method="post">
                     <p>@item.Name</p>
-                    <button type="submit" class="btn btn-info">Linken</button>
+                    <button type="submit" class="button button-secondary">Linken</button>
                 </form>
             }
         </div>
-        <a asp-action="Index">Terug</a>
+        <a asp-action="Index" class="button button-secondary button-full">Terug</a>
     </div>
 </div>
 
