@@ -29,7 +29,7 @@
             </div>
             <h5>Vragen</h5>
             <div class="form-group">
-                <div class="questions-container">
+                <div id="questions-container" class="questions-container">
                     @for (int i = 0; i < Model.Questions.Count; i++)
                     {
                         <div class="form-group">
@@ -38,13 +38,13 @@
                         </div>
                     }
                 </div>
+                <button type="button" id="add-question" class="button button-secondary button-full mt-2">Voeg Vraag Toe</button>
             </div>
-            <button type="button" id="add-question" class="btn btn-secondary mt-2">Voeg Vraag Toe</button>
             <div class="form-group">
-                <input type="submit" value="Opslaan" class="btn  btn-warning text-white mt-2" style="width: 100%; margin-top: 50px !important;"/>
+                <input type="submit" value="Opslaan" class="button button-primary button-full" style="margin-top: 50px"/>
             </div>
         </form>
-        <a class="btn bg-black text-white" asp-action="Index">Terug</a>
+        <a class="button button-secondary button-full" asp-action="Index">Terug</a>
     </div>
 </div>
 
@@ -60,6 +60,7 @@
 
             // Add a new question input
             addQuestionButton.addEventListener("click", function () {
+                console.log("Adding question...");
                 const uniqueId = `question-${questionIndex}`; // Unique ID for this question
                 const questionDiv = document.createElement("div");
                 questionDiv.classList.add("form-group", "mt-2");
@@ -68,7 +69,7 @@
                 questionDiv.innerHTML = `
                 <div class="flex flex-row gap-2">
                     <input type="text" name="Questions[${questionIndex}].Title" class="form-control question-title" placeholder="Vraag ${questionIndex + 1}" />
-                    <button type="button" class="btn btn-danger mt-2 remove-question">Verwijder Vraag</button>
+                    <button type="button" class="button button-secondary button-full remove-question" style="margin-top 10px;">Verwijder Vraag</button>
                 </div>
                 `;
 
