@@ -11,6 +11,7 @@ body {
     margin-top: 80px; /* Zorg voor ruimte voor de Toevoegen knop */
     max-height: 75vh;
     overflow-y: scroll;
+    width: 100%;
 }
 
 .header-container {
@@ -36,10 +37,10 @@ body {
 }
 
     /* Effect bij hover - maakt de card iets groter */
-    .card:hover {
-        transform: translateY(-10px); /* De card wordt lichtjes omhoog geschoven bij hover */
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Schaduw wordt groter bij hover */
-    }
+    /*.card:hover {*/
+    /*    transform: translateY(-10px); !* De card wordt lichtjes omhoog geschoven bij hover *!*/
+    /*    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); !* Schaduw wordt groter bij hover *!*/
+    /*}*/
 
 /* Stijlen voor de card-header */
 .card-header {
