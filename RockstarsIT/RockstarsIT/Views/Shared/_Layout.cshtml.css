@@ -1,48 +1,132 @@
-﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+﻿.main-container {
+    position: fixed;
+    display: flex; /* Gebruik flexbox voor een zij-aan-zij lay-out */
+    flex-direction: row;
+    overflow: hidden;
+    width: 100%;
+}
+.sidebar-header {
+    display: flex; /* Gebruik flexbox om logo en tekst naast elkaar te zetten */
+    align-items: center; /* Centreer logo en tekst verticaal */
+    padding: 10px 20px; /* Voeg padding toe rond de header */
+    gap: 0px; /* Ruimte tussen het logo en de tekst */
 }
 
-a {
-  color: #0077cc;
+/* Stijl voor het logo */
+.icon-img {
+    width: 95px; /* Breedte van het logo */
+    height: auto; /* Zorg ervoor dat de verhouding behouden blijft */
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+main {
+    width: 100%;
+    height: 100vh;
+    padding: 0px 20px;
+    overflow-y: scroll;
 }
 
+/* Stijl voor de DASHBOARD titel */
+.dashboard-title {
+    font-size: 24px; /* Pas de lettergrootte aan voor de juiste grootte */
+    font-weight: bold; /* Maak de tekst vetgedrukt */
+    color: #FFFFFF; /* Witte kleur voor de tekst */
+    margin: 0; /* Verwijder standaard marges van de h1 */
+    text-transform: uppercase; /* Alle letters in hoofdletters */
+    
+}
+/* Sidebar CSS */
+.sidebar {
+    height: 100vh; /* Volledige hoogte van de viewport */
+    width: 20%; /* Breedte van de sidebar */
+    background-color: #000000 /*#f6de82*/; /* Sidebar achtergrondkleur */
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    overflow-y: auto; /* Scrollen als content te lang is */
+    /*left: 0;*/
+    /*top: 0;*/
+    padding: 10px 0px;
+    color: #fff;
+    display: flex;
+    flex-direction: column; /* Align items vertically */
+    justify-content: flex-start;
+    align-items: center;
+}
+
+    /* Stijlen voor de navigatie-links in de sidebar */
+    .sidebar a, .sidebar .nav-link {
+        display: block;
+        padding: 10px 15px;
+        text-decoration: none;
+        font-size: 18px;
+        color: #fff;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        flex-direction: column;
+        text-align: left;
+    }
+.nav-item {
+    color: white; /* Text color */
+    text-decoration: none; /* Remove underline */
+    display: block; /* Ensure links are block level elements and stack properly */
+    padding: 10px 20px; /* Padding for clickable area */
+    background-color: #000; /* Dark background for each link */
+    border-radius: 5px; /* Rounded corners for links */
+    transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+/* Content sectie naast de sidebar */
+.content {
+    margin-left: 270px; /* Zorg dat de content rechts van de sidebar start */
+    padding: 20px;
+    width: calc(100% - 270px); /* Breedte aanpassen op basis van de sidebar */
+}
+/* General button styling */
+.btn {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+Hi, hi    color: #333;
+}
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
 }
+
+i {
+    margin-right: 10px;
+}
+
+
+
+

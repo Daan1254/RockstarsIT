@@ -1,0 +1,47 @@
+﻿@model IEnumerable<SquadViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<link rel="stylesheet" href="~/css/Squads.css/Index.css" />
+
+<div class="header-container">
+    <h2>Squads</h2>
+    <a asp-action="Create" class="btn btn-primary voeg-toe-button">TOEVOEGEN</a>
+</div>
+
+<div class="grid">
+    @if (Model != null)
+    {
+        @foreach (var item in Model)
+        {
+            <div class="card">
+                <a class="plus-button" asp-action="Edit" asp-route-id="@item.Id" aria-label="Add Item">+</a>
+                <div class="card-header">
+                    <h2>@item.Name</h2>
+                </div>
+                <div class="card-body">
+                    <p>@item.Description</p>
+                    @if (item.Company != null)
+                    {
+                        <p>Gekopppeld aan @item.Company.Name</p>
+                    }
+                    else
+                    {
+                        <p>Niet gekoppeld aan een bedrijf</p>  
+                    }
+                    <div class="actions">
+                         @* <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info btn-sm">Edit</a> *@
+                        <a asp-action="Details" asp-route-id="@item.Id" class="button button-primary btn-sm">Details</a>
+                        @* <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a> *@
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p>Geen Squads gevonden.</p>
+    }
+</div>

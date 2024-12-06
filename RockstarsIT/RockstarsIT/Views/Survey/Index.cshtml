@@ -1,9 +1,39 @@
-﻿@model IEnumerable<SurveyModel>
+﻿@model IEnumerable<SurveyViewModel>
+
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Enquête overzicht";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<link rel="stylesheet" href="~/css/Squads.css/Index.css" />
+<div class="header-container">
+    <h2>Enquêtes</h2>
+    <a asp-action="Create" class="button button-primary">TOEVOEGEN</a>
 </div>
+
+
+<div class="grid">
+    @if (Model != null)
+    {
+        @foreach (var item in Model)
+        {
+            <div class="card">
+                <a class="plus-button" asp-action="Edit" asp-route-id="@item.Id" aria-label="Add Item">+</a>
+                <div class="card-header">
+                    <h2>@item.Title</h2>
+                </div>
+                <div class="card-body">
+                    <p>@item.Description</p>
+                    <div class="actions">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="button button-primary btn-sm">Details</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="button button-secondary">Bewerken</a>
+                    </div>
+                </div>
+            </div>
+    }
+    }
+    else
+    {
+        <p>Geen Enquêtes gevonden.</p>
+    }
+</div>
+
