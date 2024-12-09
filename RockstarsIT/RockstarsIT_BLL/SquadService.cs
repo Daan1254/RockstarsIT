@@ -18,7 +18,7 @@ public class SquadService
         return _squadRepository.GetAllSquads();
     }
     
-    public SquadDto? GetSquadById(int id)
+    public SquadWithUsersDto? GetSquadById(int id)
     {
         try
         {

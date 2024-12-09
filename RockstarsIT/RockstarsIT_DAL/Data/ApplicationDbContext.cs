@@ -21,6 +21,7 @@ public class ApplicationDbContext : IdentityDbContext
     
     public DbSet<EmailEntity> Emails { get; set; }
 
+    public DbSet<UserEntity> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -56,7 +57,14 @@ public class ApplicationDbContext : IdentityDbContext
         // modelBuilder.Entity<EmailEntity>()
         //     .HasOne<IdentityUser>()
         //     .WithMany(s => s.)
+        modelBuilder.Entity<SquadEntity>()
+            .HasMany(s => s.Users)
+            .WithOne(s => s.Squad)
+            .HasForeignKey(s => s.SquadId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        modelBuilder.Entity<UserEntity>().ToTable("AspNetUsers");
+        
+        modelBuilder.Entity<SquadEntity>().HasQueryFilter(s => s.DeletedAt == null);
     }
-
-
 }

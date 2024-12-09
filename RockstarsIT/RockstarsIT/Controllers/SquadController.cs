@@ -11,13 +11,15 @@ namespace RockstarsIT.Controllers
         
         private readonly SquadService _squadService;
         private readonly CompanyService _companyService;
+        private readonly UserService _userService;
 
-        public SquadController(SquadService squadService, CompanyService companyService)
+        public SquadController(SquadService squadService, CompanyService companyService, UserService userService)
         {
             _squadService = squadService;
             _companyService = companyService;
+            _userService = userService;
         }
-
+        
         // GET: Squads
         public async Task<IActionResult> Index()
         {
@@ -106,7 +108,7 @@ namespace RockstarsIT.Controllers
         {
             try
             {
-                SquadDto? squadDto = _squadService.GetSquadById(int.Parse(id));
+                SquadWithUsersDto? squadDto = _squadService.GetSquadById(int.Parse(id));
                 List<CompanyDto> companies = _companyService.GetAllCompanies();
 
                
@@ -123,6 +125,11 @@ namespace RockstarsIT.Controllers
                     Companies = companies.Select(s => new CompanyViewModel() { 
                         Id = s.Id,
                         Name = s.Name,
+                    }).ToList(),
+                    Users = squadDto.Users.Select(u => new UserViewModel()
+                    {
+                        Id = u.Id,
+                        Email = u.Email
                     }).ToList()
                 };
                 return View(squadViewModel);
