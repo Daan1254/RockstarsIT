@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RockstarsIT_DAL.Entities;
 
@@ -16,6 +17,10 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<QuestionEntity> Questions { get; set; }
 
     public DbSet<CompanyEntity> Companies { get; set; }
+    
+    public DbSet<CompletedSurveyEntity> CompletedSurveys { get; set; }
+    
+    public DbSet<EmailEntity> Emails { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -34,6 +39,24 @@ public class ApplicationDbContext : IdentityDbContext
             .HasMany(s => s.Squads)
             .WithMany(sq => sq.Surveys)
             .UsingEntity(j => j.ToTable("Squad_Surveys"));
+        
+        // Completed Survey has one Survey
+        modelBuilder.Entity<CompletedSurveyEntity>()
+            .HasOne(cs => cs.Survey)
+            .WithMany(s => s.CompletedSurveys)
+            .HasForeignKey(cs => cs.SurveyId)
+            .OnDelete(DeleteBehavior.Restrict); 
+        
+        // Email has one survey and has one User
+        modelBuilder.Entity<EmailEntity>()
+            .HasOne(e => e.Survey)
+            .WithMany(s => s.Emails)
+            .HasForeignKey(e => e.SurveyId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        // modelBuilder.Entity<EmailEntity>()
+        //     .HasOne<IdentityUser>()
+        //     .WithMany(s => s.)
     }
 
 

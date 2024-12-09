@@ -269,7 +269,7 @@ namespace RockstarsIT_DAL.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Questions", (string)null);
                 });
 
             modelBuilder.Entity("RockstarsIT_DAL.Entities.SquadEntity", b =>
@@ -304,7 +304,7 @@ namespace RockstarsIT_DAL.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Squads");
+                    b.ToTable("Squads", (string)null);
                 });
 
             modelBuilder.Entity("RockstarsIT_DAL.Entities.SurveyEntity", b =>
@@ -334,7 +334,7 @@ namespace RockstarsIT_DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Surveys");
+                    b.ToTable("Surveys", (string)null);
                 });
 
             modelBuilder.Entity("SquadEntitySurveyEntity", b =>
