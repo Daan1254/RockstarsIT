@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using RockstarsIT_BLL;
 using System.Data;
 using RockstarsIT_BLL.Dto;
 using RockstarsIT_BLL.Interfaces;
@@ -149,7 +148,7 @@ public class SquadRepository : ISquadRepository
         }
     }
 
-    public bool LinkCompany(LinkCompanyDto linkCompanyDto)
+    public bool LinkCompany(LinkDisconnectCompanyDTO linkCompanyDto)
     {
         try
         {
@@ -168,6 +167,18 @@ public class SquadRepository : ISquadRepository
         catch (Exception ex)
         {
             throw new Exception("An error occurred while linking the company to the squad.", ex);
+        }
+    }
+
+    public bool DisconnectCompany(LinkDisconnectCompanyDTO disconnectCompanyDTO)
+    {
+        try
+        {
+           
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while disconnecting the company to the squad.", ex);
         }
     }
 }

@@ -216,7 +216,7 @@ namespace RockstarsIT.Controllers
         {
             try
             {
-               LinkCompanyDto linkCompanyDto= new LinkCompanyDto
+                LinkDisconnectCompanyDTO linkCompanyDto = new LinkDisconnectCompanyDTO
                 {
                     CompanyId = companyId,
                     SquadId = squadId
@@ -229,6 +229,34 @@ namespace RockstarsIT.Controllers
             {
                 TempData["ErrorMessage"] = "Er is iets fout gegaan bij het linken van de company aan de squad";
                 return RedirectToAction("Details", new { id = squadId });
+            }
+        }
+
+        public IActionResult disconnectCompany(int companyId, int squadId)
+        {
+            try
+            {
+                LinkDisconnectCompanyDTO disconnectCompanyDTO = new LinkDisconnectCompanyDTO 
+                { 
+                    CompanyId = companyId,
+                    SquadId = squadId 
+                };
+
+                if (
+                    _squadService.DisconnectCompany(disconnectCompanyDTO))
+                {
+                    TempData["SuccessMessage"] = "Company successfully disconnected from squad.";
+                } 
+                else 
+                { 
+                    TempData["ErrorMessage"] = "Failed to disconnect company from squad.";
+                }
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message; 
+                return RedirectToAction("Index");
             }
         }
     }
