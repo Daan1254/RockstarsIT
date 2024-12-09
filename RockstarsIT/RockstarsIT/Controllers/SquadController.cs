@@ -249,16 +249,6 @@ namespace RockstarsIT.Controllers
                     CompanyId = companyId,
                     SquadId = squadId 
                 };
-
-                if (
-                    _squadService.DisconnectCompany(disconnectCompanyDto))
-                {
-                    TempData["SuccessMessage"] = "Company successfully disconnected from squad.";
-                } 
-                else 
-                { 
-                    TempData["ErrorMessage"] = "Failed to disconnect company from squad.";
-                }
                 return RedirectToAction("Edit", new { id = squadId });
             }
             catch (Exception ex)
