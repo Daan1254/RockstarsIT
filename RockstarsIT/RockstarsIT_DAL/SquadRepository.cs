@@ -178,4 +178,33 @@ public class SquadRepository : ISquadRepository
             throw new Exception("An error occurred while linking the company to the squad.", ex);
         }
     }
+
+    public bool LinkUser(LinkUserDto linkUserDto)
+    {
+        try
+        {
+            SquadEntity? squadEntity = _context.Squads.Find(linkUserDto.SquadId);
+            
+            if (squadEntity == null)
+            {
+             
+                throw new Exception("Squad not found in the context.");
+            }
+
+            UserEntity? userEntity = _context.Users.Find(linkUserDto.UserId);
+
+            if (userEntity == null)
+            {
+                throw new Exception("User not found in the context.");
+            }
+
+            squadEntity.Users.Add(userEntity);
+
+            return _context.SaveChanges() == 1;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while linking the company to the squad.", ex);
+        }
+    }
 }

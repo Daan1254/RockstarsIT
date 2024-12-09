@@ -223,13 +223,35 @@ namespace RockstarsIT.Controllers
         {
             try
             {
-               LinkCompanyDto linkCompanyDto= new LinkCompanyDto
+               LinkCompanyDto linkCompanyDto = new LinkCompanyDto
                 {
                     CompanyId = companyId,
                     SquadId = squadId
                 };
 
                 _squadService.LinkCompany(linkCompanyDto);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Er is iets fout gegaan bij het linken van de company aan de squad";
+                return RedirectToAction("Details", new { id = squadId });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult LinkUser(int userId, int squadId)
+        {
+            try
+            {
+               LinkUserDto linkUserDto = new LinkUserDto
+                {
+                    UserId = userId,
+                    SquadId = squadId
+                };
+
+                _squadService.LinkUser(linkUserDto);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

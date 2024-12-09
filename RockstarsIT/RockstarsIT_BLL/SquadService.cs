@@ -70,4 +70,9 @@ public class SquadService
     {
          return _squadRepository.LinkCompany(linkCompanyDto);
     }
+
+    public bool LinkUser(LinkUserDto linkUserDto)
+    {
+         return _squadRepository.LinkUser(linkUserDto);
+    }
 }

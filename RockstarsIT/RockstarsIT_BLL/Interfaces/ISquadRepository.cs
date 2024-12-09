@@ -12,4 +12,5 @@ public interface ISquadRepository
     
     public bool DeleteSquad(int id);
     public bool LinkCompany(LinkCompanyDto linkCompanyDto);
+    public bool LinkUser(LinkUserDto linkUserDto);
 }
