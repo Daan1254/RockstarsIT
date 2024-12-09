@@ -1,0 +1,25 @@
+﻿@model IEnumerable<RockstarsIT.Models.QuestionAnswerSummaryViewModel>
+
+<h1>@ViewBag.SurveyTitle</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Question</th>
+            <th>Green</th>
+            <th>Yellow</th>
+            <th>Red</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.QuestionTitle</td>
+                <td>@item.GreenCount</td>
+                <td>@item.YellowCount</td>
+                <td>@item.RedCount</td>
+            </tr>
+        }
+    </tbody>
+</table>

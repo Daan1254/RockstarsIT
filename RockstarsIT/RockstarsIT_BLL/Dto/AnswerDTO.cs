@@ -10,6 +10,6 @@ namespace RockstarsIT_BLL.Dto
     {
         public int Id { get; set; }
         public short Result { get; set; }
-        public string Feedback { get; set; }
+        //public string Feedback { get; set; }
     }
 }

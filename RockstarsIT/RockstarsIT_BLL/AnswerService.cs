@@ -20,7 +20,12 @@ public class AnswerService
         {
             Id = a.Id,
             Result = a.Result,
-            Feedback = a.Feedback
+            //Feedback = a.Feedback
         }).ToList();
+    }
+
+    public List<QuestionAnswerSummaryDto> GetSurveyAnswersSummary(int surveyId)
+    {
+        return _answerRepository.GetAnswerSummaryBySurveyId(surveyId);
     }
 }

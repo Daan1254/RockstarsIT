@@ -23,9 +23,33 @@ namespace RockstarsIT_DAL
                 {
                     Id = a.Id,
                     Result = a.Result,
-                    Feedback = a.Feedback
+                    //Feedback = a.Feedback
                 })
                 .ToList();
         }
+
+        public List<QuestionAnswerSummaryDto> GetAnswerSummaryBySurveyId(int surveyId)
+        {
+            return _context.Questions
+                .Where(q => q.SurveyId == surveyId)
+                .Select(q => new QuestionAnswerSummaryDto
+                {
+                    QuestionId = q.Id,
+                    QuestionTitle = q.Title,
+                    GreenCount = q.Answers.Count(a => a.Result == 2),
+                    YellowCount = q.Answers.Count(a => a.Result == 1),
+                    RedCount = q.Answers.Count(a => a.Result == 0)
+                })
+                .ToList();
+        }
+
+        public string GetSurveyTitleById(int surveyId)
+        {
+            return _context.Surveys
+                .Where(s => s.Id == surveyId)
+                .Select(s => s.Title)
+                .FirstOrDefault();
+        }
+
     }
 }

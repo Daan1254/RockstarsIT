@@ -24,10 +24,31 @@ namespace RockstarsIT.Controllers
             {
                 Id = dto.Id,
                 Result = dto.Result,
-                Feedback = dto.Feedback,
+                //Feedback = dto.Feedback,
             }).ToList();
 
             return View(viewModel);
         }
+
+        public IActionResult Answers(int surveyId)
+        {
+            var surveyTitle = _answerRepository.GetSurveyTitleById(surveyId);
+            var summaryDtos = _answerRepository.GetAnswerSummaryBySurveyId(surveyId);
+
+            // Map DTO naar ViewModel
+            var viewModel = summaryDtos.Select(dto => new QuestionAnswerSummaryViewModel
+            {
+                QuestionId = dto.QuestionId,
+                QuestionTitle = dto.QuestionTitle,
+                GreenCount = dto.GreenCount,
+                YellowCount = dto.YellowCount,
+                RedCount = dto.RedCount
+            }).ToList();
+
+            ViewBag.SurveyTitle = surveyTitle;
+
+            return View(viewModel); 
+        }
+
     }
 }
