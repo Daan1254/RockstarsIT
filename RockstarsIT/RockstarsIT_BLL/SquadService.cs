@@ -66,20 +66,14 @@ public class SquadService
         return _squadRepository.DeleteSquad(id);
     }
 
-    public bool LinkCompany(LinkDisconnectCompanyDTO linkCompanyDto)
+    public bool LinkCompany(LinkDisconnectCompanyDto linkCompanyDto)
     {
          return _squadRepository.LinkCompany(linkCompanyDto);
     }
 
-    public bool DisconnectCompany(LinkDisconnectCompanyDTO disconnectCompanyDTO)
+    public bool DisconnectCompany(LinkDisconnectCompanyDto disconnectCompanyDto)
     {
-        return _squadRepository.DisconnectCompany(disconnectCompanyDTO);
+        return _squadRepository.DisconnectCompany(disconnectCompanyDto);
     }
-
-    public List<CompanyDto> GetLinkedCompaniesBySquadId(int squadId) 
-    { 
-        return _squadRepository.GetLinkedCompaniesBySquadId(squadId); 
-    }
-
-
+    
 }

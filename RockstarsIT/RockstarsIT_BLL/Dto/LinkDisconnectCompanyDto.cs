@@ -1,6 +1,6 @@
 ﻿namespace RockstarsIT_BLL.Dto
 {
-    public class LinkDisconnectCompanyDTO
+    public class LinkDisconnectCompanyDto
     {
         public int SquadId { get; set; }
 

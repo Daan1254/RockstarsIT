@@ -125,9 +125,11 @@ namespace RockstarsIT.Controllers
                         Id = s.Id,
                         Name = s.Name,
                     }).ToList(),
-                    LinkedCompanies = _squadService.GetLinkedCompaniesBySquadId(squadDto.Id)
-                                                   .Select(c => c.Id)
-                                                   .ToList()
+                    Company = squadDto.Company != null ? new CompanyViewModel()
+                    {
+                        Id = squadDto.Company.Id,
+                        Name = squadDto.Company.Name
+                    } : null
                 };
                 return View(squadViewModel);
 
@@ -221,14 +223,14 @@ namespace RockstarsIT.Controllers
         {
             try
             {
-                LinkDisconnectCompanyDTO linkCompanyDto = new LinkDisconnectCompanyDTO
+                LinkDisconnectCompanyDto linkCompanyDto = new LinkDisconnectCompanyDto
                 {
                     CompanyId = companyId,
                     SquadId = squadId
                 };
 
                 _squadService.LinkCompany(linkCompanyDto);
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", new { id = squadId });
             }
             catch (Exception ex)
             {
@@ -238,18 +240,18 @@ namespace RockstarsIT.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult disconnectCompany(int companyId, int squadId)
+        public IActionResult DisconnectCompany(int companyId, int squadId)
         {
             try
             {
-                LinkDisconnectCompanyDTO disconnectCompanyDTO = new LinkDisconnectCompanyDTO 
+                LinkDisconnectCompanyDto disconnectCompanyDto = new LinkDisconnectCompanyDto 
                 { 
                     CompanyId = companyId,
                     SquadId = squadId 
                 };
 
                 if (
-                    _squadService.DisconnectCompany(disconnectCompanyDTO))
+                    _squadService.DisconnectCompany(disconnectCompanyDto))
                 {
                     TempData["SuccessMessage"] = "Company successfully disconnected from squad.";
                 } 
@@ -257,7 +259,7 @@ namespace RockstarsIT.Controllers
                 { 
                     TempData["ErrorMessage"] = "Failed to disconnect company from squad.";
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", new { id = squadId });
             }
             catch (Exception ex)
             {

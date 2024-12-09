@@ -148,7 +148,7 @@ public class SquadRepository : ISquadRepository
         }
     }
 
-    public bool LinkCompany(LinkDisconnectCompanyDTO linkCompanyDto)
+    public bool LinkCompany(LinkDisconnectCompanyDto linkCompanyDto)
     {
         try
         {
@@ -170,7 +170,7 @@ public class SquadRepository : ISquadRepository
         }
     }
 
-    public bool DisconnectCompany(LinkDisconnectCompanyDTO disconnectCompanyDTO)
+    public bool DisconnectCompany(LinkDisconnectCompanyDto disconnectCompanyDTO)
     {
         try
         {
@@ -191,9 +191,4 @@ public class SquadRepository : ISquadRepository
             throw new Exception("An error occurred while linking the company to the squad.", ex);
         }
     }
-
-    public List<CompanyDto> GetLinkedCompaniesBySquadId(int squadId)
-    {
-
-    }    
 }
