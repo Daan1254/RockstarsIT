@@ -40,6 +40,15 @@
                     </div>
                 }
             </div>
+            <h5>Squads</h5>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                @foreach (var squad in Model.Squads)
+                {
+                    <div class="form-group">
+                        <p>@squad.Name</p>
+                    </div>
+                }
+            </div>
         </form>
         <a class="btn bg-black text-white" asp-action="Index">Terug</a>
     </div>
