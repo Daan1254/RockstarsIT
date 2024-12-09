@@ -196,7 +196,7 @@ public class SurveyController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Edit(CreateEditSurveyViewModel surveyViewModel, List<int> selectedSquadIds)
+    public IActionResult Edit(CreateEditSurveyViewModel surveyViewModel)
     {
         try
         {
@@ -206,7 +206,7 @@ public class SurveyController : Controller
                 {
                     Title = surveyViewModel.Title,
                     Description = surveyViewModel.Description,
-                    SquadIds = selectedSquadIds,
+                    SquadIds = surveyViewModel.selectedSquadIds,
                     SquadIdsToDelete = surveyViewModel.SquadIdsToDelete
                 };
 
