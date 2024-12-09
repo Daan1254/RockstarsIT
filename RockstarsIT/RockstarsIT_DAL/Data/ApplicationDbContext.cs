@@ -17,7 +17,6 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<AnswerEntity> Answers { get; set; }
 
     public DbSet<QuestionEntity> Questions { get; set; }
-
     public DbSet<CompanyEntity> Companies { get; set; }
 
 

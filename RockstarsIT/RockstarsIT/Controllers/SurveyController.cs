@@ -10,13 +10,15 @@ public class SurveyController : Controller
 {
     private readonly SurveyService _surveyService;
     private readonly QuestionService _questionService;
+    private readonly SquadService _squadService;
 
 
     // Injecting DbContext in the constructor
-    public SurveyController(SurveyService surveyService, QuestionService questionService)
+    public SurveyController(SurveyService surveyService, QuestionService questionService, SquadService squadService)
     {
         _surveyService = surveyService;
         _questionService = questionService;
+        _squadService = squadService;
     }
     
     // GET
@@ -37,14 +39,14 @@ public class SurveyController : Controller
     
     public IActionResult Details(int id)
     {
-        SurveyWithQuestionsDto? survey = _surveyService.GetSurveyWithQuestionsById(id);
+        FullSurveyDto? survey = _surveyService.GetSurveyById(id);
         
         if (survey == null)
         {
             return NotFound();
         }
         
-        SurveyWithQuestionsViewModel surveyViewModel = new SurveyWithQuestionsViewModel()
+        FullSurveyViewModel surveyViewModel = new FullSurveyViewModel()
         {
             Id = survey.Id,
             Title = survey.Title,
@@ -53,6 +55,12 @@ public class SurveyController : Controller
             {
                 Id = q.Id,
                 Title = q.Title
+            }).ToList(),
+            Squads = survey.Squads.Select(s => new SquadViewModel
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Description = s.Description
             }).ToList()
         };
         
@@ -91,7 +99,7 @@ public class SurveyController : Controller
         //Template maken voor de emails. Dat er automatisch iets is ingevuld.
         //Het mag geen page zijn.
         //Denkt dat file/ template niet in presentation layer staat. 
-        return View("Details", new SurveyWithQuestionsViewModel()); 
+        return View("Details", new FullSurveyViewModel()); 
     } 
 
     public IActionResult Create()
@@ -137,13 +145,18 @@ public class SurveyController : Controller
 
         try
         {
-            SurveyWithQuestionsDto? surveyDto = _surveyService.GetSurveyWithQuestionsById(id);
+            FullSurveyDto? surveyDto = _surveyService.GetSurveyById(id);
 
 
             if (surveyDto == null)
             {
                 return NotFound();
             }
+            
+            List<SquadDto> allSquads = _squadService.GetSquads();
+
+            // Filter out squads that are already on the survey
+            List<SquadDto> filteredSquads = allSquads.Where(s => !surveyDto.Squads.Any(sq => sq.Id == s.Id)).ToList();
 
             CreateEditSurveyViewModel surveyViewModel = new CreateEditSurveyViewModel()
             {
@@ -154,7 +167,19 @@ public class SurveyController : Controller
                 {
                     Id = q.Id,
                     Title = q.Title
-                }).ToList()
+                }).ToList(),
+                Squads = surveyDto.Squads.Select(s => new SquadViewModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Description = s.Description
+                }).ToList(),
+                AllSquads = filteredSquads.Select(s => new SquadViewModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Description = s.Description
+                }).ToList(),
             };
             return View(surveyViewModel);
 
@@ -181,7 +206,8 @@ public class SurveyController : Controller
                 {
                     Title = surveyViewModel.Title,
                     Description = surveyViewModel.Description,
-                    
+                    SquadIds = surveyViewModel.selectedSquadIds,
+                    SquadIdsToDelete = surveyViewModel.SquadIdsToDelete
                 };
 
                 _surveyService.EditSurvey(surveyViewModel.Id, createEditSurveyDto);

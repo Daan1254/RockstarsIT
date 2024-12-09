@@ -1,4 +1,5 @@
 ﻿.main-container {
+    position: fixed;
     display: flex; /* Gebruik flexbox voor een zij-aan-zij lay-out */
     flex-direction: row;
     overflow: hidden;
@@ -125,3 +126,7 @@ button.accept-policy {
 i {
     margin-right: 10px;
 }
+
+
+
+
