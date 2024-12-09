@@ -5,7 +5,7 @@ using RockstarsIT_DAL.Entities;
 
 namespace RockstarsIT_DAL.Data;
 
-public class ApplicationDbContext : IdentityDbContext
+public class ApplicationDbContext : IdentityDbContext<UserEntity>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -15,7 +15,6 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<SurveyEntity> Surveys { get; set; }
     public DbSet<SquadEntity> Squads { get; set; }
     public DbSet<QuestionEntity> Questions { get; set; }
-
     public DbSet<CompanyEntity> Companies { get; set; }
     public DbSet<UserEntity> Users { get; set; }
 
