@@ -168,6 +168,12 @@ public class SurveyController : Controller
                     Id = q.Id,
                     Title = q.Title
                 }).ToList(),
+                SurveySquads = surveyDto.Squads.Select(s => new SquadViewModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Description = s.Description
+                }).ToList(),
                 AllSquads = filteredSquads.Select(s => new SquadViewModel
                 {
                     Id = s.Id,
@@ -190,7 +196,7 @@ public class SurveyController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Edit(CreateEditSurveyViewModel surveyViewModel, List<QuestionViewModel> newQuestions, List<int> selectedSquadIds)
+    public IActionResult Edit(CreateEditSurveyViewModel surveyViewModel, List<int> selectedSquadIds)
     {
         try
         {
@@ -200,7 +206,8 @@ public class SurveyController : Controller
                 {
                     Title = surveyViewModel.Title,
                     Description = surveyViewModel.Description,
-                    SquadIds = selectedSquadIds
+                    SquadIds = selectedSquadIds,
+                    SquadIdsToDelete = surveyViewModel.SquadIdsToDelete
                 };
 
                 _surveyService.EditSurvey(surveyViewModel.Id, createEditSurveyDto);

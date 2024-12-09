@@ -85,7 +85,8 @@ public class SurveyRepository : ISurveyRepository
 
     public bool EditSurvey (int id, CreateEditSurveyDto surveyDto)
     {
-        SurveyEntity? survey = _context.Surveys.Find(id);
+        try {
+        SurveyEntity? survey = _context.Surveys.Include(s => s.Squads).FirstOrDefault(s => s.Id == id);
 
         if (survey == null)
         {
@@ -95,16 +96,32 @@ public class SurveyRepository : ISurveyRepository
         survey.Title = surveyDto.Title;
         survey.Description = surveyDto.Description;
 
+        foreach (int squadId in surveyDto.SquadIdsToDelete)
+        {
+            SquadEntity squad = _context.Squads.Find(squadId);
+            if (squad != null)
+            {
+                survey.Squads.Remove(squad);
+            }
+        }
+
+
         foreach (int squadId in surveyDto.SquadIds)
         {
             SquadEntity squad = _context.Squads.Find(squadId);
             if (squad != null)
             {
                 survey.Squads.Add(squad);
-            } 
+            }
         }
 
         _context.SaveChanges();
         return true;
+        }
+        catch (Exception e)
+        {
+            throw new Exception("An error occurred while editing the survey", e);
+        }
+        
     }
 }

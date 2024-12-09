@@ -47,9 +47,14 @@
                 <input type="submit" value="Opslaan" class="btn  btn-warning text-white mt-2" style="width: 100%; margin-top: 50px !important;"/>
             </div>
             <div class="form-group">
-                <label asp-for="SelectedSquadIds" class="control-label">Squad</label>
+                <label asp-for="SelectedSquadIds" class="control-label">Add new Squads</label>
                 <select asp-for="SelectedSquadIds" class="form-control" asp-items="@(new SelectList(Model.AllSquads.Where(s => !Model.SelectedSquadIds.Contains(s.Id)), "Id", "Name"))"></select>
                 <span asp-validation-for="SelectedSquadIds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SquadIdsToDelete" class="control-label">Remove Squad</label>
+                <select asp-for="SquadIdsToDelete" class="form-control" asp-items="@(new SelectList(Model.SurveySquads?.Where(s => !Model.SelectedSquadIds.Contains(s.Id)) ?? Enumerable.Empty<SquadViewModel>(), "Id", "Name"))"></select>
+                <span asp-validation-for="SquadIdsToDelete" class="text-danger"></span>
             </div>
         </form>
         <a class="btn bg-black text-white" asp-action="Index">Terug</a>
