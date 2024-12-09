@@ -31,15 +31,7 @@
                 <input asp-for="Description" class="form-control"/>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <h5>Vragen</h5>
-            <div style="display: flex; flex-direction: column; gap: 15px;">
-                @foreach (var question in Model.Questions)
-                {
-                    <div class="form-group">
-                        <p>@question.Title</p>
-                    </div>
-                }
-            </div>
+            <a class="button button-secondary" asp-controller="Answer" asp-action="Index" asp-route-surveyId="@Model.Id">Bekijk antwoorden</a>
             <h5>Squads</h5>
             <div style="display: flex; flex-direction: column; gap: 15px;">
                 @foreach (var squad in Model.Squads)

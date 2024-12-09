@@ -1,6 +1,6 @@
-﻿@model IEnumerable<RockstarsIT.Models.QuestionAnswerSummaryViewModel>
+﻿@model RockstarsIT.Models.FullSurveyViewModel
 
-<h2>@ViewBag.SurveyTitle</h2>
+<h2>@Model.Title</h2>
 
 <table>
     <thead>
@@ -12,13 +12,13 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Questions)
         {
             <tr>
-                <td>@item.QuestionTitle</td>
-                <td>@item.GreenCount</td>
-                <td>@item.YellowCount</td>
-                <td>@item.RedCount</td>
+                <td>@item.Title</td>
+                <td>@item.Answers.FindAll(a => a.Result == 2).Count</td>
+                <td>@item.Answers.FindAll(a => a.Result == 1).Count</td>
+                <td>@item.Answers.FindAll(a => a.Result == 0).Count</td>
             </tr>
         }
     </tbody>
