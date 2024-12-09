@@ -39,7 +39,7 @@ namespace RockstarsIT.Controllers
         }
 
         // GET: Squads/Details/5
-        public async Task<IActionResult> Details(int id)
+        public IActionResult Details(int id)
         {
             try
             {
