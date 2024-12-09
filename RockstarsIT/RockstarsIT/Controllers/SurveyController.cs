@@ -55,6 +55,12 @@ public class SurveyController : Controller
             {
                 Id = q.Id,
                 Title = q.Title
+            }).ToList(),
+            Squads = survey.Squads.Select(s => new SquadViewModel
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Description = s.Description
             }).ToList()
         };
         
@@ -149,6 +155,9 @@ public class SurveyController : Controller
             
             List<SquadDto> allSquads = _squadService.GetSquads();
 
+            // Filter out squads that are already on the survey
+            List<SquadDto> filteredSquads = allSquads.Where(s => !surveyDto.Squads.Any(sq => sq.Id == s.Id)).ToList();
+
             CreateEditSurveyViewModel surveyViewModel = new CreateEditSurveyViewModel()
             {
                 Id = surveyDto.Id,
@@ -159,7 +168,7 @@ public class SurveyController : Controller
                     Id = q.Id,
                     Title = q.Title
                 }).ToList(),
-                AllSquads = allSquads.Select(s => new SquadViewModel
+                AllSquads = filteredSquads.Select(s => new SquadViewModel
                 {
                     Id = s.Id,
                     Name = s.Name,
