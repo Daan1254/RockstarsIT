@@ -114,16 +114,22 @@ namespace RockstarsIT.Controllers
                 {
                     return NotFound();
                 }
-                
+
                 CreateEditSquadViewModel squadViewModel = new CreateEditSquadViewModel()
                 {
                     Id = squadDto.Id,
                     Name = squadDto.Name,
                     Description = squadDto.Description,
-                    Companies = companies.Select(s => new CompanyViewModel() { 
+                    Companies = companies.Select(s => new CompanyViewModel() 
+                    {
                         Id = s.Id,
                         Name = s.Name,
-                    }).ToList()
+                    }).ToList(),
+                    Company = squadDto.Company != null ? new CompanyViewModel()
+                    {
+                        Id = squadDto.Company.Id,
+                        Name = squadDto.Company.Name
+                    } : null
                 };
                 return View(squadViewModel);
 
@@ -149,6 +155,7 @@ namespace RockstarsIT.Controllers
                     {
                         Name = squadViewModel.Name,
                         Description = squadViewModel.Description
+
                     };
 
                     _squadService.EditSquad(squadViewModel.Id, squadDto);
@@ -216,19 +223,38 @@ namespace RockstarsIT.Controllers
         {
             try
             {
-               LinkCompanyDto linkCompanyDto= new LinkCompanyDto
+                LinkDisconnectCompanyDto linkCompanyDto = new LinkDisconnectCompanyDto
                 {
                     CompanyId = companyId,
                     SquadId = squadId
                 };
 
                 _squadService.LinkCompany(linkCompanyDto);
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", new { id = squadId });
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = "Er is iets fout gegaan bij het linken van de company aan de squad";
                 return RedirectToAction("Details", new { id = squadId });
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DisconnectCompany(int companyId, int squadId)
+        {
+            try
+            {
+                LinkDisconnectCompanyDto disconnectCompanyDto = new LinkDisconnectCompanyDto 
+                { 
+                    CompanyId = companyId,
+                    SquadId = squadId 
+                };
+                return RedirectToAction("Edit", new { id = squadId });
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message; 
+                return RedirectToAction("Index");
             }
         }
     }
