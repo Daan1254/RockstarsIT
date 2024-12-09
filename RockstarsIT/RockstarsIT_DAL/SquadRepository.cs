@@ -174,11 +174,21 @@ public class SquadRepository : ISquadRepository
     {
         try
         {
-           
+            SquadEntity? squadEntity = _context.Squads.Find(disconnectCompanyDTO.SquadId);
+
+            if (squadEntity == null)
+            {
+
+                throw new Exception("Squad not found in the context.");
+            }
+
+            squadEntity.CompanyId = null;
+
+            return _context.SaveChanges() == 1;
         }
         catch (Exception ex)
         {
-            throw new Exception("An error occurred while disconnecting the company to the squad.", ex);
+            throw new Exception("An error occurred while linking the company to the squad.", ex);
         }
     }
 }

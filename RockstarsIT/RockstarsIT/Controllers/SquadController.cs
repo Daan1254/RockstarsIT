@@ -231,7 +231,8 @@ namespace RockstarsIT.Controllers
                 return RedirectToAction("Details", new { id = squadId });
             }
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult disconnectCompany(int companyId, int squadId)
         {
             try

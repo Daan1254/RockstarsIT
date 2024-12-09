@@ -42,6 +42,15 @@
                 <form asp-controller="Squad" asp-action="LinkCompany" asp-route-companyId="@item.Id" asp-route-squadId="@Model.Id" method="post">
                     <p>@item.Name</p>
                     <button type="submit" class="button button-secondary">Linken</button>
+
+                </form>
+            }
+            @foreach (var item in Model.Companies)
+            {
+                <form asp-controller="Squad" asp-action="DisconnectCompany" asp-route-companyId="@item.Id" asp-route-squadId="@Model.Id" method="post">
+                    <p>@item.Name</p>
+                    <button type="submit" class="button button-secondary">Ontkoppelen</button>
+
                 </form>
             }
         </div>
