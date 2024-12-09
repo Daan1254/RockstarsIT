@@ -26,7 +26,7 @@ public class SurveyRepository : ISurveyRepository
         }).ToList();
     }
 
-    public FullSurveyDto GetSurveyById(int id)
+    public FullSurveyDto? GetSurveyById(int id)
     {
         try
         {
@@ -40,7 +40,7 @@ public class SurveyRepository : ISurveyRepository
 
             if (survey == null)
             {
-                throw new Exception("Survey not found");
+                return null;
             }
 
             return new FullSurveyDto
@@ -93,42 +93,45 @@ public class SurveyRepository : ISurveyRepository
     public bool EditSurvey (int id, CreateEditSurveyDto surveyDto)
     {
         try {
-        SurveyEntity? survey = _context.Surveys.Include(s => s.Squads).FirstOrDefault(s => s.Id == id);
+            SurveyEntity? survey = _context.Surveys
+                .Include(s => s.Squads)
+                .FirstOrDefault(s => s.Id == id);
 
-        if (survey == null)
-        {
-            throw new Exception("Survey not found");
-        }
-
-        survey.Title = surveyDto.Title;
-        survey.Description = surveyDto.Description;
-
-        foreach (int squadId in surveyDto.SquadIdsToDelete)
-        {
-            SquadEntity squad = _context.Squads.Find(squadId);
-            if (squad != null)
+            if (survey == null)
             {
-                survey.Squads.Remove(squad);
+                throw new Exception("Survey not found");
             }
-        }
-
-
-        foreach (int squadId in surveyDto.SquadIds)
-        {
-            SquadEntity squad = _context.Squads.Find(squadId);
-            if (squad != null)
+    
+            survey.Title = surveyDto.Title;
+            survey.Description = surveyDto.Description;
+    
+            foreach (int squadId in surveyDto.SquadIdsToDelete)
             {
-                survey.Squads.Add(squad);
+                SquadEntity? squad = _context.Squads.Find(squadId);
+                
+                if (squad != null)
+                {
+                    survey.Squads.Remove(squad);
+                }
             }
-        }
-
-        _context.SaveChanges();
-        return true;
+    
+    
+            foreach (int squadId in surveyDto.SquadIds)
+            {
+                SquadEntity? squad = _context.Squads.Find(squadId);
+                
+                if (squad != null)
+                {
+                    survey.Squads.Add(squad);
+                }
+            }
+    
+            _context.SaveChanges();
+            return true;
         }
         catch (Exception e)
         {
             throw new Exception("An error occurred while editing the survey", e);
         }
-        
     }
 }

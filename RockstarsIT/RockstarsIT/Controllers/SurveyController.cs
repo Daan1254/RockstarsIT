@@ -156,7 +156,7 @@ public class SurveyController : Controller
             List<SquadDto> allSquads = _squadService.GetSquads();
 
             // Filter out squads that are already on the survey
-            List<SquadDto> filteredSquads = allSquads.Where(s => !surveyDto.Squads.Any(sq => sq.Id == s.Id)).ToList();
+            List<SquadDto> filteredSquads = allSquads.Where(s => surveyDto.Squads.All(sq => sq.Id != s.Id)).ToList();
 
             CreateEditSurveyViewModel surveyViewModel = new CreateEditSurveyViewModel()
             {
