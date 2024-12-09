@@ -39,19 +39,22 @@
         <div style="display: flex; flex-direction: row; gap: 15px;">
             @foreach (var item in Model.Companies)
             {
-                <form asp-controller="Squad" asp-action="LinkCompany" asp-route-companyId="@item.Id" asp-route-squadId="@Model.Id" method="post">
-                    <p>@item.Name</p>
-                    <button type="submit" class="button button-secondary">Linken</button>
+                if (item.Id == Model.Company?.Id)
+                {
+                    <form asp-controller="Squad" asp-action="DisconnectCompany" asp-route-companyId="@item.Id" asp-route-squadId="@Model.Id" method="post">
+                        <p>@item.Name</p> 
+                        <button type="submit" class="button button-secondary">Ontkoppel</button> 
+                    </form>
+                }
+                else
+                {
+                    <form asp-controller="Squad" asp-action="LinkCompany" asp-route-companyId="@item.Id" asp-route-squadId="@Model.Id" method="post">
+                        <p>@item.Name</p>
+                        <button type="submit" class="button button-secondary">Linken</button>
 
-                </form>
-            }
-            @foreach (var item in Model.Companies)
-            {
-                <form asp-controller="Squad" asp-action="DisconnectCompany" asp-route-companyId="@item.Id" asp-route-squadId="@Model.Id" method="post">
-                    <p>@item.Name</p>
-                    <button type="submit" class="button button-secondary">Ontkoppelen</button>
-
-                </form>
+                    </form>
+                }
+                
             }
         </div>
         <a asp-action="Index" class="button button-secondary button-full">Terug</a>

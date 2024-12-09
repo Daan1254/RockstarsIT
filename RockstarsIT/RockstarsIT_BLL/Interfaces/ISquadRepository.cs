@@ -13,4 +13,5 @@ public interface ISquadRepository
     public bool DeleteSquad(int id);
     public bool LinkCompany(LinkDisconnectCompanyDTO linkCompanyDto);
     public bool DisconnectCompany (LinkDisconnectCompanyDTO disconnectCompanyDTO);
+    public List<CompanyDto> GetLinkedCompaniesBySquadId(int squadId);
 }

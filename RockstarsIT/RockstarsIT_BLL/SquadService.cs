@@ -75,4 +75,11 @@ public class SquadService
     {
         return _squadRepository.DisconnectCompany(disconnectCompanyDTO);
     }
+
+    public List<CompanyDto> GetLinkedCompaniesBySquadId(int squadId) 
+    { 
+        return _squadRepository.GetLinkedCompaniesBySquadId(squadId); 
+    }
+
+
 }
