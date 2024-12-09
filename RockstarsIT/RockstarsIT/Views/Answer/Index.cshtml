@@ -1,4 +1,5 @@
-﻿@model RockstarsIT.Models.FullSurveyViewModel
+﻿@using RockstarsIT_BLL.Dto
+@model RockstarsIT.Models.FullSurveyViewModel
 
 <h2>@Model.Title</h2>
 
@@ -16,9 +17,9 @@
         {
             <tr>
                 <td>@item.Title</td>
-                <td>@item.Answers.FindAll(a => a.Result == 2).Count</td>
-                <td>@item.Answers.FindAll(a => a.Result == 1).Count</td>
-                <td>@item.Answers.FindAll(a => a.Result == 0).Count</td>
+                <td>@item.Answers.FindAll(a => a.Result == AnswerResult.LIKE).Count</td>
+                <td>@item.Answers.FindAll(a => a.Result == AnswerResult.NEUTRAL).Count</td>
+                <td>@item.Answers.FindAll(a => a.Result == AnswerResult.DISLIKE).Count</td>
             </tr>
         }
     </tbody>

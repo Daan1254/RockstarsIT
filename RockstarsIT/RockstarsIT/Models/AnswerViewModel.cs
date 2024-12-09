@@ -1,7 +1,9 @@
-﻿namespace RockstarsIT.Models;
+﻿using RockstarsIT_BLL.Dto;
+
+namespace RockstarsIT.Models;
 
 public class AnswerViewModel
 {
     public int Id { get; set; }
-    public int Result { get; set; }
+    public AnswerResult Result { get; set; }
 }

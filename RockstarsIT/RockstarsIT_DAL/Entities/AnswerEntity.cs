@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RockstarsIT_BLL.Dto;
 
 namespace RockstarsIT_DAL.Entities
 {
     public class AnswerEntity
     {
         public int Id { get; set; }               
-        public short Result { get; set; }         
+        public AnswerResult Result { get; set; }         
         public string? Feedback { get; set; }
 
         public int QuestionId { get; set; }
