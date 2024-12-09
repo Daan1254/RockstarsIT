@@ -26,40 +26,14 @@ public class SurveyRepository : ISurveyRepository
         }).ToList();
     }
 
-    public SurveyDto GetSurveyById(int id)
+    public FullSurveyDto GetSurveyById(int id)
     {
         try
         {
             // check if deletedAt is null
             SurveyEntity? survey = _context.Surveys
-                .FirstOrDefault(s => s.Id == id);
-                
-
-
-            if (survey == null)
-            {
-                throw new Exception("Survey not found");
-            }
-
-            return new SurveyDto
-            {
-                Id = survey.Id,
-                Title = survey.Title,
-                Description = survey.Description,
-            };
-        }
-        catch (Exception e)
-        {
-            throw new Exception("An error occurred while getting squad by id", e);
-        }
-    }
-    
-    public SurveyWithQuestionsDto? GetSurveyWithQuestionsById(int id)
-    {
-        try
-        {
-            SurveyEntity? survey = _context.Surveys
                 .Include(s => s.Questions)
+                .Include(s => s.Squads)
                 .FirstOrDefault(s => s.Id == id);
 
             if (survey == null)
@@ -67,7 +41,7 @@ public class SurveyRepository : ISurveyRepository
                 throw new Exception("Survey not found");
             }
 
-            return new SurveyWithQuestionsDto
+            return new FullSurveyDto
             {
                 Id = survey.Id,
                 Title = survey.Title,
@@ -75,7 +49,12 @@ public class SurveyRepository : ISurveyRepository
                 Questions = survey.Questions.Select(q => new QuestionDto
                 {
                     Id = q.Id,
-                    Title = q.Title
+                    Title = q.Title,
+                }).ToList(),
+                Squads = survey.Squads.Select(s => new SquadDto
+                {
+                    Id = s.Id,
+                    Name = s.Name,
                 }).ToList()
             };
         }
@@ -104,19 +83,45 @@ public class SurveyRepository : ISurveyRepository
         }
     }
 
-    public bool EditSurvey (int id, CreateEditSurveyDto surveyDTO)
+    public bool EditSurvey (int id, CreateEditSurveyDto surveyDto)
     {
-        SurveyEntity? survey = _context.Surveys.Find(id);
+        try {
+        SurveyEntity? survey = _context.Surveys.Include(s => s.Squads).FirstOrDefault(s => s.Id == id);
 
         if (survey == null)
         {
             throw new Exception("Survey not found");
         }
-        
-        survey.Title = surveyDTO.Title;
-        survey.Description = surveyDTO.Description;
-        
+
+        survey.Title = surveyDto.Title;
+        survey.Description = surveyDto.Description;
+
+        foreach (int squadId in surveyDto.SquadIdsToDelete)
+        {
+            SquadEntity squad = _context.Squads.Find(squadId);
+            if (squad != null)
+            {
+                survey.Squads.Remove(squad);
+            }
+        }
+
+
+        foreach (int squadId in surveyDto.SquadIds)
+        {
+            SquadEntity squad = _context.Squads.Find(squadId);
+            if (squad != null)
+            {
+                survey.Squads.Add(squad);
+            }
+        }
+
         _context.SaveChanges();
         return true;
+        }
+        catch (Exception e)
+        {
+            throw new Exception("An error occurred while editing the survey", e);
+        }
+        
     }
 }
