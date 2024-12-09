@@ -192,13 +192,8 @@ public class SquadRepository : ISquadRepository
         }
     }
 
-    public List<CompanyDto> GetLinkedCompaniesBySquadId(int squadId) 
-    { 
-        var linkedCompanies = _context.Companies
-                                      .Where(csc => csc.Squads. == squadId)
-                                      .Select(csc => new CompanyDto 
-                                      {
-                                          Id = csc.Company.Id, 
-                                          Name = csc.Company.Name }).ToList(); 
-        return linkedCompanies;       }
+    public List<CompanyDto> GetLinkedCompaniesBySquadId(int squadId)
+    {
+
+    }    
 }
