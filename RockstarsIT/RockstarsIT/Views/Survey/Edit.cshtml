@@ -50,7 +50,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="SquadIdsToDelete" class="control-label">Remove Squad</label>
-                <select asp-for="SquadIdsToDelete" class="form-control" asp-items="@(new SelectList(Model.SurveySquads?.Where(s => !Model.SelectedSquadIds.Contains(s.Id)) ?? Enumerable.Empty<SquadViewModel>(), "Id", "Name"))"></select>
+                <select asp-for="SquadIdsToDelete" class="form-control" asp-items="@(new SelectList(Model.Squads?.Where(s => !Model.SelectedSquadIds.Contains(s.Id)) ?? Enumerable.Empty<SquadViewModel>(), "Id", "Name"))"></select>
                 <span asp-validation-for="SquadIdsToDelete" class="text-danger"></span>
             </div>
         </form>
