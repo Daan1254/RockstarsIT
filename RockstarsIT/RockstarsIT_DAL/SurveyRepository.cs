@@ -26,7 +26,7 @@ public class SurveyRepository : ISurveyRepository
         }).ToList();
     }
 
-    public SurveyDto GetSurveyById(int id)
+    public FullSurveyDto GetSurveyById(int id)
     {
         try
         {
@@ -41,7 +41,7 @@ public class SurveyRepository : ISurveyRepository
                 throw new Exception("Survey not found");
             }
 
-            return new SurveyDto
+            return new FullSurveyDto
             {
                 Id = survey.Id,
                 Title = survey.Title,
@@ -95,13 +95,13 @@ public class SurveyRepository : ISurveyRepository
         survey.Title = surveyDto.Title;
         survey.Description = surveyDto.Description;
 
-        foreach (var squadId in surveyDto.SquadIds)
+        foreach (int squadId in surveyDto.SquadIds)
         {
-            var squad = _context.Squads.Find(squadId);
+            SquadEntity squad = _context.Squads.Find(squadId);
             if (squad != null)
             {
                 survey.Squads.Add(squad);
-            }
+            } 
         }
 
         _context.SaveChanges();

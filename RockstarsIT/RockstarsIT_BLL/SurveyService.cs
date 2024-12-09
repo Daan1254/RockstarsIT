@@ -19,7 +19,7 @@ public class SurveyService
         return _surveyRepository.GetAllSurveys();
     }
 
-    public SurveyDto? GetSurveyById(int id)
+    public FullSurveyDto? GetSurveyById(int id)
     {
         return _surveyRepository.GetSurveyById(id);
     }
