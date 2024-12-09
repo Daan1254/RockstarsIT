@@ -198,7 +198,7 @@ public class SquadRepository : ISquadRepository
                 throw new Exception("User not found in the context.");
             }
 
-            squadEntity.Users.Add(userEntity);
+            userEntity.SquadId = linkUserDto.SquadId;
 
             return _context.SaveChanges() == 1;
         }

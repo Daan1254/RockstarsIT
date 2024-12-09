@@ -110,6 +110,7 @@ namespace RockstarsIT.Controllers
             {
                 SquadWithUsersDto? squadDto = _squadService.GetSquadById(int.Parse(id));
                 List<CompanyDto> companies = _companyService.GetAllCompanies();
+                List<UserDto> users = _userService.GetAllUsers();
 
                
                 if (squadDto == null)
@@ -126,7 +127,7 @@ namespace RockstarsIT.Controllers
                         Id = s.Id,
                         Name = s.Name,
                     }).ToList(),
-                    Users = squadDto.Users.Select(u => new UserViewModel()
+                    Users = users.Select(u => new UserViewModel()
                     {
                         Id = u.Id,
                         Email = u.Email
@@ -241,13 +242,13 @@ namespace RockstarsIT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult LinkUser(int userId, int squadId)
+        public IActionResult LinkUser(string employeeId, int squadId)
         {
             try
             {
                LinkUserDto linkUserDto = new LinkUserDto
                 {
-                    UserId = userId,
+                    UserId = employeeId,
                     SquadId = squadId
                 };
 

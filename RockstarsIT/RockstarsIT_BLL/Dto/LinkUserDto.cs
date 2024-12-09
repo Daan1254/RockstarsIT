@@ -4,6 +4,6 @@ namespace RockstarsIT_BLL.Dto
     {
         public int SquadId { get; set; }
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
     }
 }
