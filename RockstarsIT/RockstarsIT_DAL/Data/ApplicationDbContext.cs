@@ -54,9 +54,12 @@ public class ApplicationDbContext : IdentityDbContext
             .HasForeignKey(e => e.SurveyId)
             .OnDelete(DeleteBehavior.Restrict);
         
-        // modelBuilder.Entity<EmailEntity>()
-        //     .HasOne<IdentityUser>()
-        //     .WithMany(s => s.)
+        modelBuilder.Entity<EmailEntity>()
+            .HasOne<UserEntity>()
+            .WithMany(s => s.Emails)
+            .HasForeignKey(e => e.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
         modelBuilder.Entity<SquadEntity>()
             .HasMany(s => s.Users)
             .WithOne(s => s.Squad)

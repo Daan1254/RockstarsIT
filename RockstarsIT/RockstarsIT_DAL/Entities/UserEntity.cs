@@ -6,4 +6,6 @@ public class UserEntity : IdentityUser
 {
     public int? SquadId { get; set; }
     public SquadEntity? Squad { get; set; }
+
+    public List<EmailEntity> Emails { get; set; }
 }
