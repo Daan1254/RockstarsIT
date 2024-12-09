@@ -117,6 +117,8 @@ namespace RockstarsIT.Controllers
                 {
                     return NotFound();
                 }
+
+                List<UserDto> filteredUsers = users.Where(u => !squadDto.Users.Any(su => su.Id == u.Id)).ToList();
                 
                 CreateEditSquadViewModel squadViewModel = new CreateEditSquadViewModel()
                 {
@@ -127,7 +129,7 @@ namespace RockstarsIT.Controllers
                         Id = s.Id,
                         Name = s.Name,
                     }).ToList(),
-                    Users = users.Select(u => new UserViewModel()
+                    Users = filteredUsers.Select(u => new UserViewModel()
                     {
                         Id = u.Id,
                         Email = u.Email
