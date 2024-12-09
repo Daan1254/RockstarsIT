@@ -24,19 +24,4 @@ public class UserRepository: IUserRepository
         }).ToList();
     }
     
-    public bool LinkUserToSquad(string email, int squadId)
-    {
-        UserEntity? user = _context.Users.FirstOrDefault(u => u.Email == email);
-        
-        if (user == null)
-        {
-            // throw NotFoundException
-            return false;
-        }
-        
-        user.SquadId = squadId;
-        
-        return _context.SaveChanges() == 1;
-    }
-    
 }

@@ -16,9 +16,4 @@ public class UserService
     {
         return _userRepository.GetAllUsers();
     }
-    
-    public bool LinkUserToSquad(string email, int squadId)
-    {
-        return _userRepository.LinkUserToSquad(email, squadId);
-    }
 }
