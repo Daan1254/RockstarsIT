@@ -1,34 +1,24 @@
-﻿@model IEnumerable<RockstarsIT.Models.AnswerViewModel>
+﻿@model IEnumerable<RockstarsIT.Models.QuestionAnswerSummaryViewModel>
 
-@{
-    ViewData["Title"] = "Answers";
-}
+<h2>@ViewBag.SurveyTitle</h2>
 
-<h2>Vraag 1: Hoe vind je het bedrijf?</h2>
-
-
-<table class="table">
+<table>
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Result)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Feedback)
-            </th>
-            <th></th>
+            <th>Question</th>
+            <th>Green</th>
+            <th>Yellow</th>
+            <th>Red</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ResultSymbol)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Feedback)
-                </td>
+                <td>@item.QuestionTitle</td>
+                <td>@item.GreenCount</td>
+                <td>@item.YellowCount</td>
+                <td>@item.RedCount</td>
             </tr>
         }
     </tbody>

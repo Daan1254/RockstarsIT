@@ -5,7 +5,6 @@ namespace RockstarsIT_BLL.Interfaces
 {
     public interface IAnswerRepository
     {
-        List<AnswerDto> GetAllAnswers();
 
         List<QuestionAnswerSummaryDto> GetAnswerSummaryBySurveyId(int surveyId);
 

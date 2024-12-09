@@ -14,31 +14,15 @@ namespace RockstarsIT.Controllers
             _answerRepository = answerRepository;
         }
 
-        public IActionResult Index()
+
+        public IActionResult Index(int surveyId)
         {
+            string surveyTitle = _answerRepository.GetSurveyTitleById(surveyId);
+            List<QuestionAnswerSummaryDto> summaryDtos = _answerRepository.GetAnswerSummaryBySurveyId(surveyId);
 
-            var answerDTOs = _answerRepository.GetAllAnswers();
-
-            // Map de DTO naar ViewModel
-            var viewModel = answerDTOs.Select(dto => new AnswerViewModel
+            // Map DTO to ViewModel
+            List<QuestionAnswerSummaryViewModel> viewModel = summaryDtos.Select(dto => new QuestionAnswerSummaryViewModel
             {
-                Id = dto.Id,
-                Result = dto.Result,
-                //Feedback = dto.Feedback,
-            }).ToList();
-
-            return View(viewModel);
-        }
-
-        public IActionResult Answers(int surveyId)
-        {
-            var surveyTitle = _answerRepository.GetSurveyTitleById(surveyId);
-            var summaryDtos = _answerRepository.GetAnswerSummaryBySurveyId(surveyId);
-
-            // Map DTO naar ViewModel
-            var viewModel = summaryDtos.Select(dto => new QuestionAnswerSummaryViewModel
-            {
-                QuestionId = dto.QuestionId,
                 QuestionTitle = dto.QuestionTitle,
                 GreenCount = dto.GreenCount,
                 YellowCount = dto.YellowCount,
@@ -47,8 +31,9 @@ namespace RockstarsIT.Controllers
 
             ViewBag.SurveyTitle = surveyTitle;
 
-            return View(viewModel); 
+            return View(viewModel);
         }
+
 
     }
 }
