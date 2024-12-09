@@ -168,7 +168,7 @@ public class SurveyController : Controller
                     Id = q.Id,
                     Title = q.Title
                 }).ToList(),
-                SurveySquads = surveyDto.Squads.Select(s => new SquadViewModel
+                Squads = surveyDto.Squads.Select(s => new SquadViewModel
                 {
                     Id = s.Id,
                     Name = s.Name,
