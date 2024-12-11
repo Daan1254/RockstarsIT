@@ -26,10 +26,13 @@ builder.Services.AddScoped<SurveyService>();
 builder.Services.AddScoped<SquadService>();
 builder.Services.AddScoped<CompanyService>();
 builder.Services.AddScoped<QuestionService>();
+builder.Services.AddScoped<EmailTemplateService>();
 builder.Services.AddScoped<ISurveyRepository, SurveyRepository>();
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<ISquadRepository, SquadRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
+
 
 var app = builder.Build();
 
