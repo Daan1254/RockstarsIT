@@ -1,9 +1,4 @@
 ﻿using RockstarsIT_BLL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RockstarsIT_DAL
 {
@@ -30,26 +25,6 @@ namespace RockstarsIT_DAL
         {
             return _emailTemplate;
         }
-
-        //public void InitializeTemplate(string templateContent)
-        //{
-        //    _emailTemplate = templateContent;
-        //}
-
-        //public void UpdateTemplate(string templateContent)
-        //{
-        //    _emailTemplate = templateContent;
-        //}
-
-        //public void DeleteTemplate()
-        //{
-        //    _emailTemplate = null;
-        //}
-
-        //ToDo:public void SendEmail()
-        //{
-
-        //}
 
     }
 }
