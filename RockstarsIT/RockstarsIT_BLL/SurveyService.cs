@@ -24,6 +24,11 @@ public class SurveyService
         return _surveyRepository.GetSurveyById(id);
     }
 
+ //   public FullsSurveyDtoWithAverageAnswers? GetSurveyById(int id)
+ //   {
+ //       return _surveyRepository.GetSurveyById(id);
+	//}
+
     public int CreateSurvey(CreateEditSurveyDto survey)
     {
         try

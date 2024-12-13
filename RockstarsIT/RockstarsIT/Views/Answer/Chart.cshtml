@@ -1,0 +1,46 @@
+﻿@using RockstarsIT_BLL.Dto
+@using RockstarsIT.Models
+@model RockstarsIT.Models.FullSurveyViewModel
+
+<h2>@Model.Title</h2>
+
+<canvas id="radarChart" class="custom-chart"></canvas> <!-- Adjusted size -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var ctx = document.getElementById('radarChart').getContext('2d');
+        var radarChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.Questions.Select(q => q.Title))),
+                datasets: [{
+                    label: 'Average Results',
+                    data: @Html.Raw(Json.Serialize(Model.Questions.Select(q => q.AverageResult))),
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    r: {
+                        angleLines: {
+                            display: false
+                        },
+                        min: 0,
+                        max: 2,
+                        ticks: {
+                            stepSize: 0.5, // Interval between ticks
+                            callback: function (value) {
+                                return value.toFixed(1); // Format tick labels
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)' // Customize grid line color if needed
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
