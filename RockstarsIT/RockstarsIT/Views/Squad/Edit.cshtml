@@ -30,6 +30,7 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <input type="hidden" asp-for="Id" value="@Model.Id" />
                 <input type="submit" value="Opslaan" class="button button-primary button-full"/>
             </div>
         </form>
@@ -39,19 +40,42 @@
         <div style="display: flex; flex-direction: row; gap: 15px;">
             @foreach (var item in Model.Companies)
             {
-                <form asp-controller="Squad" asp-action="LinkCompany" asp-route-companyId="@item.Id" asp-route-squadId="@Model.Id" method="post">
-                    <p>@item.Name</p>
-                    <button type="submit" class="button button-secondary">Linken</button>
+                if (item.Id == Model.Company?.Id)
+                {
+                    <form asp-controller="Squad" asp-action="DisconnectCompany" asp-route-companyId="@item.Id" asp-route-squadId="@Model.Id" method="post">
+                        <p>@item.Name</p> 
+                        <button type="submit" class="button button-secondary">Ontkoppel</button> 
+                    </form>
+                }
+                else
+                {
+                    <form asp-controller="Squad" asp-action="LinkCompany" asp-route-companyId="@item.Id" asp-route-squadId="@Model.Id" method="post">
+                        <p>@item.Name</p>
+                        <button type="submit" class="button button-secondary">Linken</button>
+
+                    </form>
+                }
+            }
+        </div>
+        
+        <br/>
+        <h5>Medewerkers</h5>
+        <br/>
+        <div style="display: flex; flex-direction: row; gap: 15px;">
+            @foreach(var item in Model.Users)
+            {
+                <form asp-controller="Squad" asp-action="LinkUser" asp-route-employeeId="@item.Id" asp-route-squadId="@Model.Id" method="post">
+                    <p>@item.Email</p>
+                    <button type="submit" class="btn btn-info">Linken</button>
                 </form>
             }
         </div>
-        <a asp-action="Index" class="button button-secondary button-full">Terug</a>
-    </div>
+    
+        </div>
 </div>
 
 <br/>
-
-
+<a asp-action="Index">Terug</a>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

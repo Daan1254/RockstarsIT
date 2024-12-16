@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/RockstarsIT.styles.css" asp-append-version="true" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.css" />
 </head>
 <body>
     <div class="main-container">
@@ -20,11 +21,6 @@
                 <li class="nav-item">
                     <a class="btn btn-link" href="@Url.Action("Index", "Survey")">
                         <i class="bi bi-pencil-fill"></i> ENQUÊTES
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-link">
-                        <i class="bi bi-check-circle-fill"></i> ANTWOORDEN
                     </a>
                 </li>
                 <li class="nav-item">
@@ -41,6 +37,7 @@
         </div>
         <main role="main" class="pb-3">
             @RenderBody()
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
         </main>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

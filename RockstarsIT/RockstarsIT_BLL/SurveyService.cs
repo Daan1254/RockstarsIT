@@ -7,12 +7,10 @@ public class SurveyService
 {
     
     private readonly ISurveyRepository _surveyRepository;
-    private readonly IQuestionRepository _questionRepository;
     
-    public SurveyService(ISurveyRepository surveyRepository, IQuestionRepository questionRepository)
+    public SurveyService(ISurveyRepository surveyRepository)
     {
         _surveyRepository = surveyRepository;
-        _questionRepository = questionRepository;
     }
  
     
@@ -21,21 +19,9 @@ public class SurveyService
         return _surveyRepository.GetAllSurveys();
     }
 
-    public SurveyDto? GetSurveyById(int id)
+    public FullSurveyDto? GetSurveyById(int id)
     {
         return _surveyRepository.GetSurveyById(id);
-    }
-    
-    public SurveyWithQuestionsDto? GetSurveyWithQuestionsById(int id)
-    {
-        try
-        {
-            return _surveyRepository.GetSurveyWithQuestionsById(id);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("An error occurred while getting the survey with its questions", ex);
-        }
     }
 
     public int CreateSurvey(CreateEditSurveyDto survey)
@@ -62,5 +48,15 @@ public class SurveyService
         }
     }
 
-
+    public bool DeleteSurvey(int id)
+    {
+        try
+        {
+            return _surveyRepository.DeleteSurvey(id);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("An error occurred while deleting the survey", e);
+        }
+    }
 }

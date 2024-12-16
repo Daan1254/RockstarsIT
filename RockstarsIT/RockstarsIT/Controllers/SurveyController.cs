@@ -10,13 +10,17 @@ public class SurveyController : Controller
 {
     private readonly SurveyService _surveyService;
     private readonly QuestionService _questionService;
+    private readonly SquadService _squadService;
+    private readonly EmailService _emailService;
 
 
     // Injecting DbContext in the constructor
-    public SurveyController(SurveyService surveyService, QuestionService questionService)
+    public SurveyController(SurveyService surveyService, QuestionService questionService, SquadService squadService, EmailService emailService)
     {
         _surveyService = surveyService;
         _questionService = questionService;
+        _squadService = squadService;
+        _emailService = emailService;
     }
     
     // GET
@@ -37,14 +41,14 @@ public class SurveyController : Controller
     
     public IActionResult Details(int id)
     {
-        SurveyWithQuestionsDto? survey = _surveyService.GetSurveyWithQuestionsById(id);
+        FullSurveyDto? survey = _surveyService.GetSurveyById(id);
         
         if (survey == null)
         {
             return NotFound();
         }
         
-        SurveyWithQuestionsViewModel surveyViewModel = new SurveyWithQuestionsViewModel()
+        FullSurveyViewModel surveyViewModel = new FullSurveyViewModel()
         {
             Id = survey.Id,
             Title = survey.Title,
@@ -53,45 +57,32 @@ public class SurveyController : Controller
             {
                 Id = q.Id,
                 Title = q.Title
+            }).ToList(),
+            Squads = survey.Squads.Select(s => new SquadViewModel
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Description = s.Description
             }).ToList()
         };
         
         return View(surveyViewModel);
     }
 
-        public IActionResult SendEmail(int id) {
-        // SurveyViewModel? survey = _context.Surveys.Find(id);
-        //
-        // // Define sender and recipient email addresses
-        // string host = DotEnv.Read()["BRAVO_SMTP_HOST"];
-        // string port = DotEnv.Read()["BRAVO_SMTP_PORT"];
-        // string fromEmail = DotEnv.Read()["BRAVO_SMTP_FROM_EMAIL"];
-        // string userName = DotEnv.Read()["BRAVO_SMTP_USERNAME"];
-        // string password = DotEnv.Read()["BRAVO_SMTP_PASSWORD"];
-        // string toEmail = "daanverbeek15@gmail.com";
-        //
-        // // Email message setup
-        // var mail = new MailMessage();
-        // mail.From = new MailAddress(fromEmail);
-        // mail.To.Add(toEmail);
-        // mail.Subject = $"U bent uitgenodigd voor de {survey?.Title} enquête!";
-        // mail.Body = "Beste, <br> U bent uitgenodigd om de volgende enquête in te vullen: <br> <br> " +
-        //             $"<b>{survey?.Title}</b> <br> {survey?.Description} <br> <br> " +
-        //             "Klik op de volgende link om de enquête in te vullen: <br> " +
-        //             "<a href='http://localhost:5169/Survey/'>Klik hier om de enquête in te vullen</a>";
-        //
-        // mail.IsBodyHtml = true; // Make sure to set this so the HTML renders properly
-        //
-        // // Configure SMTP client
-        // using (var smtp = new SmtpClient(host, int.Parse(port)))
-        // {
-        //     smtp.Credentials = new NetworkCredential(userName, password);
-        //     smtp.Send(mail);
-        // }
-        //Template maken voor de emails. Dat er automatisch iets is ingevuld.
-        //Het mag geen page zijn.
-        //Denkt dat file/ template niet in presentation layer staat. 
-        return View("Details", new SurveyWithQuestionsViewModel()); 
+    public IActionResult SendEmail(int surveyId) {
+        try
+        {
+            _emailService.SendEmails(surveyId);
+            
+            TempData["Message"] = "Emails zijn succesvol verstuurd";
+        
+            return RedirectToAction("Details", new { id = surveyId });
+        }
+        catch (Exception e)
+        {
+            TempData["Message"] = "Er is iets fout gegaan bij het versturen van de emails";
+            return RedirectToAction("Details", new { id = surveyId });
+        }
     } 
 
     public IActionResult Create()
@@ -104,30 +95,37 @@ public class SurveyController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Create(CreateEditSurveyViewModel survey)
     {
-        if (!ModelState.IsValid)
+        try 
         {
+            if (!ModelState.IsValid)
+            {
+                return View(survey);
+            }
+
+            CreateEditSurveyDto surveyDto = new()
+            {
+                Title = survey.Title,
+                Description = survey.Description,
+            };
+
+            int surveyId = _surveyService.CreateSurvey(surveyDto);
+
+            foreach (QuestionViewModel question in survey.Questions)
+            {
+                CreateEditQuestionDto createEditQuestionDto = new CreateEditQuestionDto()
+                {
+                    Title = question.Title,
+                    SurveyId = surveyId
+                };
+                
+                _questionService.CreateQuestion(createEditQuestionDto);
+            }
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = "Er is iets fout gegaan bij het opslaan van de survey en vragen.";
             return View(survey);
         }
-
-        CreateEditSurveyDto surveyDto = new()
-        {
-            Title = survey.Title,
-            Description = survey.Description,
-        };
-
-        int surveyId = _surveyService.CreateSurvey(surveyDto);
-
-        foreach (QuestionViewModel question in survey.Questions)
-        {
-            CreateEditQuestionDto createEditQuestionDto = new CreateEditQuestionDto()
-            {
-                Title = question.Title,
-                SurveyId = surveyId
-            };
-            
-            _questionService.CreateQuestion(createEditQuestionDto);
-        }
-
 
         return RedirectToAction("Index");
     }
@@ -137,13 +135,18 @@ public class SurveyController : Controller
 
         try
         {
-            SurveyWithQuestionsDto? surveyDto = _surveyService.GetSurveyWithQuestionsById(id);
+            FullSurveyDto? surveyDto = _surveyService.GetSurveyById(id);
 
 
             if (surveyDto == null)
             {
                 return NotFound();
             }
+            
+            List<SquadDto> allSquads = _squadService.GetSquads();
+
+            // Filter out squads that are already on the survey
+            List<SquadDto> filteredSquads = allSquads.Where(s => !surveyDto.Squads.Any(sq => sq.Id == s.Id)).ToList();
 
             CreateEditSurveyViewModel surveyViewModel = new CreateEditSurveyViewModel()
             {
@@ -154,7 +157,19 @@ public class SurveyController : Controller
                 {
                     Id = q.Id,
                     Title = q.Title
-                }).ToList()
+                }).ToList(),
+                Squads = surveyDto.Squads.Select(s => new SquadViewModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Description = s.Description
+                }).ToList(),
+                AllSquads = filteredSquads.Select(s => new SquadViewModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Description = s.Description
+                }).ToList(),
             };
             return View(surveyViewModel);
 
@@ -181,25 +196,46 @@ public class SurveyController : Controller
                 {
                     Title = surveyViewModel.Title,
                     Description = surveyViewModel.Description,
-                    
+                    SquadIds = surveyViewModel.SelectedSquadIds,
+                    SquadIdsToDelete = surveyViewModel.SquadIdsToDelete
                 };
 
                 _surveyService.EditSurvey(surveyViewModel.Id, createEditSurveyDto);
-                foreach (var question in surveyViewModel.Questions)
-                {
-                    CreateEditQuestionDto createEditQuestionDto = new CreateEditQuestionDto()
-                    {
-                        Title = question.Title,
-                        SurveyId = surveyViewModel.Id,
-                    };
 
-                    if (question.Id != 0) 
+                // Get the original survey to compare questions
+                var originalSurvey = _surveyService.GetSurveyById(surveyViewModel.Id);
+                var existingQuestionIds = originalSurvey.Questions.Select(q => q.Id).ToList();
+                var updatedQuestionIds = surveyViewModel.Questions.Where(q => q.Id != 0).Select(q => q.Id).ToList();
+
+                // Find questions that were deleted (exist in database but not in the form)
+                var deletedQuestionIds = existingQuestionIds.Except(updatedQuestionIds);
+
+                // Delete questions that were removed
+                foreach (var questionId in deletedQuestionIds)
+                {
+                    _questionService.DeleteQuestion(questionId);
+                }
+
+                // Handle remaining questions
+                if (surveyViewModel.Questions != null)
+                {
+                    foreach (var question in surveyViewModel.Questions)
                     {
-                        _questionService.EditQuestion(question.Id, createEditQuestionDto);
-                    }
-                    else 
-                    {
-                        _questionService.CreateQuestion(createEditQuestionDto);
+                        CreateEditQuestionDto createEditQuestionDto = new CreateEditQuestionDto()
+                        {
+                            Title = question.Title,
+                            SurveyId = surveyViewModel.Id,
+                        };
+
+                        // If Id is 0, it's a new question
+                        if (question.Id == 0)
+                        {
+                            _questionService.CreateQuestion(createEditQuestionDto);
+                        }
+                        else
+                        {
+                            _questionService.EditQuestion(question.Id, createEditQuestionDto);
+                        }
                     }
                 }
 
@@ -212,6 +248,20 @@ public class SurveyController : Controller
         {
             TempData["ErrorMessage"] = "Er is iets fout gegaan bij het opslaan van de survey en vragen.";
             return View(surveyViewModel);
+        }
+    }
+
+    public IActionResult Delete(int id)
+    {
+        try
+        {
+            _surveyService.DeleteSurvey(id);
+            return RedirectToAction("Index");
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = "Er is iets fout gegaan bij het verwijderen van de survey.";
+            return RedirectToAction("Index");
         }
     }
 }

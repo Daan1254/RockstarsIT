@@ -1,4 +1,4 @@
-@model SurveyWithQuestionsViewModel
+@model FullSurveyViewModel
 
 @{
     ViewBag.Title = "title";
@@ -12,8 +12,14 @@
 
 <div class="details-container">
     <div class="inner-container">
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert alert-info" role="alert">
+                @TempData["Message"]
+            </div>
+        }
         <h4>@Model.Title</h4>
-        
+
         <hr/>
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -31,16 +37,19 @@
                 <input asp-for="Description" class="form-control"/>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <h5>Vragen</h5>
+            <a class="button button-secondary" asp-controller="Answer" asp-action="Index" asp-route-surveyId="@Model.Id">Bekijk antwoorden</a>
+            <a class="button button-secondary" asp-controller="Answer" asp-action="Chart" asp-route-surveyId="@Model.Id">Bekijk grafiek</a>
+            <h5>Squads</h5>
             <div style="display: flex; flex-direction: column; gap: 15px;">
-                @foreach (var question in Model.Questions)
+                @foreach (var squad in Model.Squads)
                 {
                     <div class="form-group">
-                        <p>@question.Title</p>
+                        <p>@squad.Name</p>
                     </div>
                 }
             </div>
         </form>
-        <a class="btn bg-black text-white" asp-action="Index">Terug</a>
+        <a class="button button-primary button-full" asp-action="SendEmail" asp-route-surveyId="@Model.Id">Verstuur Email</a>
+        <a class="button button-secondary button-full" asp-action="Index">Terug</a>
     </div>
 </div>

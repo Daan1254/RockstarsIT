@@ -1,0 +1,65 @@
+﻿@using RockstarsIT_BLL.Dto
+@model RockstarsIT.Models.FullSurveyViewModel
+
+<h2>@Model.Title</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Question</th>
+            <th>Goed</th>
+            <th>Neutraal</th>
+            <th>Slecht</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Questions)
+        {
+            <tr>
+                <td style="border-right: 2px solid #ccc; padding-right: 10px;">@item.Title</td> <!-- Added right border -->
+                <td>@item.Answers.FindAll(a => a.Result == AnswerResult.LIKE).Count</td>
+                <td>@item.Answers.FindAll(a => a.Result == AnswerResult.NEUTRAL).Count</td>
+                <td>@item.Answers.FindAll(a => a.Result == AnswerResult.DISLIKE).Count</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<h3>Feedback</h3>
+@foreach (var question in Model.Questions)
+{
+    <h5>@question.Title</h5>
+    <div style="border-top: 1px solid #ccc; padding-top: 10px;">
+        <!-- Adding a top border -->
+        @if (question.Answers.All(a => string.IsNullOrEmpty(a.Feedback)))
+        {
+            <p>Geen feedback bij deze vraag</p>
+        }
+        else
+        {
+            @foreach (var answer in question.Answers)
+            {
+                @if (!string.IsNullOrEmpty(answer.Feedback))
+                {
+                    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                        @switch (answer.Result)
+                        {
+                            case AnswerResult.LIKE:
+                                <span style="color: green; margin-right: 10px;">🟢</span>
+                                break;
+                            case AnswerResult.NEUTRAL:
+                                <span style="color: orange; margin-right: 10px;">🟠</span>
+                                break;
+                            case AnswerResult.DISLIKE:
+                                <span style="color: red; margin-right: 10px;">🔴</span>
+                                break;
+                        }
+                        <span>@answer.Feedback</span>
+                    </div>
+                }
+            }
+        }
+    </div>
+}

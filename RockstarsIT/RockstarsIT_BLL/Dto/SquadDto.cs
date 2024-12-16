@@ -7,6 +7,8 @@ public class SquadDto
     public string Description { get; set; }
 
     public int? CompanyId { get; set; }
+
+    public List<UserDto> Users { get; set; }
     public CompanyDto? Company { get; set; }
   
     public DateTime CreatedAt { get; set; }

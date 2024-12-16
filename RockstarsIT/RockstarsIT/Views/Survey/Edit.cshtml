@@ -29,11 +29,12 @@
             </div>
             <h5>Vragen</h5>
             <div class="form-group">
-                <div class="questions-container">
+                <div id="questions-container">
                     @for (int i = 0; i < Model.Questions.Count; i++)
                     {
                         <div class="form-group">
                             <input asp-for="Questions[i].Title" class="form-control"/>
+                            <button type="button" class="btn btn-danger mt-2 remove-question">Verwijder Vraag</button>
                             <input type="hidden" asp-for="Questions[i].Id"/>
                         </div>
                     }
@@ -43,6 +44,20 @@
             <div class="form-group">
                 <input type="submit" value="Opslaan" class="btn  btn-warning text-white mt-2" style="width: 100%; margin-top: 50px !important;"/>
             </div>
+            <div class="form-group">
+                <label asp-for="SelectedSquadIds" class="control-label">Add new Squads</label>
+                <select asp-for="SelectedSquadIds" class="form-control" asp-items="@(new SelectList(Model.AllSquads.Where(s => !Model.SelectedSquadIds.Contains(s.Id)), "Id", "Name"))"></select>
+                <span asp-validation-for="SelectedSquadIds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SquadIdsToDelete" class="control-label">Remove Squad</label>
+                <select asp-for="SquadIdsToDelete" class="form-control" asp-items="@(new SelectList(Model.Squads?.Where(s => !Model.SelectedSquadIds.Contains(s.Id)) ?? Enumerable.Empty<SquadViewModel>(), "Id", "Name"))"></select>
+                <span asp-validation-for="SquadIdsToDelete" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger" style="width: 100%;" onclick="return confirm('Weet je zeker dat je deze enquête wilt verwijderen?');">Verwijder Enquête</a>
+            </div>
+            <input type="hidden" asp-for="Id" />
         </form>
         <a class="btn bg-black text-white" asp-action="Index">Terug</a>
     </div>
@@ -55,43 +70,45 @@
             const container = document.getElementById("questions-container");
             const addQuestionButton = document.getElementById("add-question");
 
-            // Unique identifier for questions
-            let questionIndex = @Model.Questions.Count - 1;
+            let questionIndex = @Model.Questions.Count;
 
-            // Add a new question input
             addQuestionButton.addEventListener("click", function () {
-                const uniqueId = `question-${questionIndex}`; // Unique ID for this question
                 const questionDiv = document.createElement("div");
                 questionDiv.classList.add("form-group", "mt-2");
-                questionDiv.setAttribute("data-id", uniqueId); // Assign unique ID
 
                 questionDiv.innerHTML = `
-                <div class="flex flex-row gap-2">
-                    <input type="text" name="Questions[${questionIndex}].Title" class="form-control question-title" placeholder="Vraag ${questionIndex + 1}" />
-                    <button type="button" class="btn btn-danger mt-2 remove-question">Verwijder Vraag</button>
-                </div>
+                    <div class="flex flex-row gap-2">
+                        <input type="text" name="Questions[${questionIndex}].Title" class="form-control question-title" placeholder="Vraag ${questionIndex + 1}" />
+                        <button type="button" class="btn btn-danger mt-2 remove-question">Verwijder Vraag</button>
+                        <input type="hidden" name="Questions[${questionIndex}].Id" value="0" />
+                    </div>
                 `;
 
                 container.appendChild(questionDiv);
                 questionIndex++;
             });
 
-            // Handle question removal
-            container.addEventListener("click", function (event) {
-                if (event.target.classList.contains("remove-question")) {
+            // Function to reindex questions
+            function reindexQuestions() {
+                const remainingQuestions = container.querySelectorAll(".form-group");
+                remainingQuestions.forEach((question, index) => {
+                    const titleInput = question.querySelector("input[type='text']");
+                    const idInput = question.querySelector("input[type='hidden']");
+                    
+                    titleInput.name = `Questions[${index}].Title`;
+                    titleInput.placeholder = `Vraag ${index + 1}`;
+                    idInput.name = `Questions[${index}].Id`;
+                });
+                questionIndex = remainingQuestions.length;
+            }
+
+            // Handle question removal using event delegation
+            container.addEventListener("click", function(event) {
+                const removeButton = event.target.closest(".remove-question");
+                if (removeButton) {
                     const questionDiv = event.target.closest(".form-group");
                     questionDiv.remove();
-
-                    // After removal, reindex all questions
-                    const remainingQuestions = container.querySelectorAll(".form-group");
-                    remainingQuestions.forEach((question, newIndex) => {
-                        const input = question.querySelector(".question-title");
-                        input.name = `Questions[${newIndex}].Title`;
-                        input.placeholder = `Vraag ${newIndex + 1}`;
-                    });
-
-                    // Update questionIndex to reflect the new total count
-                    questionIndex = remainingQuestions.length;
+                    reindexQuestions();
                 }
             });
         });

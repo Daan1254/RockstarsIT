@@ -23,10 +23,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Data\Migrations\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\RockstarsIT_BLL\RockstarsIT_BLL.csproj" />
       <ProjectReference Include="..\RockstarsIT_DAL\RockstarsIT_DAL.csproj" />
     </ItemGroup>
