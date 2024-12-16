@@ -18,7 +18,7 @@ public class SquadService
         return _squadRepository.GetAllSquads();
     }
     
-    public SquadDto? GetSquadById(int id)
+    public SquadWithUsersDto? GetSquadById(int id)
     {
         try
         {
@@ -66,8 +66,19 @@ public class SquadService
         return _squadRepository.DeleteSquad(id);
     }
 
-    public bool LinkCompany(LinkCompanyDto linkCompanyDto)
+    public bool LinkCompany(LinkDisconnectCompanyDto linkCompanyDto)
     {
          return _squadRepository.LinkCompany(linkCompanyDto);
     }
+
+    public bool LinkUser(LinkUserDto linkUserDto)
+    {
+         return _squadRepository.LinkUser(linkUserDto);
+    }
+
+    public bool DisconnectCompany(LinkDisconnectCompanyDto disconnectCompanyDto)
+    {
+        return _squadRepository.DisconnectCompany(disconnectCompanyDto);
+    }
+    
 }

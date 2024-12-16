@@ -51,6 +51,38 @@ namespace RockstarsIT.Controllers
             return View(fullSurveyViewModel);
         }
 
+        public IActionResult Chart(int surveyId)
+        {
+            FullSurveyDto? survey = _surveyService.GetSurveyById(surveyId);
 
+            if (survey == null)
+            {
+                return NotFound();
+            }
+
+            FullSurveyViewModel fullSurveyViewModel = new FullSurveyViewModel
+            {
+                Id = survey.Id,
+                Title = survey.Title,
+                Description = survey.Description,
+                Questions = survey.Questions.Select(q => new QuestionViewModel
+                {
+                    Id = q.Id,
+                    Title = q.Title,
+                    Answers = q.Answers.Select(a => new AnswerViewModel
+                    {
+                        Id = a.Id,
+                        Result = a.Result,
+                    }).ToList()
+                }).ToList(),
+                Squads = survey.Squads.Select(s => new SquadViewModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                }).ToList()
+            };
+
+            return View(fullSurveyViewModel);
+        }
     }
 }

@@ -1,0 +1,82 @@
+﻿@using RockstarsIT_BLL.Dto
+@using RockstarsIT.Models
+@model RockstarsIT.Models.FullSurveyViewModel
+
+<head>
+    <link rel="stylesheet" href="~/css/Answer.css/Chart.css" />
+</head>
+
+<h2>@Model.Title</h2>
+
+<canvas id="radarChart" class="custom-chart"></canvas>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var ctx = document.getElementById('radarChart').getContext('2d');
+        var radarChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.Questions.Select(q => q.Title))),
+                datasets: [{
+                    label: 'Gemiddelde resultaat',
+                    data: @Html.Raw(Json.Serialize(Model.Questions.Select(q => q.AverageResult))),
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    r: {
+                        angleLines: {
+                            display: false
+                        },
+                        min: -1,
+                        max: 2,
+                        ticks: {
+                            stepSize: 1,
+                            callback: function (value) {
+                                switch (value) {
+                                    case 0:
+                                        return 'slecht';
+                                    case 1:
+                                        return 'gemiddeld';
+                                    case 2:
+                                        return 'goed';
+                                    default:
+                                        return value.toFixed(1);
+                                }
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        pointLabels: {
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                var label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.raw !== null) {
+                                    label += context.raw.toFixed(1);
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+<a asp-action="Details" asp-controller="Survey" asp-route-id="@Model.Id" class="button button-secondary btn-sm">Terug</a>

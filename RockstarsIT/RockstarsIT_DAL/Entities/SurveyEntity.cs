@@ -10,4 +10,8 @@ public class SurveyEntity
     public DateTime? DeletedAt { get; set; }
     public List<QuestionEntity> Questions { get; set; }
     public List<SquadEntity> Squads { get; set; } = new();
+
+    public List<EmailEntity> Emails { get; set; }
+
+    public List<CompletedSurveyEntity> CompletedSurveys { get; set; }
 }
