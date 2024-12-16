@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RockstarsIT_DAL.Entities;
 
 namespace RockstarsIT_DAL.Data;
 
-public class ApplicationDbContext : IdentityDbContext
+public class ApplicationDbContext : IdentityDbContext<UserEntity>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -18,7 +19,7 @@ public class ApplicationDbContext : IdentityDbContext
 
     public DbSet<QuestionEntity> Questions { get; set; }
     public DbSet<CompanyEntity> Companies { get; set; }
-
+    public DbSet<UserEntity> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -31,6 +32,19 @@ public class ApplicationDbContext : IdentityDbContext
             .WithMany(c => c.Squads)
             .HasForeignKey(s => s.CompanyId)
             .OnDelete(DeleteBehavior.Restrict); // Or Cascade/SetNull depending on requirements
+        
+        modelBuilder.Entity<SquadEntity>()
+            .HasMany(s => s.Users)
+            .WithOne(s => s.Squad)
+            .HasForeignKey(s => s.SquadId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        modelBuilder.Entity<UserEntity>()
+            .ToTable("AspNetUsers")
+            .HasDiscriminator<string>("Discriminator")
+            .HasValue("UserEntity");
+        
+        modelBuilder.Entity<SquadEntity>().HasQueryFilter(s => s.DeletedAt == null);
 
         modelBuilder.Entity<AnswerEntity>()
                 .HasOne(a => a.Question)

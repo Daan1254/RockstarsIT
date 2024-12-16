@@ -11,13 +11,15 @@ namespace RockstarsIT.Controllers
         
         private readonly SquadService _squadService;
         private readonly CompanyService _companyService;
+        private readonly UserService _userService;
 
-        public SquadController(SquadService squadService, CompanyService companyService)
+        public SquadController(SquadService squadService, CompanyService companyService, UserService userService)
         {
             _squadService = squadService;
             _companyService = companyService;
+            _userService = userService;
         }
-
+        
         // GET: Squads
         public async Task<IActionResult> Index()
         {
@@ -37,7 +39,7 @@ namespace RockstarsIT.Controllers
         }
 
         // GET: Squads/Details/5
-        public async Task<IActionResult> Details(int id)
+        public IActionResult Details(int id)
         {
             try
             {
@@ -106,8 +108,9 @@ namespace RockstarsIT.Controllers
         {
             try
             {
-                SquadDto? squadDto = _squadService.GetSquadById(int.Parse(id));
+                SquadWithUsersDto? squadDto = _squadService.GetSquadById(int.Parse(id));
                 List<CompanyDto> companies = _companyService.GetAllCompanies();
+                List<UserDto> users = _userService.GetAllUsers();
 
                
                 if (squadDto == null)
@@ -115,6 +118,8 @@ namespace RockstarsIT.Controllers
                     return NotFound();
                 }
 
+                List<UserDto> filteredUsers = users.Where(u => !squadDto.Users.Any(su => su.Id == u.Id)).ToList();
+                
                 CreateEditSquadViewModel squadViewModel = new CreateEditSquadViewModel()
                 {
                     Id = squadDto.Id,
@@ -124,6 +129,11 @@ namespace RockstarsIT.Controllers
                     {
                         Id = s.Id,
                         Name = s.Name,
+                    }).ToList(),
+                    Users = filteredUsers.Select(u => new UserViewModel()
+                    {
+                        Id = u.Id,
+                        Email = u.Email
                     }).ToList(),
                     Company = squadDto.Company != null ? new CompanyViewModel()
                     {
@@ -238,6 +248,29 @@ namespace RockstarsIT.Controllers
                 return RedirectToAction("Details", new { id = squadId });
             }
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult LinkUser(string employeeId, int squadId)
+        {
+            try
+            {
+               LinkUserDto linkUserDto = new LinkUserDto
+                {
+                    UserId = employeeId,
+                    SquadId = squadId
+                };
+
+                _squadService.LinkUser(linkUserDto);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Er is iets fout gegaan bij het linken van de company aan de squad";
+                return RedirectToAction("Details", new { id = squadId });
+            }
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DisconnectCompany(int companyId, int squadId)

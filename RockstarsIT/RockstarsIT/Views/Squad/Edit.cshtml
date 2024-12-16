@@ -56,13 +56,25 @@
                 }
             }
         </div>
-        <a asp-action="Index" class="button button-secondary button-full">Terug</a>
-    </div>
+        
+        <br/>
+        <h5>Medewerkers</h5>
+        <br/>
+        <div style="display: flex; flex-direction: row; gap: 15px;">
+            @foreach(var item in Model.Users)
+            {
+                <form asp-controller="Squad" asp-action="LinkUser" asp-route-employeeId="@item.Id" asp-route-squadId="@Model.Id" method="post">
+                    <p>@item.Email</p>
+                    <button type="submit" class="btn btn-info">Linken</button>
+                </form>
+            }
+        </div>
+    
+        </div>
 </div>
 
 <br/>
-
-
+<a asp-action="Index">Terug</a>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

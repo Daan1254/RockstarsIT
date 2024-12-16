@@ -5,6 +5,7 @@ using RockstarsIT_BLL;
 using RockstarsIT_BLL.Interfaces;
 using RockstarsIT_DAL;
 using RockstarsIT_DAL.Data;
+using RockstarsIT_DAL.Entities;
 
 DotEnv.Load();
 
@@ -18,21 +19,29 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<UserEntity>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<SurveyService>();
-builder.Services.AddScoped<SquadService>();
-builder.Services.AddScoped<CompanyService>();
-builder.Services.AddScoped<QuestionService>();
-builder.Services.AddScoped<EmailTemplateService>();
 builder.Services.AddScoped<ISurveyRepository, SurveyRepository>();
-builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
+
+builder.Services.AddScoped<SquadService>();
 builder.Services.AddScoped<ISquadRepository, SquadRepository>();
+
+builder.Services.AddScoped<QuestionService>();
+builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
+
+builder.Services.AddScoped<CompanyService>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+
+builder.Services.AddScoped<EmailTemplateService>();
 builder.Services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
 
+
+
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 

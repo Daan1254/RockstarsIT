@@ -20,7 +20,7 @@ public class SquadRepository : ISquadRepository
     {
         try
         {
-            return _context.Squads.Where(s => s.DeletedAt == null).Select(s => new SquadDto
+            return _context.Squads.Select(s => new SquadDto
             {
                 Id = s.Id,
                 Name = s.Name,
@@ -38,13 +38,15 @@ public class SquadRepository : ISquadRepository
         }
     }
     
-    public SquadDto GetSquadById(int id)
+    public SquadWithUsersDto GetSquadById(int id)
     {
         try
         {
             // check if deletedAt is null
-            SquadEntity? squad = _context.Squads.Where(s => s.DeletedAt == null)
-                .Include(squadEntity => squadEntity.Company).FirstOrDefault(s => s.Id == id);
+            SquadEntity? squad = _context.Squads
+                .Include(squadEntity => squadEntity.Company)
+                .Include(squadEntity => squadEntity.Users)
+                .FirstOrDefault(s => s.Id == id);
             
             
             if (squad == null)
@@ -52,7 +54,7 @@ public class SquadRepository : ISquadRepository
                 throw new Exception("Squad not found");
             }
 
-            CompanyDto company = null;
+            CompanyDto? company = null;
             if (squad.Company != null)
             {
                 company = new CompanyDto()
@@ -62,13 +64,19 @@ public class SquadRepository : ISquadRepository
                 };
             }
 
-            return new SquadDto
+            
+            return new SquadWithUsersDto()
             {
                 Id = squad.Id,
                 Name = squad.Name,
                 Description = squad.Description, 
                 CompanyId = squad.CompanyId,
                 Company = company,
+                Users = squad.Users.Select(u => new UserDto()
+                {
+                    Id = u.Id,
+                    Email = u.Email,
+                }).ToList(),
                 CreatedAt = squad.CreatedAt,
                 UpdatedAt = squad.UpdatedAt,
                 DeletedAt = squad.DeletedAt
@@ -161,6 +169,35 @@ public class SquadRepository : ISquadRepository
             }
             
             squadEntity.CompanyId = linkCompanyDto.CompanyId;
+
+            return _context.SaveChanges() == 1;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while linking the company to the squad.", ex);
+        }
+    }
+
+    public bool LinkUser(LinkUserDto linkUserDto)
+    {
+        try
+        {
+            SquadEntity? squadEntity = _context.Squads.Find(linkUserDto.SquadId);
+            
+            if (squadEntity == null)
+            {
+             
+                throw new Exception("Squad not found in the context.");
+            }
+
+            UserEntity? userEntity = _context.Users.Find(linkUserDto.UserId);
+
+            if (userEntity == null)
+            {
+                throw new Exception("User not found in the context.");
+            }
+
+            userEntity.SquadId = linkUserDto.SquadId;
 
             return _context.SaveChanges() == 1;
         }
