@@ -230,4 +230,18 @@ public class SurveyController : Controller
             return View(surveyViewModel);
         }
     }
+
+    public IActionResult Delete(int id)
+    {
+        try
+        {
+            _surveyService.DeleteSurvey(id);
+            return RedirectToAction("Index");
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = "Er is iets fout gegaan bij het verwijderen van de survey.";
+            return RedirectToAction("Index");
+        }
+    }
 }

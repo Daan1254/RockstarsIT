@@ -29,7 +29,7 @@
             </div>
             <h5>Vragen</h5>
             <div class="form-group">
-                <div class="questions-container">
+                <div id="questions-container">
                     @for (int i = 0; i < Model.Questions.Count; i++)
                     {
                         <div class="form-group">
@@ -52,6 +52,9 @@
                 <label asp-for="SquadIdsToDelete" class="control-label">Remove Squad</label>
                 <select asp-for="SquadIdsToDelete" class="form-control" asp-items="@(new SelectList(Model.Squads?.Where(s => !Model.SelectedSquadIds.Contains(s.Id)) ?? Enumerable.Empty<SquadViewModel>(), "Id", "Name"))"></select>
                 <span asp-validation-for="SquadIdsToDelete" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger" style="width: 100%;" onclick="return confirm('Weet je zeker dat je deze enquête wilt verwijderen?');">Verwijder Enquête</a>
             </div>
             <input type="hidden" asp-for="Id" />
         </form>
