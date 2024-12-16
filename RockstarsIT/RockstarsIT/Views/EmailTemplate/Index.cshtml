@@ -1,0 +1,40 @@
+﻿@model RockstarsIT.Models.EmailTemplateModel
+
+@{
+    ViewData["Title"] = "Email Template Beheer";
+}
+
+<link rel="stylesheet" href="~/css/Squads.css/Index.css" />
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+    <hr />
+
+    <div class="mb-4">
+        <h3>Huidige Template</h3>
+        @if (!string.IsNullOrEmpty(Model.TemplateContent))
+        {
+            <div class="p-3 bg-light border rounded">
+                <p>@Html.Raw(Model.TemplateContent)</p>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning" role="alert">
+                Geen template-inhoud gevonden. Voeg een nieuwe template toe of werk een bestaande bij.
+            </div>
+        }
+    </div>
+
+</div>
+
+<style>
+    .container {
+        max-width: 800px;
+    }
+
+    textarea {
+        font-family: "Courier New", Courier, monospace;
+    }
+</style>
+
