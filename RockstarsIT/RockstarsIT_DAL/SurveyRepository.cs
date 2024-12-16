@@ -56,6 +56,7 @@ public class SurveyRepository : ISurveyRepository
                     {
                         Id = a.Id,
                         Result = a.Result,
+                        Feedback = a.Feedback,
                     }).ToList()
                 }).ToList(),
                 Squads = survey.Squads.Select(s => new SquadDto

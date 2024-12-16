@@ -6,4 +6,5 @@ public class QuestionViewModel
     public string Title { get; set; }
 
     public List<AnswerViewModel> Answers { get; set; }
+
 }
