@@ -135,6 +135,23 @@ public class SurveyRepository : ISurveyRepository
         {
             throw new Exception("An error occurred while editing the survey", e);
         }
-        
+    }
+
+    public bool DeleteSurvey(int id)
+    {
+        try {
+            SurveyEntity? survey = _context.Surveys.Find(id);
+            if (survey == null)
+            {
+                throw new Exception("Survey not found");
+            }
+            survey.DeletedAt = DateTime.Now;
+            _context.SaveChanges();
+            return true;
+        }
+        catch (Exception e)
+        {
+            throw new Exception("An error occurred while deleting the survey", e);
+        }
     }
 }

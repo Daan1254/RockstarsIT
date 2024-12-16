@@ -47,6 +47,7 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity>
             .HasValue("UserEntity");
         
         modelBuilder.Entity<SquadEntity>().HasQueryFilter(s => s.DeletedAt == null);
+        modelBuilder.Entity<SurveyEntity>().HasQueryFilter(s => s.DeletedAt == null);
 
         modelBuilder.Entity<AnswerEntity>()
                 .HasOne(a => a.Question)

@@ -48,7 +48,8 @@ public class SurveyService
         }
     }
 
-
-
-
+    public bool DeleteSurvey(int id)
+    {
+        return _surveyRepository.DeleteSurvey(id);
+    }
 }
