@@ -70,8 +70,19 @@ public class SurveyController : Controller
     }
 
     public IActionResult SendEmail(int surveyId) {
-        _emailService.SendEmails(surveyId);
-        return RedirectToAction("Details", new { id = surveyId });
+        try
+        {
+            _emailService.SendEmails(surveyId);
+            
+            TempData["Message"] = "Emails zijn succesvol verstuurd";
+        
+            return RedirectToAction("Details", new { id = surveyId });
+        }
+        catch (Exception e)
+        {
+            TempData["Message"] = "Er is iets fout gegaan bij het versturen van de emails";
+            return RedirectToAction("Details", new { id = surveyId });
+        }
     } 
 
     public IActionResult Create()
