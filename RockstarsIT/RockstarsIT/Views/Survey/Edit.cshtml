@@ -53,6 +53,7 @@
                 <select asp-for="SquadIdsToDelete" class="form-control" asp-items="@(new SelectList(Model.Squads?.Where(s => !Model.SelectedSquadIds.Contains(s.Id)) ?? Enumerable.Empty<SquadViewModel>(), "Id", "Name"))"></select>
                 <span asp-validation-for="SquadIdsToDelete" class="text-danger"></span>
             </div>
+            <input type="hidden" asp-for="Id" />
         </form>
         <a class="btn bg-black text-white" asp-action="Index">Terug</a>
     </div>
