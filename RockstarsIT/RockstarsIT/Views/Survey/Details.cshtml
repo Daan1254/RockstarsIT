@@ -12,8 +12,14 @@
 
 <div class="details-container">
     <div class="inner-container">
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert alert-info" role="alert">
+                @TempData["Message"]
+            </div>
+        }
         <h4>@Model.Title</h4>
-        
+
         <hr/>
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -43,6 +49,7 @@
                 }
             </div>
         </form>
-        <a class="btn bg-black text-white" asp-action="Index">Terug</a>
+        <a class="button button-primary button-full" asp-action="SendEmail" asp-route-surveyId="@Model.Id">Verstuur Email</a>
+        <a class="button button-secondary button-full" asp-action="Index">Terug</a>
     </div>
 </div>

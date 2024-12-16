@@ -30,12 +30,11 @@ public class SurveyRepository : ISurveyRepository
     {
         try
         {
-            // check if deletedAt is null
-            // please also include the answers related to the questions
             SurveyEntity? survey = _context.Surveys
                 .Include(s => s.Questions)
                     .ThenInclude(q => q.Answers)
                 .Include(s => s.Squads)
+                    .ThenInclude(s => s.Users)
                 .FirstOrDefault(s => s.Id == id);
 
             if (survey == null)
@@ -62,7 +61,14 @@ public class SurveyRepository : ISurveyRepository
                 {
                     Id = s.Id,
                     Name = s.Name,
+                    Description = s.Description,
+                    Users = s.Users.Select(u => new UserDto
+                    {
+                        Email = u.Email,
+                        Id = u.Id
+                    }).ToList() 
                 }).ToList(),
+                 
             };
         }
         catch (Exception e)
