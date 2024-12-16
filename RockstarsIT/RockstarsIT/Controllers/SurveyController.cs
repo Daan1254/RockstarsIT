@@ -112,30 +112,37 @@ public class SurveyController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Create(CreateEditSurveyViewModel survey)
     {
-        if (!ModelState.IsValid)
+        try 
         {
+            if (!ModelState.IsValid)
+            {
+                return View(survey);
+            }
+
+            CreateEditSurveyDto surveyDto = new()
+            {
+                Title = survey.Title,
+                Description = survey.Description,
+            };
+
+            int surveyId = _surveyService.CreateSurvey(surveyDto);
+
+            foreach (QuestionViewModel question in survey.Questions)
+            {
+                CreateEditQuestionDto createEditQuestionDto = new CreateEditQuestionDto()
+                {
+                    Title = question.Title,
+                    SurveyId = surveyId
+                };
+                
+                _questionService.CreateQuestion(createEditQuestionDto);
+            }
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = "Er is iets fout gegaan bij het opslaan van de survey en vragen.";
             return View(survey);
         }
-
-        CreateEditSurveyDto surveyDto = new()
-        {
-            Title = survey.Title,
-            Description = survey.Description,
-        };
-
-        int surveyId = _surveyService.CreateSurvey(surveyDto);
-
-        foreach (QuestionViewModel question in survey.Questions)
-        {
-            CreateEditQuestionDto createEditQuestionDto = new CreateEditQuestionDto()
-            {
-                Title = question.Title,
-                SurveyId = surveyId
-            };
-            
-            _questionService.CreateQuestion(createEditQuestionDto);
-        }
-
 
         return RedirectToAction("Index");
     }
