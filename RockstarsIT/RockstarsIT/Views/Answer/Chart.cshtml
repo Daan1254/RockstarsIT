@@ -2,9 +2,13 @@
 @using RockstarsIT.Models
 @model RockstarsIT.Models.FullSurveyViewModel
 
+<head>
+    <link rel="stylesheet   " href="~/css/Answer.css/Chart.css" />
+</head>
+
 <h2>@Model.Title</h2>
 
-<canvas id="radarChart" class="custom-chart"></canvas> <!-- Adjusted size -->
+<canvas id="radarChart" class="custom-chart"></canvas>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -14,7 +18,7 @@
             data: {
                 labels: @Html.Raw(Json.Serialize(Model.Questions.Select(q => q.Title))),
                 datasets: [{
-                    label: 'Average Results',
+                    label: 'Gemiddelde resultaat',
                     data: @Html.Raw(Json.Serialize(Model.Questions.Select(q => q.AverageResult))),
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
                     borderColor: 'rgba(54, 162, 235, 1)',
@@ -30,14 +34,15 @@
                         min: 0,
                         max: 2,
                         ticks: {
-                            stepSize: 0.5, // Interval between ticks
+                            stepSize: 0.5,
                             callback: function (value) {
-                                return value.toFixed(1); // Format tick labels
+                                return value.toFixed(1);
                             }
                         },
                         grid: {
-                            color: 'rgba(0, 0, 0, 0.1)' // Customize grid line color if needed
+                            color: 'rgba(0, 0, 0, 0.1)'
                         }
+
                     }
                 }
             }
