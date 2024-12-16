@@ -32,6 +32,7 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <a class="button button-secondary" asp-controller="Answer" asp-action="Index" asp-route-surveyId="@Model.Id">Bekijk antwoorden</a>
+            <a class="button button-secondary" asp-controller="Answer" asp-action="Chart" asp-route-surveyId="@Model.Id">Bekijk grafiek</a>
             <h5>Squads</h5>
             <div style="display: flex; flex-direction: column; gap: 15px;">
                 @foreach (var squad in Model.Squads)
