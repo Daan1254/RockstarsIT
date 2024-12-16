@@ -1,6 +1,6 @@
 ﻿.custom-chart {
-    width: 600px;
-    height: 600px;
+    width: 90%;
+    max-height: 600px;
     margin: 0 auto;
     display: block;
 }
