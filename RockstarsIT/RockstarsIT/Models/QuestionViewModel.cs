@@ -6,5 +6,5 @@ public class QuestionViewModel
     public string Title { get; set; }
 
     public List<AnswerViewModel> Answers { get; set; } = new();
-    public double AverageResult => Answers.Any() ? Answers.Average(a => (double)a.Result) : 0;
+    public double? AverageResult => Answers.Any() ? Answers.Average(a => (double)a.Result) : 0;
 }
