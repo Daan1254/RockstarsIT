@@ -7,6 +7,8 @@ public interface ISurveyRepository
     
     public List<SurveyDto> GetAllSurveys();
     public FullSurveyDto? GetSurveyById (int id);
+    
+    public List<CompletedSurveyDto> GetAllCompletedSurveys();
 
     public int CreateSurvey(CreateEditSurveyDto survey);
 

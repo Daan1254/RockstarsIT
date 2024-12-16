@@ -138,4 +138,13 @@ public class SurveyRepository : ISurveyRepository
         }
         
     }
+    
+    public List<CompletedSurveyDto> GetAllCompletedSurveys()
+    {
+        // return _context.CompletedSurveys
+        //     .Include(cs => cs.Survey)
+        //     .ThenInclude(s => s.Questions)
+        //     .ThenInclude(q => q.Answers)
+        //     .ToList();
+    }
 }
