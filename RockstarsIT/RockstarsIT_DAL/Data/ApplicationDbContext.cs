@@ -39,7 +39,10 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity>
             .HasForeignKey(s => s.SquadId)
             .OnDelete(DeleteBehavior.Restrict);
         
-        modelBuilder.Entity<UserEntity>().ToTable("AspNetUsers");
+        modelBuilder.Entity<UserEntity>()
+            .ToTable("AspNetUsers")
+            .HasDiscriminator<string>("Discriminator")
+            .HasValue("UserEntity");
         
         modelBuilder.Entity<SquadEntity>().HasQueryFilter(s => s.DeletedAt == null);
 

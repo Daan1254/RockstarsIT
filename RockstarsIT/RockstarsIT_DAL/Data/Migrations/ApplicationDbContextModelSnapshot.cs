@@ -86,11 +86,6 @@ namespace RockstarsIT_DAL.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("nvarchar(13)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -142,10 +137,6 @@ namespace RockstarsIT_DAL.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator().HasValue("IdentityUser");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -254,7 +245,7 @@ namespace RockstarsIT_DAL.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Answers");
+                    b.ToTable("Answers", (string)null);
                 });
 
             modelBuilder.Entity("RockstarsIT_DAL.Entities.CompanyEntity", b =>
@@ -302,7 +293,7 @@ namespace RockstarsIT_DAL.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Questions", (string)null);
                 });
 
             modelBuilder.Entity("RockstarsIT_DAL.Entities.SquadEntity", b =>
@@ -368,18 +359,6 @@ namespace RockstarsIT_DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Surveys", (string)null);
-                });
-
-            modelBuilder.Entity("RockstarsIT_DAL.Entities.UserEntity", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<int>("SquadId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("SquadId");
-
-                    b.HasDiscriminator().HasValue("UserEntity");
                 });
 
             modelBuilder.Entity("SquadEntitySurveyEntity", b =>
@@ -480,17 +459,6 @@ namespace RockstarsIT_DAL.Migrations
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("RockstarsIT_DAL.Entities.UserEntity", b =>
-                {
-                    b.HasOne("RockstarsIT_DAL.Entities.SquadEntity", "Squad")
-                        .WithMany("Users")
-                        .HasForeignKey("SquadId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Squad");
-                });
-
             modelBuilder.Entity("SquadEntitySurveyEntity", b =>
                 {
                     b.HasOne("RockstarsIT_DAL.Entities.SquadEntity", null)
@@ -510,8 +478,6 @@ namespace RockstarsIT_DAL.Migrations
                 {
                     b.Navigation("Squads");
                 });
-
-            modelBuilder.Entity("RockstarsIT_DAL.Entities.SquadEntity", b => { b.Navigation("Users"); });
 
             modelBuilder.Entity("RockstarsIT_DAL.Entities.QuestionEntity", b =>
                 {
