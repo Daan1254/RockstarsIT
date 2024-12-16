@@ -35,6 +35,11 @@ builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<CompanyService>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 
+builder.Services.AddScoped<EmailTemplateService>();
+builder.Services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
+
+
+
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
