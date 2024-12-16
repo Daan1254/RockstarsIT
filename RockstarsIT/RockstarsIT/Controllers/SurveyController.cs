@@ -196,26 +196,46 @@ public class SurveyController : Controller
                 {
                     Title = surveyViewModel.Title,
                     Description = surveyViewModel.Description,
-                    SquadIds = surveyViewModel.selectedSquadIds,
+                    SquadIds = surveyViewModel.SelectedSquadIds,
                     SquadIdsToDelete = surveyViewModel.SquadIdsToDelete
                 };
 
                 _surveyService.EditSurvey(surveyViewModel.Id, createEditSurveyDto);
-                foreach (var question in surveyViewModel.Questions)
-                {
-                    CreateEditQuestionDto createEditQuestionDto = new CreateEditQuestionDto()
-                    {
-                        Title = question.Title,
-                        SurveyId = surveyViewModel.Id,
-                    };
 
-                    if (question.Id != 0) 
+                // Get the original survey to compare questions
+                var originalSurvey = _surveyService.GetSurveyById(surveyViewModel.Id);
+                var existingQuestionIds = originalSurvey.Questions.Select(q => q.Id).ToList();
+                var updatedQuestionIds = surveyViewModel.Questions.Where(q => q.Id != 0).Select(q => q.Id).ToList();
+
+                // Find questions that were deleted (exist in database but not in the form)
+                var deletedQuestionIds = existingQuestionIds.Except(updatedQuestionIds);
+
+                // Delete questions that were removed
+                foreach (var questionId in deletedQuestionIds)
+                {
+                    _questionService.DeleteQuestion(questionId);
+                }
+
+                // Handle remaining questions
+                if (surveyViewModel.Questions != null)
+                {
+                    foreach (var question in surveyViewModel.Questions)
                     {
-                        _questionService.EditQuestion(question.Id, createEditQuestionDto);
-                    }
-                    else 
-                    {
-                        _questionService.CreateQuestion(createEditQuestionDto);
+                        CreateEditQuestionDto createEditQuestionDto = new CreateEditQuestionDto()
+                        {
+                            Title = question.Title,
+                            SurveyId = surveyViewModel.Id,
+                        };
+
+                        // If Id is 0, it's a new question
+                        if (question.Id == 0)
+                        {
+                            _questionService.CreateQuestion(createEditQuestionDto);
+                        }
+                        else
+                        {
+                            _questionService.EditQuestion(question.Id, createEditQuestionDto);
+                        }
                     }
                 }
 

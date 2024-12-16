@@ -70,43 +70,45 @@
             const container = document.getElementById("questions-container");
             const addQuestionButton = document.getElementById("add-question");
 
-            // Unique identifier for questions
-            let questionIndex = @Model.Questions.Count - 1;
+            let questionIndex = @Model.Questions.Count;
 
-            // Add a new question input
             addQuestionButton.addEventListener("click", function () {
-                const uniqueId = `question-${questionIndex}`; // Unique ID for this question
                 const questionDiv = document.createElement("div");
                 questionDiv.classList.add("form-group", "mt-2");
-                questionDiv.setAttribute("data-id", uniqueId); // Assign unique ID
 
                 questionDiv.innerHTML = `
-                <div class="flex flex-row gap-2">
-                    <input type="text" name="Questions[${questionIndex}].Title" asp-for="Questions[${questionIndex}].Title" class="form-control question-title" placeholder="Vraag ${questionIndex + 1}" />
-                    <button type="button" class="btn btn-danger mt-2 remove-question">Verwijder Vraag</button>
-                </div>
+                    <div class="flex flex-row gap-2">
+                        <input type="text" name="Questions[${questionIndex}].Title" class="form-control question-title" placeholder="Vraag ${questionIndex + 1}" />
+                        <button type="button" class="btn btn-danger mt-2 remove-question">Verwijder Vraag</button>
+                        <input type="hidden" name="Questions[${questionIndex}].Id" value="0" />
+                    </div>
                 `;
 
                 container.appendChild(questionDiv);
                 questionIndex++;
             });
 
-            // Handle question removal
-            container.addEventListener("click", function (event) {
-                if (event.target.classList.contains("remove-question")) {
+            // Function to reindex questions
+            function reindexQuestions() {
+                const remainingQuestions = container.querySelectorAll(".form-group");
+                remainingQuestions.forEach((question, index) => {
+                    const titleInput = question.querySelector("input[type='text']");
+                    const idInput = question.querySelector("input[type='hidden']");
+                    
+                    titleInput.name = `Questions[${index}].Title`;
+                    titleInput.placeholder = `Vraag ${index + 1}`;
+                    idInput.name = `Questions[${index}].Id`;
+                });
+                questionIndex = remainingQuestions.length;
+            }
+
+            // Handle question removal using event delegation
+            container.addEventListener("click", function(event) {
+                const removeButton = event.target.closest(".remove-question");
+                if (removeButton) {
                     const questionDiv = event.target.closest(".form-group");
                     questionDiv.remove();
-
-                    // After removal, reindex all questions
-                    const remainingQuestions = container.querySelectorAll(".form-group");
-                    remainingQuestions.forEach((question, newIndex) => {
-                        const input = question.querySelector(".question-title");
-                        input.name = `Questions[${newIndex}].Title`;
-                        input.placeholder = `Vraag ${newIndex + 1}`;
-                    });
-
-                    // Update questionIndex to reflect the new total count
-                    questionIndex = remainingQuestions.length;
+                    reindexQuestions();
                 }
             });
         });

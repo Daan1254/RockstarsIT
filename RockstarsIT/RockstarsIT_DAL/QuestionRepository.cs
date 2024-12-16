@@ -11,19 +11,7 @@ public class QuestionRepository : IQuestionRepository {
     public QuestionRepository(ApplicationDbContext context) {
         _context = context;
     }
-
-    public List<QuestionDto> GetQuestionsBySurveyId(int surveyId) {
-        try {
-            return _context.Questions.Where(q => q.SurveyId == surveyId).Select(q => new QuestionDto {
-                Id = q.Id,
-                Title = q.Title
-            }).ToList();
-        }
-        catch (Exception ex) {
-            throw new Exception("An error occurred while retrieving the questions.", ex);
-        }
-    }
-
+    
     public void CreateQuestion(CreateEditQuestionDto question) {
         try {
             _context.Questions.Add(new QuestionEntity {
@@ -54,6 +42,24 @@ public class QuestionRepository : IQuestionRepository {
         catch (Exception ex)
         {
             throw new Exception("An error occurred while updating the question.", ex);
+        }
+    }
+
+    public void DeleteQuestion(int id)
+    {
+        try
+        {
+            QuestionEntity? question = _context.Questions.Find(id);
+            
+            if (question != null)
+            {
+                question.DeletedAt = DateTime.Now;
+                _context.SaveChanges();
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while deleting the question.", ex);
         }
     }
 
