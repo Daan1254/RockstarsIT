@@ -42,6 +42,7 @@
                 }
             </div>
         </form>
-        <a class="btn bg-black text-white" asp-action="Index">Terug</a>
+        <a class="button button-primary button-full" asp-action="SendEmail" asp-route-surveyId="@Model.Id">Verstuur Email</a>
+        <a class="button button-secondary button-full" asp-action="Index">Terug</a>
     </div>
 </div>
