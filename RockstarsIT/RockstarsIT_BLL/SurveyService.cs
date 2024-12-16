@@ -50,6 +50,13 @@ public class SurveyService
 
     public bool DeleteSurvey(int id)
     {
-        return _surveyRepository.DeleteSurvey(id);
+        try
+        {
+            return _surveyRepository.DeleteSurvey(id);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("An error occurred while deleting the survey", e);
+        }
     }
 }
