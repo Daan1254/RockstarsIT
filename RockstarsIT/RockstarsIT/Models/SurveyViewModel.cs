@@ -10,4 +10,6 @@ public class SurveyViewModel
     [Required]
     public string Description { get; set; }
     public List<QuestionViewModel> Questions { get; set; } = new();
+    public List<SquadViewModel> AllSquads { get; set; } = new();
+    public List<int> SelectedSquadIds { get; set; } = new();
 }

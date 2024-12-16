@@ -25,9 +25,12 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<SurveyService>();
 builder.Services.AddScoped<ISurveyRepository, SurveyRepository>();
+
 builder.Services.AddScoped<SquadService>();
-builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<ISquadRepository, SquadRepository>();
+
+builder.Services.AddScoped<QuestionService>();
+builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 
 builder.Services.AddScoped<CompanyService>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
@@ -58,7 +61,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Survey}/{action=Index}");
 app.MapRazorPages();
 
 app.Run();

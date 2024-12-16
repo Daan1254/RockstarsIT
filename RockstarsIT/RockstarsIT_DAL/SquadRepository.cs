@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using RockstarsIT_BLL;
 using System.Data;
 using RockstarsIT_BLL.Dto;
 using RockstarsIT_BLL.Interfaces;
@@ -157,7 +156,7 @@ public class SquadRepository : ISquadRepository
         }
     }
 
-    public bool LinkCompany(LinkCompanyDto linkCompanyDto)
+    public bool LinkCompany(LinkDisconnectCompanyDto linkCompanyDto)
     {
         try
         {
@@ -199,6 +198,28 @@ public class SquadRepository : ISquadRepository
             }
 
             userEntity.SquadId = linkUserDto.SquadId;
+
+            return _context.SaveChanges() == 1;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while linking the company to the squad.", ex);
+        }
+    }
+
+    public bool DisconnectCompany(LinkDisconnectCompanyDto disconnectCompanyDTO)
+    {
+        try
+        {
+            SquadEntity? squadEntity = _context.Squads.Find(disconnectCompanyDTO.SquadId);
+
+            if (squadEntity == null)
+            {
+
+                throw new Exception("Squad not found in the context.");
+            }
+
+            squadEntity.CompanyId = null;
 
             return _context.SaveChanges() == 1;
         }

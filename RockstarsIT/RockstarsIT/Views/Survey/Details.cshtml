@@ -1,13 +1,47 @@
-@model SurveyViewModel
+@model FullSurveyViewModel
 
 @{
     ViewBag.Title = "title";
 }
 <link rel="stylesheet" href="~/css/Survey.css/Details.css" />
-<h2>Dit is survey van @Html.DisplayFor(model => model.Title)</h2>
+@* <h2>Dit is survey van @Html.DisplayFor(model => model.Title)</h2> *@
+@* *@
+@* *@
+@* @Html.ActionLink("SendEmail", "SendEmail",  "Survey", new  { id = 2 }, null) *@
 
 
-@Html.ActionLink("SendEmail", "SendEmail",  "Survey", new  { id = 2 }, null)
-
-
-
+<div class="details-container">
+    <div class="inner-container">
+        <h4>@Model.Title</h4>
+        
+        <hr/>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="text-danger">@TempData["ErrorMessage"]</div>
+            }
+            <div class="form-group">
+                <label asp-for="Title" class="control-label">Naam</label>
+                <input asp-for="Title" class="form-control"/>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Beschrijving</label>
+                <input asp-for="Description" class="form-control"/>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <a class="button button-secondary" asp-controller="Answer" asp-action="Index" asp-route-surveyId="@Model.Id">Bekijk antwoorden</a>
+            <h5>Squads</h5>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                @foreach (var squad in Model.Squads)
+                {
+                    <div class="form-group">
+                        <p>@squad.Name</p>
+                    </div>
+                }
+            </div>
+        </form>
+        <a class="btn bg-black text-white" asp-action="Index">Terug</a>
+    </div>
+</div>

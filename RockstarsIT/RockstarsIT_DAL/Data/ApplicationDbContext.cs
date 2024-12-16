@@ -14,6 +14,9 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity>
     
     public DbSet<SurveyEntity> Surveys { get; set; }
     public DbSet<SquadEntity> Squads { get; set; }
+
+    public DbSet<AnswerEntity> Answers { get; set; }
+
     public DbSet<QuestionEntity> Questions { get; set; }
     public DbSet<CompanyEntity> Companies { get; set; }
     public DbSet<UserEntity> Users { get; set; }
@@ -39,6 +42,17 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity>
         modelBuilder.Entity<UserEntity>().ToTable("AspNetUsers");
         
         modelBuilder.Entity<SquadEntity>().HasQueryFilter(s => s.DeletedAt == null);
+
+        modelBuilder.Entity<AnswerEntity>()
+                .HasOne(a => a.Question)
+                .WithMany(q => q.Answers)
+                .HasForeignKey(a => a.QuestionId)
+                .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<SurveyEntity>()
+            .HasMany(s => s.Squads)
+            .WithMany(sq => sq.Surveys)
+            .UsingEntity(j => j.ToTable("Squad_Surveys"));
     }
 
 

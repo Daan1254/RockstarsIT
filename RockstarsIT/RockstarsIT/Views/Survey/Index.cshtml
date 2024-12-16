@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="~/css/Squads.css/Index.css" />
 <div class="header-container">
     <h2>Enquêtes</h2>
-    <a asp-action="Create" class="btn btn-primary voeg-toe-button">TOEVOEGEN</a>
+    <a asp-action="Create" class="button button-primary">TOEVOEGEN</a>
 </div>
 
 
@@ -24,11 +24,12 @@
                 <div class="card-body">
                     <p>@item.Description</p>
                     <div class="actions">
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Details</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="button button-primary btn-sm">Details</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="button button-secondary">Bewerken</a>
                     </div>
                 </div>
             </div>
-        }
+    }
     }
     else
     {
