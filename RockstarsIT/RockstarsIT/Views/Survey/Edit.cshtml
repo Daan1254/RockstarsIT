@@ -34,6 +34,7 @@
                     {
                         <div class="form-group">
                             <input asp-for="Questions[i].Title" class="form-control"/>
+                            <button type="button" class="btn btn-danger mt-2 remove-question">Verwijder Vraag</button>
                             <input type="hidden" asp-for="Questions[i].Id"/>
                         </div>
                     }
@@ -81,7 +82,7 @@
 
                 questionDiv.innerHTML = `
                 <div class="flex flex-row gap-2">
-                    <input type="text" name="Questions[${questionIndex}].Title" class="form-control question-title" placeholder="Vraag ${questionIndex + 1}" />
+                    <input type="text" name="Questions[${questionIndex}].Title" asp-for="Questions[${questionIndex}].Title" class="form-control question-title" placeholder="Vraag ${questionIndex + 1}" />
                     <button type="button" class="btn btn-danger mt-2 remove-question">Verwijder Vraag</button>
                 </div>
                 `;
