@@ -6,4 +6,5 @@ public class AnswerViewModel
 {
     public int Id { get; set; }
     public AnswerResult Result { get; set; }
+    public string? Feedback { get; set; }
 }

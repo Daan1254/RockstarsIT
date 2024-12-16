@@ -20,10 +20,9 @@ namespace RockstarsIT.Controllers
         {
             FullSurveyDto? survey = _surveyService.GetSurveyById(surveyId);
 
-
             if (survey == null)
             {
-               return NotFound();
+                return NotFound();
             }
 
             FullSurveyViewModel fullSurveyViewModel = new FullSurveyViewModel
@@ -39,6 +38,7 @@ namespace RockstarsIT.Controllers
                     {
                         Id = a.Id,
                         Result = a.Result,
+                        Feedback = a.Feedback 
                     }).ToList()
                 }).ToList(),
                 Squads = survey.Squads.Select(s => new SquadViewModel
@@ -47,7 +47,7 @@ namespace RockstarsIT.Controllers
                     Name = s.Name,
                 }).ToList()
             };
-            
+
             return View(fullSurveyViewModel);
         }
 
