@@ -17,4 +17,6 @@ public class SquadEntity
     public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; set; }
     public List<SurveyEntity> Surveys { get; set; }
+
+    public List<CompletedSurveyEntity> CompletedSurveys { get; set; }
 }

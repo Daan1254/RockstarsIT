@@ -20,6 +20,8 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity>
     public DbSet<QuestionEntity> Questions { get; set; }
     public DbSet<CompanyEntity> Companies { get; set; }
     public DbSet<UserEntity> Users { get; set; }
+    public DbSet<EmailEntity> Emails { get; set; }
+    public DbSet<CompletedSurveyEntity> CompletedSurveys { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -56,6 +58,30 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity>
             .HasMany(s => s.Squads)
             .WithMany(sq => sq.Surveys)
             .UsingEntity(j => j.ToTable("Squad_Surveys"));
+
+        modelBuilder.Entity<CompletedSurveyEntity>()
+            .HasOne(cs => cs.Survey)
+            .WithMany(s => s.CompletedSurveys)
+            .HasForeignKey(cs => cs.SurveyId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<CompletedSurveyEntity>()
+            .HasOne(cs => cs.Squad)
+            .WithMany(s => s.CompletedSurveys)
+            .HasForeignKey(cs => cs.SquadId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<EmailEntity>()
+            .HasOne(e => e.Survey)
+            .WithMany(s => s.Emails)
+            .HasForeignKey(e => e.SurveyId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<EmailEntity>()
+            .HasOne(e => e.User)
+            .WithMany(u => u.Emails)
+            .HasForeignKey(e => e.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
 
