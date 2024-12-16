@@ -37,4 +37,16 @@ public class QuestionService
             throw new Exception("An error occurred while editing a question.", ex);
         }
     }
+
+    public void DeleteQuestion(int id)
+    {
+        try
+        {
+            _questionRepository.DeleteQuestion(id);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while deleting a question.", ex);
+        }
+    }
 }
