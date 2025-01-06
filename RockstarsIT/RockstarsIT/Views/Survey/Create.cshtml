@@ -1,7 +1,7 @@
 @model CreateEditSurveyViewModel
 
 @{
-    ViewBag.Title = "Nieuwe Enquete";
+    ViewBag.Title = "Nieuwe health check";
 }
 
 <link rel="stylesheet" href="~/css/Squads.css/Index.css" />
@@ -9,7 +9,7 @@
 
 <div class="create-container">
     <div class="inner-container">
-        <h1>Nieuwe Enquete Aanmaken</h1>
+        <h1>Nieuwe Health Check Aanmaken</h1>
         
         <hr />
         <form asp-action="Create" method="post">
@@ -35,7 +35,7 @@
                 <button type="button" id="add-question" class="btn btn-primary mt-2">Voeg Vraag Toe</button>
             </div>
 
-            <button class="btn btn-primary mt-2" style="width: 100%; margin-top: 50px !important;" type="submit">Enquete Aanmaken</button>
+            <button class="btn btn-primary mt-2" style="width: 100%; margin-top: 50px !important;" type="submit">Health Check Aanmaken</button>
         </form>
     </div>
 </div>
