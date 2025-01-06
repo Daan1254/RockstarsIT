@@ -10,6 +10,41 @@
     <h2>Squads</h2>
     <a asp-action="Create" class="btn btn-primary voeg-toe-button">TOEVOEGEN</a>
 </div>
+@* <div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Kies een bedrijf
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Item 1</a></li>
+        <li><a class="dropdown-item" href="#">Item 2</a></li>
+    </ul>
+</div>
+ *@
+
+
+<div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        Kies een bedrijf
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        @if (ViewBag.Companies != null)
+        {
+            foreach (var company in ViewBag.Companies)
+            {
+                <li>
+                    <a asp-action="FilterByCompany" asp-route-companyId="@company.Id">
+                        @company.Name
+                    </a>
+                </li>
+            }
+        }
+        else
+        {
+            <li><a href="#">Geen bedrijven beschikbaar</a></li>
+        }
+    </ul>
+</div>
 
 <div class="grid">
     @if (Model != null)

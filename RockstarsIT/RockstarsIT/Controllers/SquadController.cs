@@ -23,20 +23,78 @@ namespace RockstarsIT.Controllers
         // GET: Squads
         public async Task<IActionResult> Index()
         {
-            List<SquadViewModel> squadViewModels = _squadService.GetSquads().Select(s => new SquadViewModel()
+            var squads = _squadService.GetSquads();
+
+            // Create a distinct list of companies using a HashSet to avoid duplicates
+            var companies = new HashSet<CompanyViewModel>();
+
+            // Create squad view models
+            var squadViewModels = squads.Select(s =>
+            {
+                if (s.Company != null)
+                {
+                    companies.Add(new CompanyViewModel
+                    {
+                        Id = s.Company.Id,
+                        Name = s.Company.Name
+                    });
+                }
+
+                return new SquadViewModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Description = s.Description,
+                    Company = s.Company != null ? new CompanyViewModel
+                    {
+                        Id = s.Company.Id,
+                        Name = s.Company.Name
+                    } : null
+                };
+            }).ToList();
+
+            // Convert HashSet to List to assign to ViewBag
+            ViewBag.Companies = companies.ToList();
+
+            return View(squadViewModels);
+
+        }
+        //List<SquadViewModel> squadViewModels = _squadService.GetSquads()
+        //    .OrderBy(s => s.Company?.Name)
+        //    .Select(s => new SquadViewModel()
+        //    {
+        //        Id = s.Id,
+        //        Name = s.Name,
+        //        Description = s.Description,
+        //        Company = s.Company != null ? new CompanyViewModel()
+        //        {
+        //            Id = s.Company.Id,
+        //            Name = s.Company.Name
+        //        } : null
+        //    }).ToList();
+        //return View(squadViewModels);
+
+        public IActionResult FilterByCompany(int companyId)
+        {
+            // Haal squads op die bij het geselecteerde bedrijf horen
+            var squads = _squadService.GetSquads()
+                .Where(s => s.Company != null && s.Company.Id == companyId);
+
+            var squadViewModels = squads.Select(s => new SquadViewModel
             {
                 Id = s.Id,
                 Name = s.Name,
                 Description = s.Description,
-                Company = s.Company != null ? new CompanyViewModel()
+                Company = s.Company != null ? new CompanyViewModel
                 {
                     Id = s.Company.Id,
                     Name = s.Company.Name
                 } : null
             }).ToList();
 
-            return View(squadViewModels);
+            return View("Index", squadViewModels);
         }
+
 
         // GET: Squads/Details/5
         public IActionResult Details(int id)
