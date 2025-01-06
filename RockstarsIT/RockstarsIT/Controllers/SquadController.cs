@@ -23,6 +23,13 @@ namespace RockstarsIT.Controllers
         // GET: Squads
         public async Task<IActionResult> Index()
         {
+            //int id = 1;
+            //var squads = _squadService.GetSquads();
+
+            //if (false)
+            //{
+            //    squads = squads.Where(s => s.Company != null && s.Company.Id == id).ToList();
+            //}
             var squads = _squadService.GetSquads();
 
             // Create a distinct list of companies using a HashSet to avoid duplicates
@@ -77,10 +84,10 @@ namespace RockstarsIT.Controllers
         public IActionResult FilterByCompany(int companyId)
         {
             // Haal squads op die bij het geselecteerde bedrijf horen
-            var squads = _squadService.GetSquads()
-                .Where(s => s.Company != null && s.Company.Id == companyId);
+            List<SquadDto> squads = _squadService.GetSquadsByCompany(companyId)
+                .Where(s => s.Company != null && s.Company.Id == companyId).ToList();
 
-            var squadViewModels = squads.Select(s => new SquadViewModel
+            List<SquadViewModel> squadViewModels = squads.Select(s => new SquadViewModel
             {
                 Id = s.Id,
                 Name = s.Name,
