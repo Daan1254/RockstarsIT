@@ -19,22 +19,23 @@ namespace RockstarsIT.Controllers
             _companyService = companyService;
             _userService = userService;
         }
-        
+
         // GET: Squads
         public async Task<IActionResult> Index()
-        {
-            List<SquadViewModel> squadViewModels = _squadService.GetSquads().Select(s => new SquadViewModel()
-            {
-                Id = s.Id,
-                Name = s.Name,
-                Description = s.Description,
-                Company = s.Company != null ? new CompanyViewModel()
-                {
-                    Id = s.Company.Id,
-                    Name = s.Company.Name
-                } : null
-            }).ToList();
-
+        { 
+            List<SquadViewModel> squadViewModels = _squadService.GetSquads()
+                .OrderBy(s => s.Company?.Name)
+                .Select(s => new SquadViewModel() 
+                { 
+                    Id = s.Id, 
+                    Name = s.Name, 
+                    Description = s.Description, 
+                    Company = s.Company != null ? new CompanyViewModel() 
+                    { 
+                        Id = s.Company.Id, 
+                        Name = s.Company.Name 
+                    } : null
+                }).ToList();
             return View(squadViewModels);
         }
 

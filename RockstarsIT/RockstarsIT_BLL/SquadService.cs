@@ -15,7 +15,9 @@ public class SquadService
     
     public List<SquadDto> GetSquads()
     {
-        return _squadRepository.GetAllSquads();
+        return _squadRepository.GetAllSquads()
+             .OrderBy(s => s.Company?.Name)
+             .ToList();
     }
     
     public SquadWithUsersDto? GetSquadById(int id)
@@ -80,5 +82,10 @@ public class SquadService
     {
         return _squadRepository.DisconnectCompany(disconnectCompanyDto);
     }
-    
+
+    public List<SquadDto> SortSquadsByCompany()
+    { 
+        
+    }
+
 }
