@@ -1,0 +1,30 @@
+﻿@model List<RockstarsIT_BLL.Dto.SquadQuestionModeDto>
+
+<table>
+    <thead>
+        <tr>
+            <th>Question</th>
+            @foreach (var squad in Model.Select(m => m.SquadName).Distinct())
+            {
+                <th>@squad</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var questionGroup in Model.GroupBy(m => m.QuestionTitle))
+        {
+            <tr>
+                <td>@questionGroup.Key</td>
+                @foreach (var squad in Model.Select(m => m.SquadName).Distinct())
+                {
+                    var answer = questionGroup.FirstOrDefault(q => q.SquadName == squad)?.ModeAnswer ?? "N/A";
+                    <td>
+                        <a href="@Url.Action("DetailPage", "Survey", new { squadId = questionGroup.First().SquadId, questionId = questionGroup.First().QuestionId })">
+                            @answer
+                        </a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

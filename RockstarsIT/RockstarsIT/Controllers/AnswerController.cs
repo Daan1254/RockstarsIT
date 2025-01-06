@@ -84,5 +84,19 @@ namespace RockstarsIT.Controllers
 
             return View(fullSurveyViewModel);
         }
+
+        //public IActionResult SquadQuestionModes()
+        //{
+        //    var data = _surveyService.GetModeAnswersPerSquad();
+        //    return View(data);
+        //}
+
+        //public IActionResult DetailPage(int squadId, int questionId)
+        //{
+        //    // Haal antwoorden en feedback op voor de specifieke squad en vraag
+        //    var data = _surveyService.GetAnswersForSquadAndQuestion(squadId, questionId);
+        //    return View(data);
+        //}
+
     }
 }

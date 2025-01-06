@@ -138,4 +138,28 @@ public class SurveyRepository : ISurveyRepository
         }
         
     }
+
+    //public List<SquadQuestionModeDto> GetModeAnswersPerSquad()
+    //{
+    //    var result = _context.Answers
+    //        .Include(a => a.Question)
+    //        .Include(a => a.CompletedSurvey)
+    //            .ThenInclude(cs => cs.Squad)
+    //        .GroupBy(a => new { a.CompletedSurvey.SquadId, a.QuestionId })
+    //        .Select(group => new SquadQuestionModeDto
+    //        {
+    //            SquadId = group.Key.SquadId,
+    //            SquadName = group.First().CompletedSurvey.Squad.Name,
+    //            QuestionId = group.Key.QuestionId,
+    //            QuestionTitle = group.First().Question.Title,
+    //            ModeAnswer = group.GroupBy(a => a.Result)
+    //              .OrderByDescending(g => g.Count())
+    //              .First().Key.ToString()
+
+    //        })
+    //        .ToList();
+
+    //    return result;
+    //}
+
 }
