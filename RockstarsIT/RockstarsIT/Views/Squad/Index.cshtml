@@ -33,7 +33,7 @@
             foreach (var company in ViewBag.Companies)
             {
                 <li>
-                    <a asp-action="FilterByCompany" asp-route-companyId="@company.Id">
+                    <a asp-route-companyId="@company.Id">
                         @company.Name
                     </a>
                 </li>

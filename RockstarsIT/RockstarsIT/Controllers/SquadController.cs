@@ -19,24 +19,22 @@ namespace RockstarsIT.Controllers
             _companyService = companyService;
             _userService = userService;
         }
-        
+
         // GET: Squads
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? companyId)
         {
-            //int id = 1;
-            //var squads = _squadService.GetSquads();
+            List<SquadDto> squads = _squadService.GetSquads();
 
-            //if (false)
-            //{
-            //    squads = squads.Where(s => s.Company != null && s.Company.Id == id).ToList();
-            //}
-            var squads = _squadService.GetSquads();
+            HashSet<CompanyViewModel> companies = new HashSet<CompanyViewModel>();
 
-            // Create a distinct list of companies using a HashSet to avoid duplicates
-            var companies = new HashSet<CompanyViewModel>();
+            List<SquadViewModel> squadViewModels;
 
-            // Create squad view models
-            var squadViewModels = squads.Select(s =>
+            if (companyId.HasValue)
+            {
+                squads = squads.Where(s => s.Company != null && s.Company.Id == companyId.Value).ToList();
+            }
+
+            squadViewModels = squads.Select(s =>
             {
                 if (s.Company != null)
                 {
@@ -60,47 +58,31 @@ namespace RockstarsIT.Controllers
                 };
             }).ToList();
 
-            // Convert HashSet to List to assign to ViewBag
             ViewBag.Companies = companies.ToList();
-
             return View(squadViewModels);
-
         }
-        //List<SquadViewModel> squadViewModels = _squadService.GetSquads()
-        //    .OrderBy(s => s.Company?.Name)
-        //    .Select(s => new SquadViewModel()
+
+
+        //public IActionResult FilterByCompany(int companyId)
+        //{
+        //    // Haal squads op die bij het geselecteerde bedrijf horen
+        //    List<SquadDto> squads = _squadService.GetSquadsByCompany(companyId)
+        //        .Where(s => s.Company != null && s.Company.Id == companyId).ToList();
+
+        //    List<SquadViewModel> squadViewModels = squads.Select(s => new SquadViewModel
         //    {
         //        Id = s.Id,
         //        Name = s.Name,
         //        Description = s.Description,
-        //        Company = s.Company != null ? new CompanyViewModel()
+        //        Company = s.Company != null ? new CompanyViewModel
         //        {
         //            Id = s.Company.Id,
         //            Name = s.Company.Name
         //        } : null
         //    }).ToList();
-        //return View(squadViewModels);
 
-        public IActionResult FilterByCompany(int companyId)
-        {
-            // Haal squads op die bij het geselecteerde bedrijf horen
-            List<SquadDto> squads = _squadService.GetSquadsByCompany(companyId)
-                .Where(s => s.Company != null && s.Company.Id == companyId).ToList();
-
-            List<SquadViewModel> squadViewModels = squads.Select(s => new SquadViewModel
-            {
-                Id = s.Id,
-                Name = s.Name,
-                Description = s.Description,
-                Company = s.Company != null ? new CompanyViewModel
-                {
-                    Id = s.Company.Id,
-                    Name = s.Company.Name
-                } : null
-            }).ToList();
-
-            return View("Index", squadViewModels);
-        }
+        //    return View("Index", squadViewModels);
+        //}
 
 
         // GET: Squads/Details/5
