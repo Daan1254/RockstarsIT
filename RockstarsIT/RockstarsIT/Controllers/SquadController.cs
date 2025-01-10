@@ -23,28 +23,33 @@ namespace RockstarsIT.Controllers
         // GET: Squads
         public async Task<IActionResult> Index(int? companyId)
         {
-            List<SquadDto> squads = _squadService.GetSquads();
+            List<SquadDto> allSquads = _squadService.GetSquads();
+            List<CompanyDto> allCompanies = _companyService.GetAllCompanies(); // Veronderstel dat je een methode hebt om alle bedrijven op te halen
 
-            HashSet<CompanyViewModel> companies = new HashSet<CompanyViewModel>();
+            HashSet<CompanyViewModel> companies = new HashSet<CompanyViewModel>
+    {
+        new CompanyViewModel { Id = 0, Name = "Geen bedrijf" }
+    };
 
-            List<SquadViewModel> squadViewModels;
-
-            if (companyId.HasValue)
+            // Voeg alle bedrijven toe, zelfs als ze nog niet zijn gekoppeld aan een squad
+            foreach (var company in allCompanies)
             {
-                squads = squads.Where(s => s.Company != null && s.Company.Id == companyId.Value).ToList();
+                companies.Add(new CompanyViewModel
+                {
+                    Id = company.Id,
+                    Name = company.Name
+                });
             }
 
-            squadViewModels = squads.Select(s =>
-            {
-                if (s.Company != null)
-                {
-                    companies.Add(new CompanyViewModel
-                    {
-                        Id = s.Company.Id,
-                        Name = s.Company.Name
-                    });
-                }
+            List<SquadDto> filteredSquads = allSquads;
 
+            if (companyId.HasValue && companyId.Value != 0)
+            {
+                filteredSquads = allSquads.Where(s => s.Company != null && s.Company.Id == companyId.Value).ToList();
+            }
+
+            List<SquadViewModel> squadViewModels = filteredSquads.Select(s =>
+            {
                 return new SquadViewModel
                 {
                     Id = s.Id,
@@ -63,26 +68,6 @@ namespace RockstarsIT.Controllers
         }
 
 
-        //public IActionResult FilterByCompany(int companyId)
-        //{
-        //    // Haal squads op die bij het geselecteerde bedrijf horen
-        //    List<SquadDto> squads = _squadService.GetSquadsByCompany(companyId)
-        //        .Where(s => s.Company != null && s.Company.Id == companyId).ToList();
-
-        //    List<SquadViewModel> squadViewModels = squads.Select(s => new SquadViewModel
-        //    {
-        //        Id = s.Id,
-        //        Name = s.Name,
-        //        Description = s.Description,
-        //        Company = s.Company != null ? new CompanyViewModel
-        //        {
-        //            Id = s.Company.Id,
-        //            Name = s.Company.Name
-        //        } : null
-        //    }).ToList();
-
-        //    return View("Index", squadViewModels);
-        //}
 
 
         // GET: Squads/Details/5
