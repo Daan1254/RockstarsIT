@@ -38,7 +38,7 @@ public class SurveyController : Controller
         
         return View(surveyViewModels);
     }
-    
+
     public IActionResult Details(int id)
     {
         FullSurveyDto? survey = _surveyService.GetSurveyById(id);

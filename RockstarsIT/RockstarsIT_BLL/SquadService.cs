@@ -80,5 +80,14 @@ public class SquadService
     {
         return _squadRepository.DisconnectCompany(disconnectCompanyDto);
     }
-    
+
+    public List<SquadDto> GetSquadsByCompany(int companyId)
+    {
+        var squads = _squadRepository.GetAllSquads()
+            .Where(s => s.Company != null && s.Company.Id == companyId)
+            .ToList();
+
+        return squads;
+    }
+
 }

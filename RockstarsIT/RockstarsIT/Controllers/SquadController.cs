@@ -19,22 +19,58 @@ namespace RockstarsIT.Controllers
             _companyService = companyService;
             _userService = userService;
         }
-        
+
         // GET: Squads
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? companyId)
         {
-            List<SquadViewModel> squadViewModels = _squadService.GetSquads().Select(s => new SquadViewModel()
+            List<SquadDto> allSquads = _squadService.GetSquads();
+            List<CompanyDto> allCompanies = _companyService.GetAllCompanies();
+
+            HashSet<CompanyViewModel> companies = new HashSet<CompanyViewModel>
+    {
+        new CompanyViewModel { Id = 0, Name = "Geen bedrijf" }
+    };
+
+            foreach (var company in allCompanies)
             {
-                Id = s.Id,
-                Name = s.Name,
-                Description = s.Description,
-                Company = s.Company != null ? new CompanyViewModel()
+                companies.Add(new CompanyViewModel
                 {
-                    Id = s.Company.Id,
-                    Name = s.Company.Name
-                } : null
+                    Id = company.Id,
+                    Name = company.Name
+                });
+            }
+
+            List<SquadDto> filteredSquads = allSquads;
+
+            string selectedCompanyName = null;
+            if (companyId.HasValue && companyId.Value != 0)
+            {
+                filteredSquads = allSquads.Where(s => s.Company != null && s.Company.Id == companyId.Value).ToList();
+                selectedCompanyName = companies.FirstOrDefault(c => c.Id == companyId.Value)?.Name;
+            }
+
+            if (selectedCompanyName == null)
+            {
+                selectedCompanyName = "Kies een bedrijf";
+            }
+
+            List<SquadViewModel> squadViewModels = filteredSquads.Select(s =>
+            {
+                return new SquadViewModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Description = s.Description,
+                    Company = s.Company != null ? new CompanyViewModel
+                    {
+                        Id = s.Company.Id,
+                        Name = s.Company.Name
+                    } : null
+                };
             }).ToList();
 
+            ViewBag.Companies = companies.ToList();
+            ViewBag.SelectedCompanyName = selectedCompanyName;
             return View(squadViewModels);
         }
 
