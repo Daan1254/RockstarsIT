@@ -38,14 +38,7 @@ public class SurveyController : Controller
         
         return View(surveyViewModels);
     }
-    
-    //public IActionResult FilterBySquad(int squadId)
-    //{
-    //    var surveys = _surveyService.GetAllSurveys()
-    //        .Where(s => s.Squad != null && s.Squad.Id == squadId);
-        
-    //    var 
-    //}
+
     public IActionResult Details(int id)
     {
         FullSurveyDto? survey = _surveyService.GetSurveyById(id);
