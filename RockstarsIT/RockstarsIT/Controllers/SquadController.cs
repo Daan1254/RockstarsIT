@@ -24,14 +24,13 @@ namespace RockstarsIT.Controllers
         public async Task<IActionResult> Index(int? companyId)
         {
             List<SquadDto> allSquads = _squadService.GetSquads();
-            List<CompanyDto> allCompanies = _companyService.GetAllCompanies(); // Veronderstel dat je een methode hebt om alle bedrijven op te halen
+            List<CompanyDto> allCompanies = _companyService.GetAllCompanies();
 
             HashSet<CompanyViewModel> companies = new HashSet<CompanyViewModel>
     {
         new CompanyViewModel { Id = 0, Name = "Geen bedrijf" }
     };
 
-            // Voeg alle bedrijven toe, zelfs als ze nog niet zijn gekoppeld aan een squad
             foreach (var company in allCompanies)
             {
                 companies.Add(new CompanyViewModel
@@ -43,9 +42,16 @@ namespace RockstarsIT.Controllers
 
             List<SquadDto> filteredSquads = allSquads;
 
+            string selectedCompanyName = null;
             if (companyId.HasValue && companyId.Value != 0)
             {
                 filteredSquads = allSquads.Where(s => s.Company != null && s.Company.Id == companyId.Value).ToList();
+                selectedCompanyName = companies.FirstOrDefault(c => c.Id == companyId.Value)?.Name;
+            }
+
+            if (selectedCompanyName == null)
+            {
+                selectedCompanyName = "Kies een bedrijf";
             }
 
             List<SquadViewModel> squadViewModels = filteredSquads.Select(s =>
@@ -64,11 +70,9 @@ namespace RockstarsIT.Controllers
             }).ToList();
 
             ViewBag.Companies = companies.ToList();
+            ViewBag.SelectedCompanyName = selectedCompanyName;
             return View(squadViewModels);
         }
-
-
-
 
         // GET: Squads/Details/5
         public IActionResult Details(int id)
