@@ -30,13 +30,13 @@ public class SurveyController : Controller
         List<SurveyDto> allSurveys = _surveyService.GetAllSurveys();
         List<SquadDto> allSquads = _squadService.GetSquads();
 
-        HashSet<SquadFilteredViewModel> squads = new HashSet<SquadFilteredViewModel>
+        HashSet<SquadViewModel> squads = new HashSet<SquadViewModel>
             {
-                new SquadFilteredViewModel { Id = 0, Name = "Geen squads" }
+                new SquadViewModel { Id = 0, Name = "Geen squads" }
             };
         foreach (SquadDto squad in allSquads)
         {
-            squads.Add(new SquadFilteredViewModel
+            squads.Add(new SquadViewModel
             {
                 Id = squad.Id,
                 Name = squad.Name
