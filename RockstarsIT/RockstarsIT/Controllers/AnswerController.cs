@@ -85,18 +85,24 @@ namespace RockstarsIT.Controllers
             return View(fullSurveyViewModel);
         }
 
-        //public IActionResult SquadQuestionModes()
-        //{
-        //    var data = _surveyService.GetModeAnswersPerSquad();
-        //    return View(data);
-        //}
+        public IActionResult Details(int id)
+        {
+            // Retrieve data from the service
+            var modeAnswers = _surveyService.GetModeAnswersPerSquad();
 
-        //public IActionResult DetailPage(int squadId, int questionId)
-        //{
-        //    // Haal antwoorden en feedback op voor de specifieke squad en vraag
-        //    var data = _surveyService.GetAnswersForSquadAndQuestion(squadId, questionId);
-        //    return View(data);
-        //}
+            // Map the data to the ViewModel
+            var viewModel = modeAnswers.Select(dto => new SquadQuestionModeViewModel
+            {
+                SquadId = dto.SquadId,
+                SquadName = dto.SquadName,
+                QuestionId = dto.QuestionId,
+                QuestionTitle = dto.QuestionTitle,
+                ModeAnswer = dto.ModeAnswer
+            }).ToList();
+
+            // Pass the ViewModel to the view
+            return View(viewModel);
+        }
 
     }
 }

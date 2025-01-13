@@ -12,5 +12,5 @@ public interface ISurveyRepository
 
     public bool EditSurvey(int id, CreateEditSurveyDto surveyDTO);
 
-    //List<SquadQuestionModeDto> GetModeAnswersPerSquad();
+    public List<SquadQuestionModeDto> GetModeAnswersPerSquad();
 }

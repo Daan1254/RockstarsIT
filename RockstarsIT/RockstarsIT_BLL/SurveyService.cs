@@ -48,10 +48,10 @@ public class SurveyService
         }
     }
 
-    //public List<SquadQuestionModeDto> GetModeAnswersPerSquad()
-    //{
-    //    return _surveyRepository.GetModeAnswersPerSquad();
-    //}
+    public List<SquadQuestionModeDto> GetModeAnswersPerSquad()
+    {
+        return _surveyRepository.GetModeAnswersPerSquad();
+    }
 
 
 }
