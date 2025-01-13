@@ -16,4 +16,9 @@ public class UserService
     {
         return _userRepository.GetAllUsers();
     }
+    
+    public UserDto? CreateUser(string email)
+    {
+        return _userRepository.CreateUser(email);
+    }
 }

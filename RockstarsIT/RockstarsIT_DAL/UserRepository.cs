@@ -24,4 +24,27 @@ public class UserRepository: IUserRepository
         }).ToList();
     }
     
+    public UserDto? CreateUser(string email)
+    {
+        UserEntity user = new UserEntity
+        {
+            Email = email
+        };
+        
+        _context.Users.Add(user);
+        int rowsAffected = _context.SaveChanges();
+
+        if (rowsAffected == 0)
+        {
+            return null;
+        }
+        
+        UserEntity newUser = _context.Users.First(u => u.Email == user.Email);
+        
+        return new UserDto
+        {
+            Id = newUser.Id,
+            Email = newUser.Email
+        };
+    }
 }

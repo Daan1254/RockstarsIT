@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using RockstarsIT_BLL;
@@ -67,7 +68,40 @@ namespace RockstarsIT.Controllers
         // GET: Squads/Create
         public IActionResult Create()
         {
-            return View();
+            return View(new CreateEditSquadViewModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateUser(CreateEditSquadViewModel squadViewModel)
+        {
+            if (squadViewModel.NewUser == null)
+            {
+                return View("Create", squadViewModel);
+            }
+            
+            // check if email is valid
+            string email = squadViewModel.NewUser.Email;
+            if (!new EmailAddressAttribute().IsValid(email))
+            {
+                ViewData["ErrorMessage"] = "Email is not valid";
+                return View("Create", squadViewModel);
+            }
+
+            UserDto? user = _userService.CreateUser(email);
+
+            if (user == null)
+            {
+                return View("Create", squadViewModel);
+            }
+            
+            squadViewModel.Users.Add(new UserViewModel()
+            {
+                Id = user.Id,
+                Email = user.Email
+            });
+            
+            return View("Create", squadViewModel);
         }
 
         // POST: Squads/Create
@@ -75,8 +109,12 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(SquadViewModel squadViewModel)
+        public IActionResult Create(CreateEditSquadViewModel squadViewModel, bool addUser = false)
         {
+            if (addUser)
+            {
+                return CreateUser(squadViewModel);
+            }
             try
             {
                 if (ModelState.IsValid)

@@ -1,4 +1,4 @@
-﻿@model RockstarsIT.Models.SquadViewModel
+﻿@model RockstarsIT.Models.CreateEditSquadViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -9,30 +9,50 @@
 <div class="create-container">
     <div class="inner-container">
         <h1>Nieuwe Squad Aanmaken</h1>
-                
+
         <hr />
-        <form asp-action="Create">
+        <form asp-controller="Squad" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @if (ViewData["ErrorMessage"] != null)
             {
                 <div class="text-danger">@ViewData["ErrorMessage"]</div>
             }
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control"/>
+                <label class="control-label">Naam</label>
+                <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label class="control-label">Beschrijving</label>
                 @* <input asp-for="Description" class="form-control" /> *@
                 <input textarea asp-for="Description" class="form-control" placeholder="Squad beschrijving invoeren">
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Aanmaken" style="width: 100%" class="btn btn-primary"/>
+                <label class="control-label">Rockstars</label>
+                    <div style="display: flex;flex-direction: row; gap: 10px;">
+                        <input asp-for="NewUser.Email" style="width: 85%" class="form-control" placeholder="Email">
+                        <button asp-action="Create" asp-route-addUser="true" type="submit"  style="width: 15%" class="button button-primary">Add</button>
+                    </div>
+                <span asp-validation-for="NewUser.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                @foreach (var rockstar in Model.Users)
+                {
+                        <div style="display: flex;flex-direction: row; gap: 10px;">
+                        <input readonly style="width: 85%" value="@rockstar.Email" class="form-control">
+                        <button asp-action="Create" asp-route-addUser="false" type="button" style="width: 15%" class="button button-secondary">Remove</button>
+                    </div>
+                }
+            </div>
+
+            <div class="form-group">
+                <input value="Aanmaken" asp-action="Create" type="submit" style="width: 100%" class="btn btn-primary"/>
             </div>
         </form>
         <a asp-action="Index" class="btn btn-primary btn-lg">Back to List</a>
-         
+
     </div>
 </div>
