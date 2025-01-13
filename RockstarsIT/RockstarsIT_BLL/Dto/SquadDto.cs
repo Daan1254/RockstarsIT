@@ -1,11 +1,8 @@
 namespace RockstarsIT_BLL.Dto;
 
-public class SquadDto
+public class SquadDto : MinimalSquadDto
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
-
+    
     public int? CompanyId { get; set; }
 
     public List<UserDto> Users { get; set; }

@@ -22,7 +22,12 @@ public class SurveyRepository : ISurveyRepository
         {
             Id = s.Id,
             Title = s.Title,
-            Description = s.Description
+            Description = s.Description,
+             Squads = s.Squads.Select(sq => new MinimalSquadDto()
+             {
+                 Id = sq.Id,
+                 Name = sq.Name 
+             }).ToList()
         }).ToList();
     }
 

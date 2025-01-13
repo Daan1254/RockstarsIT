@@ -27,11 +27,11 @@ namespace RockstarsIT.Controllers
             List<CompanyDto> allCompanies = _companyService.GetAllCompanies();
 
             HashSet<CompanyViewModel> companies = new HashSet<CompanyViewModel>
-    {
-        new CompanyViewModel { Id = 0, Name = "Geen bedrijf" }
-    };
+            {
+                new CompanyViewModel { Id = 0, Name = "Geen bedrijf" }
+            };
 
-            foreach (var company in allCompanies)
+            foreach (CompanyDto company in allCompanies)
             {
                 companies.Add(new CompanyViewModel
                 {
