@@ -2,9 +2,8 @@
 @using RockstarsIT.Models
 @model RockstarsIT.Models.FullSurveyViewModel
 
-<head>
-    <link rel="stylesheet" href="~/css/Answer.css/Chart.css" />
-</head>
+<link rel="stylesheet" href="RockstarsIT/Views"
+<link rel="stylesheet" href="~/css/Answer.css/Chart.css" />
 
 <h2>@Model.Title</h2>
 @if (!Model.Questions.Any(q => q.Answers.Any()))
@@ -42,11 +41,11 @@ else
                                 callback: function (value) {
                                     switch (value) {
                                         case 0:
-                                            return 'slecht';
+                                            return '🔴';
                                         case 1:
-                                            return 'gemiddeld';
+                                            return '🟡';
                                         case 2:
-                                            return 'goed';
+                                            return '🟢';
                                         default:
                                             return value.toFixed(1);
                                     }
