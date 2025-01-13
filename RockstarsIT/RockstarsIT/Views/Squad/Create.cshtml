@@ -1,4 +1,4 @@
-﻿@model RockstarsIT.Models.SquadViewModel
+﻿@model RockstarsIT.Models.CreateEditSquadViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -6,33 +6,98 @@
 <link rel="stylesheet" href="~/css/Squads.css/Index.css" />
 
 
+@Model.Users.Count
+
 <div class="create-container">
     <div class="inner-container">
         <h1>Nieuwe Squad Aanmaken</h1>
-                
+
         <hr />
-        <form asp-action="Create">
+        <form asp-controller="Squad" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @if (ViewData["ErrorMessage"] != null)
             {
                 <div class="text-danger">@ViewData["ErrorMessage"]</div>
             }
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control"/>
+                <label class="control-label">Naam</label>
+                <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label class="control-label">Beschrijving</label>
                 @* <input asp-for="Description" class="form-control" /> *@
                 <input textarea asp-for="Description" class="form-control" placeholder="Squad beschrijving invoeren">
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Aanmaken" style="width: 100%" class="btn btn-primary"/>
+                <label class="control-label">Rockstars</label>
+                <div style="display: flex;flex-direction: row; gap: 10px;">
+                    <input id="emailInput" type="email" class="form-control" style="width: 85%" placeholder="Email">
+                    <button type="button" onclick="addEmail()" style="width: 15%"
+                        class="button button-primary">Add</button>
+                </div>
+                <span id="emailError" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" id="emailList">
+                <!-- Email list will be populated here -->
+            </div>
+
+            <input type="hidden" id="emailsJson" name="Emails" value="[]" />
+
+            <div class="form-group">
+                <input value="Aanmaken" type="submit" style="width: 100%" class="btn btn-primary" />
             </div>
         </form>
         <a asp-action="Index" class="btn btn-primary btn-lg">Back to List</a>
-         
+
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        let emails = [];
+
+        function addEmail() {
+            const emailInput = document.getElementById('emailInput');
+            const emailError = document.getElementById('emailError');
+            const email = emailInput.value.trim();
+
+
+            // Check for duplicates
+            if (emails.includes(email)) {
+                emailError.textContent = 'This email is already added';
+                return;
+            }
+
+            emails.push(email);
+            updateEmailList();
+
+            // Clear input and error
+            emailInput.value = '';
+            emailError.textContent = '';
+        }
+
+        function removeEmail(email) {
+            emails = emails.filter(e => e !== email);
+            updateEmailList();
+        }
+
+        function updateEmailList() {
+            const emailList = document.getElementById('emailList');
+            const emailsJson = document.getElementById('emailsJson');
+
+            emailList.innerHTML = emails.map(email => `
+                                    <div style="display: flex;flex-direction: row; gap: 10px; margin-bottom: 10px;">
+                                        <input readonly style="width: 85%" value="${email}" class="form-control">
+                                        <button type="button" onclick="removeEmail('${email}')" style="width: 15%" class="button button-secondary">Remove</button>
+                                    </div>
+                                `).join('');
+
+            // Update hidden input with JSON string of emails
+            emailsJson.value = JSON.stringify(emails);
+        }
+    </script>
+}

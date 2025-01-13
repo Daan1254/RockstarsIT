@@ -3,6 +3,7 @@ using RockstarsIT_BLL;
 using RockstarsIT_BLL.Dto;
 using RockstarsIT.Models;
 using System.Data;
+using System.ComponentModel.Design;
 
 namespace RockstarsIT.Controllers;
 
@@ -24,21 +25,59 @@ public class SurveyController : Controller
     }
     
     // GET
-    public IActionResult Index()
+    public IActionResult Index(int? squadId)
     {
-        List<SurveyDto> surveys = _surveyService.GetAllSurveys();
+        List<SurveyDto> allSurveys = _surveyService.GetAllSurveys();
+        List<SquadDto> allSquads = _squadService.GetSquads();
         
-        // convert SurveyDto to SurveyViewModel
-        List<SurveyViewModel> surveyViewModels = surveys.Select(s => new SurveyViewModel
+
+        HashSet<MinimalSquadViewModel> squads = new HashSet<MinimalSquadViewModel>
+            {
+                new MinimalSquadViewModel() { Id = 0, Name = "Geen squads" }
+            };
+        foreach (SquadDto squad in allSquads)
         {
-            Id = s.Id,
-            Title = s.Title,
-            Description = s.Description,
+            squads.Add(new MinimalSquadViewModel
+            {
+                Id = squad.Id,
+                Name = squad.Name
+            });
+        }
+        List<SurveyDto> filteredSurveys = allSurveys;
+
+        string selectedSquadName = null;
+        if (squadId.HasValue && squadId.Value != 0)
+        {
+            filteredSurveys = allSurveys.Where(s => s.Squads.Any(sq => sq.Id == squadId.Value)).ToList();
+            selectedSquadName = squads.FirstOrDefault(s => s.Id == squadId.Value)?.Name;
+        }
+
+        if (selectedSquadName == null)
+        {
+            selectedSquadName = "Kies een squad";
+        }
+
+
+        List<SurveyViewModel> surveyViewModels = filteredSurveys.Select(s =>
+        {
+            return new SurveyViewModel
+            {
+                Id = s.Id,
+                Title = s.Title,
+                Description = s.Description,
+                Squads = s.Squads.Select(sq => new MinimalSquadViewModel()
+                {
+                    Name = sq.Name,
+                    Id = sq.Id
+                }).ToList()
+            };
         }).ToList();
-        
+
+        ViewBag.Squads = squads.ToList();
+        ViewBag.SelectedSquadName = selectedSquadName;
         return View(surveyViewModels);
     }
-    
+
     public IActionResult Details(int id)
     {
         FullSurveyDto? survey = _surveyService.GetSurveyById(id);
@@ -164,11 +203,10 @@ public class SurveyController : Controller
                     Name = s.Name,
                     Description = s.Description
                 }).ToList(),
-                AllSquads = filteredSquads.Select(s => new SquadViewModel
+                AllSquads = filteredSquads.Select(s => new MinimalSquadViewModel()
                 {
                     Id = s.Id,
                     Name = s.Name,
-                    Description = s.Description
                 }).ToList(),
             };
             return View(surveyViewModel);

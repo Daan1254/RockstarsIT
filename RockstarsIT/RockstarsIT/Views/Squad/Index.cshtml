@@ -8,7 +8,29 @@
 
 <div class="header-container">
     <h2>Squads</h2>
-    <a asp-action="Create" class="btn btn-primary voeg-toe-button">TOEVOEGEN</a>
+    <a asp-action="Create" class="button button-primary">TOEVOEGEN</a>
+</div>
+
+<div class="dropdown">
+    <button class="button button-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+        @ViewBag.SelectedCompanyName
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        @if (ViewBag.Companies != null)
+        {
+            foreach (var company in ViewBag.Companies)
+            {
+                <li>
+                    <a class="dropdown-item text-black text-decoration-none" href="#" data-company-id="@company.Id">@company.Name</a>
+                </li>
+            }
+        }
+        else
+        {
+            <li><a class="dropdown-item" href="#">Geen bedrijven beschikbaar</a></li>
+        }
+    </ul>
 </div>
 
 <div class="grid">
@@ -25,16 +47,14 @@
                     <p>@item.Description</p>
                     @if (item.Company != null)
                     {
-                        <p>Gekopppeld aan @item.Company.Name</p>
+                        <p>Gekoppeld aan @item.Company.Name</p>
                     }
                     else
                     {
-                        <p>Niet gekoppeld aan een bedrijf</p>  
+                        <p>Niet gekoppeld aan een bedrijf</p>
                     }
                     <div class="actions">
-                         @* <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info btn-sm">Edit</a> *@
                         <a asp-action="Details" asp-route-id="@item.Id" class="button button-primary btn-sm">Details</a>
-                        @* <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a> *@
                     </div>
                 </div>
             </div>
@@ -45,3 +65,23 @@
         <p>Geen Squads gevonden.</p>
     }
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const dropdownItems = document.querySelectorAll('.dropdown-item');
+        const dropdownButton = document.getElementById('dropdownMenuButton');
+
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', function () {
+                const companyId = this.getAttribute('data-company-id');
+                const companyName = this.textContent;
+
+                // Werk de knoptekst bij
+                dropdownButton.textContent = companyName;
+
+                // Stuur de gebruiker door naar de gefilterde pagina
+                window.location.href = `?companyId=${companyId}`;
+            });
+        });
+    });
+</script>

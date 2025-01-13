@@ -7,19 +7,20 @@
     <thead>
         <tr>
             <th>Question</th>
-            <th>Goed</th>
-            <th>Neutraal</th>
-            <th>Slecht</th>
+            <th>🔴</th>
+            <th>🟡</th>
+            <th>🟢</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.Questions)
         {
             <tr>
-                <td style="border-right: 2px solid #ccc; padding-right: 10px;">@item.Title</td> <!-- Added right border -->
+				<td style="border-right: 2px solid #ccc; padding-right: 10px;">@item.Title</td> <!-- Added right border -->
+				<td>@item.Answers.FindAll(a => a.Result == AnswerResult.DISLIKE).Count</td>
+				<td>@item.Answers.FindAll(a => a.Result == AnswerResult.NEUTRAL).Count</td>
                 <td>@item.Answers.FindAll(a => a.Result == AnswerResult.LIKE).Count</td>
-                <td>@item.Answers.FindAll(a => a.Result == AnswerResult.NEUTRAL).Count</td>
-                <td>@item.Answers.FindAll(a => a.Result == AnswerResult.DISLIKE).Count</td>
+                
             </tr>
         }
     </tbody>

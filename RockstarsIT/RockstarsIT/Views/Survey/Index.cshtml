@@ -1,15 +1,35 @@
 ﻿@model IEnumerable<SurveyViewModel>
 
 @{
-    ViewData["Title"] = "Enquête overzicht";
+    ViewData["Title"] = "Health check overzicht";
 }
 
 <link rel="stylesheet" href="~/css/Squads.css/Index.css" />
 <div class="header-container">
-    <h2>Enquêtes</h2>
+    <h2>Health Checks</h2>
     <a asp-action="Create" class="button button-primary">TOEVOEGEN</a>
 </div>
-
+<div class="dropdown">
+    <button class="button button-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+        @ViewBag.SelectedSquadName
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        @if (ViewBag.Squads != null)
+        {
+            foreach (var squad in ViewBag.Squads)
+            {
+                <li>
+                    <a class="dropdown-item text-black text-decoration-none" href="#" data-squad-id="@squad.Id">@squad.Name</a>
+                </li>
+            }
+        }
+        else
+        {
+            <li><a class="dropdown-item" href="#">Geen Squads beschikbaar</a></li>
+        }
+    </ul>
+</div>
 
 <div class="grid">
     @if (Model != null)
@@ -33,7 +53,26 @@
     }
     else
     {
-        <p>Geen Enquêtes gevonden.</p>
+        <p>Geen health check gevonden.</p>
     }
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const dropdownItems = document.querySelectorAll('.dropdown-item');
+        const dropdownButton = document.getElementById('dropdownMenuButton');
+
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', function () {
+                const squadId = this.getAttribute('data-squad-id');
+                const squadName = this.textContent;
+
+                // Werk de knoptekst bij
+                dropdownButton.textContent = squadName;
+
+                // Stuur de gebruiker door naar de gefilterde pagina
+                window.location.href = `?squadId=${squadId}`;
+            });
+        });
+    });
+</script>
