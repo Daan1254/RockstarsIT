@@ -15,12 +15,12 @@
         <span class="caret"></span>
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        @if (ViewBag.Companies != null)
+        @if (ViewBag.Squads != null)
         {
-            foreach (var squad in ViewBag.Squad)
+            foreach (var squad in ViewBag.Squads)
             {
                 <li>
-                    <a class="dropdown-item text-black text-decoration-none" href="#" data-company-id="@squad.Id">@squad.Name</a>
+                    <a class="dropdown-item text-black text-decoration-none" href="#" data-squad-id="@squad.Id">@squad.Name</a>
                 </li>
             }
         }

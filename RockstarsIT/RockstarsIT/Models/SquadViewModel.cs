@@ -1,17 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RockstarsIT.Models
-{
+namespace RockstarsIT.Models;
     
-    public class SquadViewModel
-    {
-        public int Id { get; set; }
+public class SquadViewModel : MinimalSquadViewModel
+{
 
-        [Required]
-        public string Name { get; set; }
-        [Required]
-        public string Description { get; set; }
-        
-        public CompanyViewModel? Company { get; set; }
-    }
+    [Required]
+    public string Description { get; set; }
+    
+    public CompanyViewModel? Company { get; set; }
 }

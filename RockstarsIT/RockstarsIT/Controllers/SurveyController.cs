@@ -29,14 +29,15 @@ public class SurveyController : Controller
     {
         List<SurveyDto> allSurveys = _surveyService.GetAllSurveys();
         List<SquadDto> allSquads = _squadService.GetSquads();
+        
 
-        HashSet<SquadViewModel> squads = new HashSet<SquadViewModel>
+        HashSet<MinimalSquadViewModel> squads = new HashSet<MinimalSquadViewModel>
             {
-                new SquadViewModel { Id = 0, Name = "Geen squads" }
+                new MinimalSquadViewModel() { Id = 0, Name = "Geen squads" }
             };
         foreach (SquadDto squad in allSquads)
         {
-            squads.Add(new SquadViewModel
+            squads.Add(new MinimalSquadViewModel
             {
                 Id = squad.Id,
                 Name = squad.Name
@@ -47,7 +48,7 @@ public class SurveyController : Controller
         string selectedSquadName = null;
         if (squadId.HasValue && squadId.Value != 0)
         {
-            filteredSurveys = allSurveys.Where(s => s.SquadId != null && s.Squad.Id == squadId.Value).ToList();
+            filteredSurveys = allSurveys.Where(s => s.Squads.Any(sq => sq.Id == squadId.Value)).ToList();
             selectedSquadName = squads.FirstOrDefault(s => s.Id == squadId.Value)?.Name;
         }
 
@@ -56,6 +57,7 @@ public class SurveyController : Controller
             selectedSquadName = "Kies een squad";
         }
 
+
         List<SurveyViewModel> surveyViewModels = filteredSurveys.Select(s =>
         {
             return new SurveyViewModel
@@ -63,11 +65,11 @@ public class SurveyController : Controller
                 Id = s.Id,
                 Title = s.Title,
                 Description = s.Description,
-                Squad = s.Squad != null ? new SquadViewModel
+                Squads = s.Squads.Select(sq => new MinimalSquadViewModel()
                 {
-                    Id = s.Squad.Id,
-                    Name = s.Squad.Name,         
-                } : null
+                    Name = sq.Name,
+                    Id = sq.Id
+                }).ToList()
             };
         }).ToList();
 
@@ -201,11 +203,10 @@ public class SurveyController : Controller
                     Name = s.Name,
                     Description = s.Description
                 }).ToList(),
-                AllSquads = filteredSquads.Select(s => new SquadViewModel
+                AllSquads = filteredSquads.Select(s => new MinimalSquadViewModel()
                 {
                     Id = s.Id,
                     Name = s.Name,
-                    Description = s.Description
                 }).ToList(),
             };
             return View(surveyViewModel);

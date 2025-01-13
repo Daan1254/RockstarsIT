@@ -6,6 +6,5 @@ public class SurveyDto
     public string Title { get; set; }
     public string Description { get; set; }
 
-    public List<SquadDto?> Squads { get; set; }
-    public int ? SquadId { get; set; }
+    public List<MinimalSquadDto> Squads { get; set; }
 }

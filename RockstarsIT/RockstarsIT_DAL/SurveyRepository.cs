@@ -23,11 +23,11 @@ public class SurveyRepository : ISurveyRepository
             Id = s.Id,
             Title = s.Title,
             Description = s.Description,
-             Squads = s.Squads != null ? new SquadDto()
+             Squads = s.Squads.Select(sq => new MinimalSquadDto()
              {
-                 Name = s.Squads.Name,
-                 Id = s.Squads.Id
-             } : null
+                 Id = sq.Id,
+                 Name = sq.Name 
+             }).ToList()
         }).ToList();
     }
 
