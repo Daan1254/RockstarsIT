@@ -55,7 +55,7 @@
                 <span asp-validation-for="SquadIdsToDelete" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger" style="width: 100%;" onclick="return confirm('Weet je zeker dat je deze enquête wilt verwijderen?');">Verwijder Enquête</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger" style="width: 100%;" onclick="return confirm('Weet je zeker dat je deze health check wilt verwijderen?');">Verwijder Health check</a>
             </div>
             <input type="hidden" asp-for="Id" />
         </form>

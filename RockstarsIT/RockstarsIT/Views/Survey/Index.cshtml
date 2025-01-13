@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<SurveyViewModel>
 
 @{
-    ViewData["Title"] = "Enquête overzicht";
+    ViewData["Title"] = "Health check overzicht";
 }
 
 <link rel="stylesheet" href="~/css/Squads.css/Index.css" />
 <div class="header-container">
-    <h2>Enquêtes</h2>
+    <h2>Health Checks</h2>
     <a asp-action="Create" class="button button-primary">TOEVOEGEN</a>
 </div>
 
@@ -33,7 +33,7 @@
     }
     else
     {
-        <p>Geen Enquêtes gevonden.</p>
+        <p>Geen health check gevonden.</p>
     }
 </div>
 
