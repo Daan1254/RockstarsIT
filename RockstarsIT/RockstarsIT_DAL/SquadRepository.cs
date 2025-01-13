@@ -10,12 +10,12 @@ namespace RockstarsIT_DAL;
 public class SquadRepository : ISquadRepository
 {
     private readonly ApplicationDbContext _context;
-    
+
     public SquadRepository(ApplicationDbContext context)
     {
         _context = context;
     }
-    
+
     public List<SquadDto> GetAllSquads()
     {
         try
@@ -37,7 +37,7 @@ public class SquadRepository : ISquadRepository
             throw new Exception("An error occurred while getting all squads", e);
         }
     }
-    
+
     public SquadWithUsersDto GetSquadById(int id)
     {
         try
@@ -47,8 +47,8 @@ public class SquadRepository : ISquadRepository
                 .Include(squadEntity => squadEntity.Company)
                 .Include(squadEntity => squadEntity.Users)
                 .FirstOrDefault(s => s.Id == id);
-            
-            
+
+
             if (squad == null)
             {
                 throw new Exception("Squad not found");
@@ -64,12 +64,12 @@ public class SquadRepository : ISquadRepository
                 };
             }
 
-            
+
             return new SquadWithUsersDto()
             {
                 Id = squad.Id,
                 Name = squad.Name,
-                Description = squad.Description, 
+                Description = squad.Description,
                 CompanyId = squad.CompanyId,
                 Company = company,
                 Users = squad.Users.Select(u => new UserDto()
@@ -92,14 +92,14 @@ public class SquadRepository : ISquadRepository
     {
         // check if squad with name already exists
         bool squadNameExists = _context.Squads.Any(s => s.Name == squadDto.Name);
-            
+
         if (squadNameExists)
         {
             throw new DuplicateNameException($"Squad with this name {squadDto.Name} already exists");
         }
-        
+
         List<UserEntity> users = _context.Users.Where(u => squadDto.UserIds.Contains(u.Id)).ToList();
-            
+
         SquadEntity squad = new SquadEntity
         {
             Name = squadDto.Name,
@@ -107,49 +107,70 @@ public class SquadRepository : ISquadRepository
             CreatedAt = DateTime.Now,
             Users = users
         };
-        
+
         _context.Squads.Add(squad);
         _context.SaveChanges();
         return true;
     }
-    
+
     public bool EditSquad(int id, CreateEditSquadDto squadDto)
-    { 
+    {
         bool squadNameExists = _context.Squads.Any(s => s.Name == squadDto.Name && s.Id != id);
-            
+
         if (squadNameExists)
         {
             throw new DuplicateNameException($"Squad with this name {squadDto.Name} already exists");
         }
-            
-        SquadEntity? squad = _context.Squads.Find(id);
-            
+
+        SquadEntity? squad = _context.Squads.Include(s => s.Users).FirstOrDefault(s => s.Id == id);
+
         if (squad == null)
         {
             throw new Exception("Squad not found");
         }
+        
+
+        // Remove users that are not in squadDto.UserIds
+        foreach (var user in squad.Users.ToList())
+        {
+            if (!squadDto.UserIds.Contains(user.Id))
+            {
+                squad.Users.Remove(user);
+            }
+        }
+
+        // Add new users from squadDto.UserIds that aren't already connected
+        var newUsers = _context.Users
+            .Where(u => squadDto.UserIds.Contains(u.Id) && !squad.Users.Select(cu => cu.Id).Contains(u.Id))
+            .ToList();
+
+        foreach (var user in newUsers)
+        {
+            squad.Users.Add(user);
+        }
+
 
         squad.Name = squadDto.Name;
         squad.Description = squadDto.Description;
         squad.UpdatedAt = DateTime.Now;
-            
+
         _context.SaveChanges();
         return true;
     }
-    
+
     public bool DeleteSquad(int id)
     {
         try
         {
             SquadEntity? squad = _context.Squads.Find(id);
-            
+
             if (squad == null)
             {
                 throw new Exception("Squad not found");
             }
-            
+
             squad.DeletedAt = DateTime.Now;
-            
+
             _context.SaveChanges();
             return true;
         }
@@ -164,13 +185,13 @@ public class SquadRepository : ISquadRepository
         try
         {
             SquadEntity? squadEntity = _context.Squads.Find(linkCompanyDto.SquadId);
-            
+
             if (squadEntity == null)
             {
-             
+
                 throw new Exception("Squad not found in the context.");
             }
-            
+
             squadEntity.CompanyId = linkCompanyDto.CompanyId;
 
             return _context.SaveChanges() == 1;
@@ -186,10 +207,10 @@ public class SquadRepository : ISquadRepository
         try
         {
             SquadEntity? squadEntity = _context.Squads.Find(linkUserDto.SquadId);
-            
+
             if (squadEntity == null)
             {
-             
+
                 throw new Exception("Squad not found in the context.");
             }
 

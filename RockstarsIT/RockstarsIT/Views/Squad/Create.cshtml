@@ -33,28 +33,71 @@
 
             <div class="form-group">
                 <label class="control-label">Rockstars</label>
-                    <div style="display: flex;flex-direction: row; gap: 10px;">
-                        <input asp-for="NewUser.Email" style="width: 85%" class="form-control" placeholder="Email">
-                        <button asp-action="Create" asp-route-addUser="true" type="submit"  style="width: 15%" class="button button-primary">Add</button>
-                    </div>
-                <span asp-validation-for="NewUser.Email" class="text-danger"></span>
+                <div style="display: flex;flex-direction: row; gap: 10px;">
+                    <input id="emailInput" type="email" class="form-control" style="width: 85%" placeholder="Email">
+                    <button type="button" onclick="addEmail()" style="width: 15%"
+                        class="button button-primary">Add</button>
+                </div>
+                <span id="emailError" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                @foreach (var rockstar in Model.Users)
-                {
-                        <div style="display: flex;flex-direction: row; gap: 10px;">
-                        <input readonly style="width: 85%" value="@rockstar.Email" class="form-control">
-                        <button asp-action="Create" asp-route-addUser="false" type="button" style="width: 15%" class="button button-secondary">Remove</button>
-                    </div>
-                }
+            <div class="form-group" id="emailList">
+                <!-- Email list will be populated here -->
             </div>
 
+            <input type="hidden" id="emailsJson" name="Emails" value="[]" />
+
             <div class="form-group">
-                <input value="Aanmaken" asp-action="Create" type="submit" style="width: 100%" class="btn btn-primary"/>
+                <input value="Aanmaken" type="submit" style="width: 100%" class="btn btn-primary" />
             </div>
         </form>
         <a asp-action="Index" class="btn btn-primary btn-lg">Back to List</a>
 
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        let emails = [];
+
+        function addEmail() {
+            const emailInput = document.getElementById('emailInput');
+            const emailError = document.getElementById('emailError');
+            const email = emailInput.value.trim();
+
+
+            // Check for duplicates
+            if (emails.includes(email)) {
+                emailError.textContent = 'This email is already added';
+                return;
+            }
+
+            emails.push(email);
+            updateEmailList();
+
+            // Clear input and error
+            emailInput.value = '';
+            emailError.textContent = '';
+        }
+
+        function removeEmail(email) {
+            emails = emails.filter(e => e !== email);
+            updateEmailList();
+        }
+
+        function updateEmailList() {
+            const emailList = document.getElementById('emailList');
+            const emailsJson = document.getElementById('emailsJson');
+
+            emailList.innerHTML = emails.map(email => `
+                                    <div style="display: flex;flex-direction: row; gap: 10px; margin-bottom: 10px;">
+                                        <input readonly style="width: 85%" value="${email}" class="form-control">
+                                        <button type="button" onclick="removeEmail('${email}')" style="width: 15%" class="button button-secondary">Remove</button>
+                                    </div>
+                                `).join('');
+
+            // Update hidden input with JSON string of emails
+            emailsJson.value = JSON.stringify(emails);
+        }
+    </script>
+}

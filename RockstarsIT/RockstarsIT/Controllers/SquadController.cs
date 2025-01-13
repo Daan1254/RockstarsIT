@@ -4,12 +4,12 @@ using System.Data;
 using RockstarsIT_BLL;
 using RockstarsIT_BLL.Dto;
 using RockstarsIT.Models;
-
+using System.Text.Json;
 namespace RockstarsIT.Controllers
 {
     public class SquadController : Controller
     {
-        
+
         private readonly SquadService _squadService;
         private readonly CompanyService _companyService;
         private readonly UserService _userService;
@@ -20,7 +20,7 @@ namespace RockstarsIT.Controllers
             _companyService = companyService;
             _userService = userService;
         }
-        
+
         // GET: Squads
         public async Task<IActionResult> Index()
         {
@@ -45,21 +45,22 @@ namespace RockstarsIT.Controllers
             try
             {
                 SquadDto squadDto = _squadService.GetSquadById(id);
-                
+
                 if (squadDto == null)
                 {
                     return NotFound();
                 }
-            
+
                 SquadViewModel squadViewModel = new SquadViewModel()
                 {
                     Id = squadDto.Id,
                     Name = squadDto.Name,
                     Description = squadDto.Description
                 };
-            
+
                 return View(squadViewModel);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 return NotFound();
             }
@@ -79,7 +80,7 @@ namespace RockstarsIT.Controllers
             {
                 return null;
             }
-            
+
             // check if email is valid
             string email = squadViewModel.NewUser.Email;
             if (!new EmailAddressAttribute().IsValid(email))
@@ -98,37 +99,37 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CreateEditSquadViewModel squadViewModel, bool addUser = false)
+        public IActionResult Create(CreateEditSquadViewModel squadViewModel, string emails)
         {
-            if (addUser)
-            {
-                UserDto? user = CreateUser(squadViewModel);
-
-                if (user == null)
-                {
-                    TempData["ErrorMessage"] = "Ongeldig email";
-                    return View(squadViewModel);
-                }
-                
-                squadViewModel.Users.Add(new UserViewModel()
-                {
-                    Id = user.Id,
-                    Email = user.Email
-                });
-
-                return View(squadViewModel);
-            }
             try
             {
                 if (ModelState.IsValid)
                 {
+                    // Deserialize the emails JSON string
+                    List<string> emailList = JsonSerializer.Deserialize<List<string>>(emails ?? "[]");
+
+                    List<string> userIds = new List<string>();
+
+                    foreach (string email in emailList)
+                    {
+                        UserDto? user = _userService.CreateUser(email);
+
+                        if (user == null)
+                        {
+                            continue;
+                        }
+
+                        userIds.Add(user.Id);
+                    }
+
+
                     CreateEditSquadDto squadDto = new CreateEditSquadDto()
                     {
                         Name = squadViewModel.Name,
                         Description = squadViewModel.Description,
-                        UserIds = squadViewModel.Users.Select(u => u.Id).ToList()
+                        UserIds = userIds
                     };
-                    
+
                     _squadService.CreateSquad(squadDto);
                     return RedirectToAction("Index");
                 }
@@ -141,7 +142,8 @@ namespace RockstarsIT.Controllers
             }
             catch (Exception e)
             {
-                return View("Create");
+                ViewData["ErrorMessage"] = "Er is iets fout gegaan bij het aanmaken van de squad";
+                return View(squadViewModel);
             }
         }
 
@@ -152,27 +154,25 @@ namespace RockstarsIT.Controllers
             {
                 SquadWithUsersDto? squadDto = _squadService.GetSquadById(int.Parse(id));
                 List<CompanyDto> companies = _companyService.GetAllCompanies();
-                List<UserDto> users = _userService.GetAllUsers();
 
-               
+
                 if (squadDto == null)
                 {
                     return NotFound();
                 }
 
-                List<UserDto> filteredUsers = users.Where(u => !squadDto.Users.Any(su => su.Id == u.Id)).ToList();
-                
+
                 CreateEditSquadViewModel squadViewModel = new CreateEditSquadViewModel()
                 {
                     Id = squadDto.Id,
                     Name = squadDto.Name,
                     Description = squadDto.Description,
-                    Companies = companies.Select(s => new CompanyViewModel() 
+                    Companies = companies.Select(s => new CompanyViewModel()
                     {
                         Id = s.Id,
                         Name = s.Name,
                     }).ToList(),
-                    Users = filteredUsers.Select(u => new UserViewModel()
+                    Users = squadDto.Users.Select(u => new UserViewModel()
                     {
                         Id = u.Id,
                         Email = u.Email
@@ -185,7 +185,8 @@ namespace RockstarsIT.Controllers
                 };
                 return View(squadViewModel);
 
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 TempData["ErrorMessage"] = "Er is iets fout gegaan bij het ophalen van de squad";
                 return View();
@@ -197,17 +198,32 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(CreateEditSquadViewModel squadViewModel)
+        public IActionResult Edit(CreateEditSquadViewModel squadViewModel, string emails)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    // Deserialize the emails JSON string
+                    List<string> emailList = JsonSerializer.Deserialize<List<string>>(emails ?? "[]");
+
+                    List<string> userIds = new List<string>();
+
+                    foreach (string email in emailList)
+                    {
+                        UserDto? user = _userService.CreateUser(email);
+                        if (user == null)
+                        {
+                            continue;
+                        }
+                        userIds.Add(user.Id);
+                    }
+
                     CreateEditSquadDto squadDto = new CreateEditSquadDto()
                     {
                         Name = squadViewModel.Name,
-                        Description = squadViewModel.Description
-
+                        Description = squadViewModel.Description,
+                        UserIds = userIds
                     };
 
                     _squadService.EditSquad(squadViewModel.Id, squadDto);
@@ -223,23 +239,24 @@ namespace RockstarsIT.Controllers
             }
             catch (Exception e)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "Er is iets fout gegaan bij het bewerken van de squad";
+                return RedirectToAction("Edit", new { id = squadViewModel.Id });
             }
         }
 
         // GET: Squads/Delete/5
         public IActionResult Delete(string id)
         {
-            
+
             try
             {
                 SquadDto? squadDto = _squadService.GetSquadById(int.Parse(id));
-                
+
                 if (squadDto == null)
                 {
                     return NotFound();
                 }
-                
+
                 SquadViewModel squadViewModel = new SquadViewModel()
                 {
                     Id = squadDto.Id,
@@ -248,7 +265,8 @@ namespace RockstarsIT.Controllers
                 };
                 return View(squadViewModel);
 
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 return NotFound();
             }
@@ -263,7 +281,8 @@ namespace RockstarsIT.Controllers
             {
                 _squadService.DeleteSquad(id);
                 return RedirectToAction("Index");
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 return NotFound();
             }
@@ -297,7 +316,7 @@ namespace RockstarsIT.Controllers
         {
             try
             {
-               LinkUserDto linkUserDto = new LinkUserDto
+                LinkUserDto linkUserDto = new LinkUserDto
                 {
                     UserId = employeeId,
                     SquadId = squadId
@@ -319,10 +338,10 @@ namespace RockstarsIT.Controllers
         {
             try
             {
-                LinkDisconnectCompanyDto disconnectCompanyDto = new LinkDisconnectCompanyDto 
-                { 
+                LinkDisconnectCompanyDto disconnectCompanyDto = new LinkDisconnectCompanyDto
+                {
                     CompanyId = companyId,
-                    SquadId = squadId 
+                    SquadId = squadId
                 };
 
                 if (_squadService.DisconnectCompany(disconnectCompanyDto))
@@ -338,7 +357,7 @@ namespace RockstarsIT.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = ex.Message; 
+                TempData["ErrorMessage"] = ex.Message;
                 return RedirectToAction("Index");
             }
         }
