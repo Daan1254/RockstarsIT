@@ -33,7 +33,7 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity>
             .HasOne(s => s.Company)
             .WithMany(c => c.Squads)
             .HasForeignKey(s => s.CompanyId)
-            .OnDelete(DeleteBehavior.Restrict); // Or Cascade/SetNull depending on requirements
+            .OnDelete(DeleteBehavior.Restrict);
         
         modelBuilder.Entity<SquadEntity>()
             .HasMany(s => s.Users)
@@ -87,8 +87,6 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity>
             .HasOne(a => a.CompletedSurvey)
             .WithMany(cs => cs.Answers)
             .HasForeignKey(a => a.CompletedSurveyId)
-            .OnDelete(DeleteBehavior.Cascade); 
+            .OnDelete(DeleteBehavior.Restrict);
     }
-
-
 }

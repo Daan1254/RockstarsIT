@@ -167,6 +167,9 @@ namespace RockstarsIT_DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CompletedSurveyId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Feedback")
                         .HasColumnType("nvarchar(max)");
 
@@ -177,6 +180,8 @@ namespace RockstarsIT_DAL.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CompletedSurveyId");
 
                     b.HasIndex("QuestionId");
 
@@ -523,11 +528,19 @@ namespace RockstarsIT_DAL.Migrations
 
             modelBuilder.Entity("RockstarsIT_DAL.Entities.AnswerEntity", b =>
                 {
+                    b.HasOne("RockstarsIT_DAL.Entities.CompletedSurveyEntity", "CompletedSurvey")
+                        .WithMany("Answers")
+                        .HasForeignKey("CompletedSurveyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("RockstarsIT_DAL.Entities.QuestionEntity", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("CompletedSurvey");
 
                     b.Navigation("Question");
                 });
@@ -619,6 +632,11 @@ namespace RockstarsIT_DAL.Migrations
             modelBuilder.Entity("RockstarsIT_DAL.Entities.CompanyEntity", b =>
                 {
                     b.Navigation("Squads");
+                });
+
+            modelBuilder.Entity("RockstarsIT_DAL.Entities.CompletedSurveyEntity", b =>
+                {
+                    b.Navigation("Answers");
                 });
 
             modelBuilder.Entity("RockstarsIT_DAL.Entities.QuestionEntity", b =>
