@@ -82,6 +82,12 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity>
             .WithMany(u => u.Emails)
             .HasForeignKey(e => e.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<AnswerEntity>()
+            .HasOne(a => a.CompletedSurvey)
+            .WithMany(cs => cs.Answers)
+            .HasForeignKey(a => a.CompletedSurveyId)
+            .OnDelete(DeleteBehavior.Cascade); 
     }
 
 

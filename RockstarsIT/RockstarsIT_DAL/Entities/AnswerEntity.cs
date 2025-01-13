@@ -11,6 +11,8 @@ namespace RockstarsIT_DAL.Entities
         public int QuestionId { get; set; }
         public QuestionEntity Question { get; set; } = null!;
 
+        public int CompletedSurveyId { get; set; }
+        public CompletedSurveyEntity CompletedSurvey { get; set; } = null!;
 
     }
 }

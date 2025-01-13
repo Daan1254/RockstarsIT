@@ -13,4 +13,6 @@ public class CompletedSurveyEntity
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; set; }
+
+    public List<AnswerEntity> Answers { get; set; } = new List<AnswerEntity>();
 }
