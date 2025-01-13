@@ -73,11 +73,11 @@ namespace RockstarsIT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateUser(CreateEditSquadViewModel squadViewModel)
+        public UserDto? CreateUser(CreateEditSquadViewModel squadViewModel)
         {
             if (squadViewModel.NewUser == null)
             {
-                return View("Create", squadViewModel);
+                return null;
             }
             
             // check if email is valid
@@ -85,23 +85,12 @@ namespace RockstarsIT.Controllers
             if (!new EmailAddressAttribute().IsValid(email))
             {
                 ViewData["ErrorMessage"] = "Email is not valid";
-                return View("Create", squadViewModel);
+                return null;
             }
 
             UserDto? user = _userService.CreateUser(email);
 
-            if (user == null)
-            {
-                return View("Create", squadViewModel);
-            }
-            
-            squadViewModel.Users.Add(new UserViewModel()
-            {
-                Id = user.Id,
-                Email = user.Email
-            });
-            
-            return View("Create", squadViewModel);
+            return user;
         }
 
         // POST: Squads/Create
@@ -113,7 +102,21 @@ namespace RockstarsIT.Controllers
         {
             if (addUser)
             {
-                return CreateUser(squadViewModel);
+                UserDto? user = CreateUser(squadViewModel);
+
+                if (user == null)
+                {
+                    TempData["ErrorMessage"] = "Ongeldig email";
+                    return View(squadViewModel);
+                }
+                
+                squadViewModel.Users.Add(new UserViewModel()
+                {
+                    Id = user.Id,
+                    Email = user.Email
+                });
+
+                return View(squadViewModel);
             }
             try
             {
@@ -122,7 +125,8 @@ namespace RockstarsIT.Controllers
                     CreateEditSquadDto squadDto = new CreateEditSquadDto()
                     {
                         Name = squadViewModel.Name,
-                        Description = squadViewModel.Description
+                        Description = squadViewModel.Description,
+                        UserIds = squadViewModel.Users.Select(u => u.Id).ToList()
                     };
                     
                     _squadService.CreateSquad(squadDto);

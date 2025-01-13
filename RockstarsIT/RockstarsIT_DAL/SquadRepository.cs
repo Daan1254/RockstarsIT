@@ -97,12 +97,15 @@ public class SquadRepository : ISquadRepository
         {
             throw new DuplicateNameException($"Squad with this name {squadDto.Name} already exists");
         }
+        
+        List<UserEntity> users = _context.Users.Where(u => squadDto.UserIds.Contains(u.Id)).ToList();
             
         SquadEntity squad = new SquadEntity
         {
             Name = squadDto.Name,
             Description = squadDto.Description,
-            CreatedAt = DateTime.Now 
+            CreatedAt = DateTime.Now,
+            Users = users
         };
         
         _context.Squads.Add(squad);
