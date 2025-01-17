@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RockstarsIT_BLL;
 using RockstarsIT_BLL.Dto;
-using RockstarsIT_BLL.Interfaces;  
-using RockstarsIT.Models; 
+using RockstarsIT_BLL.Interfaces;
+using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
 {
@@ -18,37 +18,89 @@ namespace RockstarsIT.Controllers
 
         public IActionResult Index(int surveyId)
         {
-            FullSurveyDto? survey = _surveyService.GetSurveyById(surveyId);
-
-            if (survey == null)
+            var mockFullSurveyViewModel = new FullSurveyViewModel
             {
-                return NotFound();
-            }
-
-            FullSurveyViewModel fullSurveyViewModel = new FullSurveyViewModel
-            {
-                Id = survey.Id,
-                Title = survey.Title,
-                Description = survey.Description,
-                Questions = survey.Questions.Select(q => new QuestionViewModel
+                Id = 1,
+                Title = "Company Culture Survey 2024",
+                Description = "Annual survey to measure employee satisfaction and company culture",
+                Questions = new List<QuestionViewModel>
                 {
-                    Id = q.Id,
-                    Title = q.Title,
-                    Answers = q.Answers.Select(a => new AnswerViewModel
+                    new QuestionViewModel
                     {
-                        Id = a.Id,
-                        Result = a.Result,
-                        Feedback = a.Feedback 
-                    }).ToList()
-                }).ToList(),
-                Squads = survey.Squads.Select(s => new SquadViewModel
+                        Id = 1,
+                        Title = "How satisfied are you with the company's work-life balance?",
+                        Answers = new List<AnswerViewModel>
+                        {
+                            new AnswerViewModel
+                            {
+                                Id = 1,
+                                Result = AnswerResult.LIKE,
+                                Feedback = "Great flexibility with working hours and remote work options"
+                            },
+                            new AnswerViewModel
+                            {
+                                Id = 2,
+                                Result = AnswerResult.NEUTRAL,
+                                Feedback = "Generally good, but could use more flexibility during peak times"
+                            }
+                        }
+                    },
+                    new QuestionViewModel
+                    {
+                        Id = 2,
+                        Title = "How would you rate the professional growth opportunities?",
+                        Answers = new List<AnswerViewModel>
+                        {
+                            new AnswerViewModel
+                            {
+                                Id = 3,
+                                Result = AnswerResult.LIKE,
+                                Feedback = "Excellent training programs and mentorship opportunities"
+                            },
+                            new AnswerViewModel
+                            {
+                                Id = 4,
+                                Result = AnswerResult.DISLIKE,
+                                Feedback = "Would like to see more structured career progression paths"
+                            }
+                        }
+                    },
+                    new QuestionViewModel
+                    {
+                        Id = 3,
+                        Title = "Rate the effectiveness of team collaboration tools",
+                        Answers = new List<AnswerViewModel>
+                        {
+                            new AnswerViewModel
+                            {
+                                Id = 5,
+                                Result = AnswerResult.LIKE,
+                                Feedback = "Tools are good but we need better integration between systems"
+                            }
+                        }
+                    }
+                },
+                Squads = new List<SquadViewModel>
                 {
-                    Id = s.Id,
-                    Name = s.Name,
-                }).ToList()
+                    new SquadViewModel
+                    {
+                        Id = 1,
+                        Name = "NS Developers team"
+                    },
+                    new SquadViewModel
+                    {
+                        Id = 2,
+                        Name = "Rabobank Software Developers"
+                    },
+                    new SquadViewModel
+                    {
+                        Id = 3,
+                        Name = "NS Developers"
+                    }
+                }
             };
 
-            return View(fullSurveyViewModel);
+            return View(mockFullSurveyViewModel);
         }
 
         public IActionResult Chart(int surveyId)
