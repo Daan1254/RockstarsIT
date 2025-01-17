@@ -52,7 +52,7 @@
         <br />
         <h5>Bedrijven</h5>
         <br />
-        <div style="display: flex; flex-direction: row; gap: 15px">
+        <div class="container" style="display: flex; flex-direction: row; gap: 15px; overflow-x: scroll;">
             @foreach (var item in Model.Companies)
             {
                 if (item.Id == Model.Company?.Id)
