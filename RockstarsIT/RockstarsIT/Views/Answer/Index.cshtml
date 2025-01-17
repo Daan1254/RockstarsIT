@@ -1,66 +1,156 @@
 ﻿@using RockstarsIT_BLL.Dto
 @model RockstarsIT.Models.FullSurveyViewModel
 
-<h2>@Model.Title</h2>
 
-<table>
-    <thead>
-        <tr>
-            <th>Question</th>
-            <th>🔴</th>
-            <th>🟡</th>
-            <th>🟢</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Questions)
-        {
-            <tr>
-				<td style="border-right: 2px solid #ccc; padding-right: 10px;">@item.Title</td> <!-- Added right border -->
-				<td>@item.Answers.FindAll(a => a.Result == AnswerResult.DISLIKE).Count</td>
-				<td>@item.Answers.FindAll(a => a.Result == AnswerResult.NEUTRAL).Count</td>
-                <td>@item.Answers.FindAll(a => a.Result == AnswerResult.LIKE).Count</td>
-                
-            </tr>
-        }
-    </tbody>
-</table>
+<div style="margin-top: 50px" class="container">
+    <h2>@Model.Title</h2>
 
-<hr />
-
-<h3>Feedback</h3>
-@foreach (var question in Model.Questions)
-{
-    <h5>@question.Title</h5>
-    <div style="border-top: 1px solid #ccc; padding-top: 10px;">
-        <!-- Adding a top border -->
-        @if (question.Answers.All(a => string.IsNullOrEmpty(a.Feedback)))
-        {
-            <p>Geen feedback bij deze vraag</p>
-        }
-        else
-        {
-            @foreach (var answer in question.Answers)
+    <div class="squad-selector" style="margin-bottom: 20px;">
+        <label for="squadSelect">Select Squad:</label>
+        <select id="squadSelect" class="form-control" style="width: 200px;">
+            <option value="0">All Squads</option>
+            @foreach (var squad in Model.Squads)
             {
-                @if (!string.IsNullOrEmpty(answer.Feedback))
-                {
-                    <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                        @switch (answer.Result)
-                        {
-                            case AnswerResult.LIKE:
-                                <span style="color: green; margin-right: 10px;">🟢</span>
-                                break;
-                            case AnswerResult.NEUTRAL:
-                                <span style="color: orange; margin-right: 10px;">🟠</span>
-                                break;
-                            case AnswerResult.DISLIKE:
-                                <span style="color: red; margin-right: 10px;">🔴</span>
-                                break;
-                        }
-                        <span>@answer.Feedback</span>
-                    </div>
-                }
+                <option value="@squad.Id">@squad.Name</option>
             }
+        </select>
+    </div>
+
+    <table style="width: 100%;">
+        <thead>
+            <tr>
+                <th>Question</th>
+                <th>🔴</th>
+                <th>🟡</th>
+                <th>🟢</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Questions)
+            {
+                <tr>
+                    <td style="padding-right: 10px;">@item.Title</td>
+                    <td>@item.Answers.FindAll(a => a.Result == AnswerResult.DISLIKE).Count</td>
+                    <td>@item.Answers.FindAll(a => a.Result == AnswerResult.NEUTRAL).Count</td>
+                    <td>@item.Answers.FindAll(a => a.Result == AnswerResult.LIKE).Count</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <hr />
+
+    <h3>Feedback</h3>
+    <div class="feedback-container">
+        @foreach (var question in Model.Questions)
+        {
+            <div class="feedback-question" style="margin-bottom: 15px;">
+                <div class="feedback-header"
+                    style="background-color: #f8f9fa; padding: 10px; border: 1px solid #dee2e6; cursor: pointer; display: flex; justify-content: space-between; align-items: center;"
+                    onclick="toggleFeedback(@question.Id)">
+                    <h5 style="margin: 0;">@question.Title</h5>
+                    <span id="arrow-@question.Id" style="transition: transform 0.3s;">▼</span>
+                </div>
+                <div id="feedback-content-@question.Id"
+                    style="display: none; padding: 15px; border: 1px solid #dee2e6; border-top: none;">
+                    @if (question.Answers.All(a => string.IsNullOrEmpty(a.Feedback)))
+                    {
+                        <p>Geen feedback bij deze vraag</p>
+                    }
+                    else
+                    {
+                        @foreach (var answer in question.Answers)
+                        {
+                            @if (!string.IsNullOrEmpty(answer.Feedback))
+                            {
+                                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                    @switch (answer.Result)
+                                    {
+                                        case AnswerResult.LIKE:
+                                            <span style="color: green; margin-right: 10px;">🟢</span>
+                                            break;
+                                        case AnswerResult.NEUTRAL:
+                                            <span style="color: orange; margin-right: 10px;">🟠</span>
+                                            break;
+                                        case AnswerResult.DISLIKE:
+                                            <span style="color: red; margin-right: 10px;">🔴</span>
+                                            break;
+                                    }
+                                    <span>@answer.Feedback</span>
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+            </div>
         }
     </div>
-}
+
+    <script>
+        function toggleFeedback(questionId) {
+            const content = document.getElementById(`feedback-content-${questionId}`);
+            const arrow = document.getElementById(`arrow-${questionId}`);
+
+            if (content.style.display === "none") {
+                content.style.display = "block";
+                arrow.style.transform = "rotate(180deg)";
+            } else {
+                content.style.display = "none";
+                arrow.style.transform = "rotate(0deg)";
+            }
+        }
+
+        // Mock data for squad-specific answers
+        const squadData = {
+            0: { // all squads
+                1: [6, 4, 9], // [dislike, neutral, like] for question 1
+                2: [4, 9, 6],
+                3: [1, 6, 12]
+            },
+            1: { // Development Team
+                1: [2, 1, 4], // [dislike, neutral, like] for question 1
+                2: [1, 3, 3],
+                3: [0, 2, 5]
+            },
+            2: { // UX/UI Team
+                1: [1, 2, 3],
+                2: [2, 2, 2],
+                3: [1, 1, 4]
+            },
+            3: { // DevOps Team
+                1: [3, 1, 2],
+                2: [1, 4, 1],
+                3: [0, 3, 3]
+            }
+        };
+
+        document.getElementById('squadSelect').addEventListener('change', function () {
+            const selectedSquad = this.value;
+            const rows = document.querySelectorAll('tbody tr');
+
+            // Add this data array
+            const originalData = @Html.Raw(Json.Serialize(Model.Questions.Select(q => new
+            {
+                Dislikes = q.Answers.Count(a => a.Result == AnswerResult.DISLIKE),
+                Neutrals = q.Answers.Count(a => a.Result == AnswerResult.NEUTRAL),
+                Likes = q.Answers.Count(a => a.Result == AnswerResult.LIKE)
+            })));
+
+            rows.forEach((row, index) => {
+                const questionId = index + 1;
+                if (selectedSquad === 'all') {
+                    // Use the pre-calculated data
+                    row.children[1].textContent = originalData[index].Dislikes;
+                    row.children[2].textContent = originalData[index].Neutrals;
+                    row.children[3].textContent = originalData[index].Likes;
+                } else {
+                    // Show squad-specific data
+                    const squadStats = squadData[selectedSquad][questionId];
+                    row.children[1].textContent = squadStats[0];
+                    row.children[2].textContent = squadStats[1];
+                    row.children[3].textContent = squadStats[2];
+                }
+            });
+        });
+    </script>
+</div>

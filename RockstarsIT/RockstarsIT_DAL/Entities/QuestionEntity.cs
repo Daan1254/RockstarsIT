@@ -11,4 +11,13 @@ public class QuestionEntity
     public SurveyEntity Survey { get; set; }
     public List<AnswerEntity> Answers { get; set; } = new List<AnswerEntity>();
 
+    public static string GetSeedDataSql()
+    {
+        return @"
+            INSERT INTO Questions (Title, SurveyId) VALUES
+            ('How do you rate the team collaboration tools?', 6),
+            ('How do you rate the work environment?', 6),
+            ('How do you rate the management?', 6);";
+    }
+
 }
